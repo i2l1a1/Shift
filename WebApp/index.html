@@ -2,10 +2,43 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Let's go!</title>
+    <link rel="stylesheet" href="reminders/reminders.css">
+    <link rel="stylesheet" href="general_design/colors.css">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1">
+    <title>Reminders</title>
 </head>
 <body>
-It is a start of something great️
+<div class="container">
+    <div class="header">Создать напоминание</div>
+    <div class="reminders-divs-holder">
+        <a href="new_one_time_reminder/new_one_time_reminder.html" class="new-reminder-link">
+            <div class="new-reminder-div">
+                <div class="new-reminder-circle">
+                    <img src="icons/one_time_reminder.svg" alt="one_time_reminder">
+                </div>
+                <div class="new-reminder-text">
+                    Разовое
+                </div>
+            </div>
+        </a>
+        <a href="new_regular_reminder/new_regular_reminder.html" class="new-reminder-link">
+            <div class="new-reminder-div">
+                <div class="new-reminder-circle">
+                    <img src="icons/regular_reminder.svg" alt="regular_reminder">
+                </div>
+                <div class="new-reminder-text">
+                    Регулярное
+                </div>
+            </div>
+        </a>
+    </div>
+    <div hidden class="header">Разовые</div>
+    <div hidden class="header">Регулярные</div>
+</div>
 
+
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script type="module" src="reminders/reminders.js"></script>
+<script type="module" src="tools/graphical_tools.js"></script>
 </body>
 </html>

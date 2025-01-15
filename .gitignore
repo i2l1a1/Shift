@@ -1,3 +1,5 @@
 .DS_store
 Server/.idea
 TelegramBot/.idea
+TelegramBot/.env
+WebApp/font/Rubik.ttf
