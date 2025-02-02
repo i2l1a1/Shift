@@ -27,8 +27,12 @@ body {
     font-weight: 700;
 }
 
+.reminders_header {
+    margin-top: 24px;
+}
+
 .reminders-divs-holder {
-    display: inline-flex;;
+    display: inline-flex;
     flex-direction: row;
     gap: 16px;
 }
@@ -67,4 +71,46 @@ body {
     margin-bottom: 12px;
     color: var(--accent-grey);
     font-weight: 500;
+}
+
+.one_time_reminders_holder {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(288px, 1fr));
+    flex-direction: column;
+    grid-row-gap: 16px;
+    grid-column-gap: 32px;
+}
+
+.one_time_reminder_div {
+    background-color: var(--grey-bg);
+    border-radius: 12px;
+    padding: 16px 12px;
+    box-sizing: border-box;
+}
+
+.one_time_reminder_div_inner {
+    display: flex;
+    column-gap: 12px;
+    align-items: center;
+    flex-direction: row;
+    box-sizing: border-box;
+    justify-content: space-between;
+}
+
+.one_time_reminder_text {
+    flex-grow: 1;
+}
+
+.one_time_reminder_date_and_time {
+    flex-shrink: 0;
+    display: flex;
+    gap: 4px;
+    flex-direction: column;
+}
+
+.one_time_reminder_time, .one_time_reminder_date {
+    color: var(--accent-grey);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

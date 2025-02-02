@@ -1,3 +1,127 @@
-.test {
-    color: red;
+@font-face {
+    font-family: Rubik, sans-serif;
+    font-style: normal;
+    src: url("../font/Rubik.ttf")
+}
+
+div {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+body {
+    background-color: var(--black-bg);
+    color: var(--white-text);
+    font-family: "Rubik", sans-serif;
+    font-size: 15px;
+    margin: 0;
+}
+
+.container {
+    margin: 24px 16px;
+}
+
+.input_fields_holder {
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.input_data_and_time_fields_holder {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.reminder_input_field {
+    resize: none;
+    height: 80px;
+    background-color: var(--grey-bg);
+    border: none;
+    border-radius: 12px;
+    padding: 12px;
+    color: var(--white-text);
+    font-family: Rubik, sans-serif;
+    font-size: 15px;
+}
+
+.date_input_field {
+    font-family: "Rubik", sans-serif;
+    font-size: 15px;
+    box-sizing: border-box;
+    color: var(--white-text);
+    background-color: var(--grey-bg);
+    border: none;
+    border-radius: 12px;
+    height: 42px;
+    padding: 12px;
+}
+
+.time_input_field {
+    font-family: "Rubik", sans-serif;
+    font-size: 15px;
+    box-sizing: border-box;
+    color: var(--white-text);
+    background-color: var(--grey-bg);
+    border: none;
+    border-radius: 12px;
+    height: 42px;
+    padding: 12px;
+}
+
+.reminder_input_field,
+.date_input_field:focus,
+.time_input_field:focus {
+    outline: none;
+}
+
+.reminder_input_field::placeholder,
+.date_input_field::-webkit-input-placeholder {
+    color: var(--input-text);
+}
+
+.reminder_input_field::placeholder,
+.date_input_field::-moz-placeholder {
+    color: var(--input-text);
+}
+
+.reminder_input_field::placeholder,
+.date_input_field:-ms-input-placeholder {
+    color: var(--input-text);
+}
+
+.reminder_input_field::placeholder,
+.date_input_field::-ms-input-placeholder {
+    color: var(--input-text);
+}
+
+
+.accept_button_div {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    z-index: 999;
+    position: fixed;
+    bottom: 24px;
+    width: 142px;
+    height: 51px;
+    font-size: 15px;
+    background-color: var(--blue-sky);
+    border-radius: 50px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    border: none;
+}
+
+.accept_button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    vertical-align: middle;
+    text-decoration: none;
+    width: 100%;
+    height: 100%;
+    color: var(--white-text);
 }
