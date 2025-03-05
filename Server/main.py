@@ -1,9 +1,8 @@
 import uvicorn
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI
 from pydantic import BaseModel
 from sqlalchemy import create_engine, Column, Integer, String
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import declarative_base, sessionmaker
 from starlette.middleware.cors import CORSMiddleware
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from contextlib import asynccontextmanager
@@ -26,6 +25,7 @@ class OneTimeReminder(Base):
     date = Column(String)
     time = Column(String)
     tg_user_id = Column(String)
+    job_id = Column(String)
 
 
 Base.metadata.create_all(bind=engine)
@@ -39,8 +39,12 @@ async def lifespan(app: FastAPI):
     all_events = load_all_data_from_db()
     for event in all_events:
         for item in event:
-            print(f"Text: {item.text}, date: {item.date}, time: {item.time}, tg_user_id: {item.tg_user_id}")
-            plan_message_about_order_status(scheduler, item.text, item.date, item.time, item.tg_user_id)
+            job_id = plan_message_about_order_status(scheduler, item.text, item.date, item.time, item.tg_user_id,
+                                                     delete_one_time_reminder, item.id)
+            db = SessionLocal()
+            db.query(OneTimeReminder).filter(OneTimeReminder.id == item.id).update({"job_id": job_id})
+            db.commit()
+            db.close()
 
     yield
 
@@ -70,18 +74,23 @@ def create_new_one_time_reminder(new_one_time_reminder: NewOneTimeReminder):
         text=new_one_time_reminder.text,
         date=new_one_time_reminder.date,
         time=new_one_time_reminder.time,
-        tg_user_id=new_one_time_reminder.tg_user_id
+        tg_user_id=new_one_time_reminder.tg_user_id,
+        job_id=None
     )
     db.add(db_reminder)
     db.commit()
     db.refresh(db_reminder)
-    db.close()
 
-    plan_message_about_order_status(scheduler,
-                                    new_one_time_reminder.text,
-                                    new_one_time_reminder.date,
-                                    new_one_time_reminder.time,
-                                    new_one_time_reminder.tg_user_id)
+    job_id = plan_message_about_order_status(scheduler,
+                                             new_one_time_reminder.text,
+                                             new_one_time_reminder.date,
+                                             new_one_time_reminder.time,
+                                             new_one_time_reminder.tg_user_id,
+                                             delete_one_time_reminder, db_reminder.id)
+
+    db_reminder.job_id = job_id
+    db.commit()
+    db.close()
 
     return {"is_ok": True}
 
@@ -104,9 +113,17 @@ def load_all_data_from_db():
 
 
 @app.post("/delete_one_time_reminder/{reminder_id}")
-def delete_one_time_reminder(reminder_id):
+def delete_one_time_reminder(reminder_id: int, delete_from_scheduler=True):
     db = SessionLocal()
-    reminder = db.query(OneTimeReminder).filter(OneTimeReminder.id == reminder_id).first()
+    reminder = db.query(OneTimeReminder).filter(reminder_id == OneTimeReminder.id).first()
+
+    if reminder is None:
+        db.close()
+        return {"is_ok": False, "error": "Reminder not found"}
+
+    if delete_from_scheduler and reminder.job_id:
+        scheduler.remove_job(str(reminder.job_id))
+
     db.delete(reminder)
     db.commit()
     db.close()
