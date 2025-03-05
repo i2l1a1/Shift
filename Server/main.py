@@ -1,10 +1,14 @@
 import uvicorn
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
 from pydantic import BaseModel
 from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from starlette.middleware.cors import CORSMiddleware
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
+from contextlib import asynccontextmanager
+
+from notifications import plan_message_about_order_status
 
 SQLALCHEMY_DATABASE_URL = "sqlite:///./shift_db.db"
 
@@ -21,11 +25,27 @@ class OneTimeReminder(Base):
     text = Column(String, index=True)
     date = Column(String)
     time = Column(String)
+    tg_user_id = Column(String)
 
 
 Base.metadata.create_all(bind=engine)
 
-app = FastAPI()
+scheduler = AsyncIOScheduler()
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    scheduler.start()
+    all_events = load_all_data_from_db()
+    for event in all_events:
+        for item in event:
+            print(f"Text: {item.text}, date: {item.date}, time: {item.time}, tg_user_id: {item.tg_user_id}")
+            plan_message_about_order_status(scheduler, item.text, item.date, item.time, item.tg_user_id)
+
+    yield
+
+
+app = FastAPI(lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
@@ -40,6 +60,7 @@ class NewOneTimeReminder(BaseModel):
     text: str
     date: str
     time: str
+    tg_user_id: str
 
 
 @app.post("/new_one_time_reminder")
@@ -48,12 +69,20 @@ def create_new_one_time_reminder(new_one_time_reminder: NewOneTimeReminder):
     db_reminder = OneTimeReminder(
         text=new_one_time_reminder.text,
         date=new_one_time_reminder.date,
-        time=new_one_time_reminder.time
+        time=new_one_time_reminder.time,
+        tg_user_id=new_one_time_reminder.tg_user_id
     )
     db.add(db_reminder)
     db.commit()
     db.refresh(db_reminder)
     db.close()
+
+    plan_message_about_order_status(scheduler,
+                                    new_one_time_reminder.text,
+                                    new_one_time_reminder.date,
+                                    new_one_time_reminder.time,
+                                    new_one_time_reminder.tg_user_id)
+
     return {"is_ok": True}
 
 
@@ -65,8 +94,17 @@ def get_one_time_reminders():
     return reminders
 
 
+def load_all_data_from_db():
+    all_events = []
+
+    one_time_reminders = get_one_time_reminders()
+    all_events.append(one_time_reminders)
+
+    return all_events
+
+
 @app.post("/delete_one_time_reminder/{reminder_id}")
-def get_one_time_reminders(reminder_id):
+def delete_one_time_reminder(reminder_id):
     db = SessionLocal()
     reminder = db.query(OneTimeReminder).filter(OneTimeReminder.id == reminder_id).first()
     db.delete(reminder)
