@@ -1,3 +1,5 @@
-.test {
-    color: red;
+.hint_for_user {
+    margin-top: 16px;
+    color: var(--input-text);
 }
+
