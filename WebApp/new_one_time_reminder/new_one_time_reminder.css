@@ -21,21 +21,30 @@ body {
 }
 
 .input_fields_holder {
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
     display: flex;
     flex-direction: column;
-    row-gap: 16px;
+    gap: 16px;
+}
+
+.input_data_and_time_fields_holder {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
 }
 
 .reminder_input_field {
-    font-family: Rubik, sans-serif;
-    font-size: 15px;
-    padding: 12px;
     resize: none;
     height: 80px;
     background-color: var(--grey-bg);
-    color: var(--white-text);
     border: none;
     border-radius: 12px;
+    padding: 12px;
+    color: var(--white-text);
+    font-family: Rubik, sans-serif;
+    font-size: 15px;
 }
 
 .date_input_field {
@@ -47,8 +56,7 @@ body {
     border: none;
     border-radius: 12px;
     height: 42px;
-    padding-right: 12px;
-    padding-left: 12px;
+    padding: 12px;
 }
 
 .time_input_field {
@@ -69,16 +77,26 @@ body {
     outline: none;
 }
 
-.input_data_and_time_fields_holder {
-    display: flex;
-    width: 100%;
-    gap: 16px;
+.reminder_input_field::placeholder,
+.date_input_field::-webkit-input-placeholder {
+    color: var(--input-text);
 }
 
-.date_input_field, .time_input_field {
-    flex: 1;
-    min-width: 0;
+.reminder_input_field::placeholder,
+.date_input_field::-moz-placeholder {
+    color: var(--input-text);
 }
+
+.reminder_input_field::placeholder,
+.date_input_field:-ms-input-placeholder {
+    color: var(--input-text);
+}
+
+.reminder_input_field::placeholder,
+.date_input_field::-ms-input-placeholder {
+    color: var(--input-text);
+}
+
 
 .accept_button_div {
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
@@ -106,21 +124,4 @@ body {
     width: 100%;
     height: 100%;
     color: var(--white-text);
-}
-
-.reminder_input_field::placeholder,
-.date_input_field::placeholder,
-.time_input_field::placeholder {
-    color: var(--input-text);
-    opacity: 1;
-}
-
-.date_input_field {
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-}
-
-.date_input_field::-webkit-calendar-picker-indicator {
-    display: none;
 }

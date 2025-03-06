@@ -6,6 +6,7 @@ from sqlalchemy.orm import declarative_base, sessionmaker
 from starlette.middleware.cors import CORSMiddleware
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from contextlib import asynccontextmanager
+from typing import List
 
 from notifications import plan_message_about_order_status
 
@@ -65,6 +66,23 @@ class NewOneTimeReminder(BaseModel):
     date: str
     time: str
     tg_user_id: str
+
+
+class NewRegularReminder(BaseModel):
+    text: str
+    dates: List[str]
+    times: List[str]
+    tg_user_id: str
+
+
+@app.post("/new_regular_reminder")
+def create_new_regular_reminder(new_regular_reminder: NewRegularReminder):
+    print(new_regular_reminder)
+    # text = 'something important'
+    # dates = ['Воскресенье', 'Пятница']
+    # times = ['19:00', '13:45']
+    # tg_user_id = '487020656'
+    return {"message": "Reminder created successfully"}
 
 
 @app.post("/new_one_time_reminder")

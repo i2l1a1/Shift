@@ -11,7 +11,6 @@ get_data_from_server("http://127.0.0.1:9091/get_one_time_reminders").then((data_
     let response_status = data_from_server[0];
     console.log(response_status);
     data_from_server = data_from_server[1];
-    console.log(data_from_server);
     for (const reminder of data_from_server) {
         let one_time_reminder_div = create_element("div", "one_time_reminder_div");
         let one_time_reminder_div_inner = create_element("div", "one_time_reminder_div_inner");
