@@ -4,10 +4,17 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="new_one_time_reminder.css">
     <link rel="stylesheet" href="../general_design/colors.css">
+    <link rel="stylesheet" href="../general_design/page_header.css">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1">
     <title>Title</title>
 </head>
 <body>
+    <div class="page_header">
+        <a class="back_button" href="../index.html">
+            <img class="back_button_svg" src="../icons/back_arrow.svg" alt="">
+        </a>
+        <div class="header_label">Разовое напоминание</div>
+    </div>
 <div class="container">
     <div class="accept_button_div" id="accept_button">
         <a class="accept_button" href="../index.html">Сохрнаить</a>
@@ -16,7 +23,7 @@
     <div class="input_fields_holder">
         <textarea class="reminder_input_field" placeholder="Текст напоминания" id="reminder_input_field"></textarea>
         <div class="input_data_and_time_fields_holder">
-            <input class="date_input_field" type="date" value="2025-01-17" id="date_input_field">
+            <input class="date_input_field" type="date" id="date_input_field">
             <input class="time_input_field" placeholder="Время..." id="time_input_field">
         </div>
     </div>
