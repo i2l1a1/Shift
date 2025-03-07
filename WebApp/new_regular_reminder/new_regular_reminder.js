@@ -8,13 +8,16 @@ const accept_button = document.querySelector(".accept_button_div");
 const reminder_input_field = document.querySelector(".reminder_input_field");
 
 function create_drop_down_list() {
-    const days_of_week = ["Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресенье"];
+    const days_of_week = [
+        ["mon", "Понедельник"], ["tue", "Вторник"], ["wed", "Среда"], ["thu", "Четверг"],
+        ["fri", "Пятница"], ["sat", "Суббота"], ["sun", "Воскресенье"]
+    ];
     const new_drop_down_list = create_element("select", "date_input_field");
 
     days_of_week.forEach(day => {
         const option_day_of_week = create_element("option");
-        option_day_of_week.value = day;
-        option_day_of_week.textContent = day;
+        option_day_of_week.value = day[0];
+        option_day_of_week.textContent = day[1];
         new_drop_down_list.appendChild(option_day_of_week);
     });
 

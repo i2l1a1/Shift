@@ -1,14 +1,14 @@
 import uvicorn
 from fastapi import FastAPI
 from pydantic import BaseModel
-from sqlalchemy import create_engine, Column, Integer, String
+from sqlalchemy import create_engine, Column, Integer, String, JSON
 from sqlalchemy.orm import declarative_base, sessionmaker
 from starlette.middleware.cors import CORSMiddleware
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from contextlib import asynccontextmanager
 from typing import List
 
-from notifications import plan_message_about_order_status
+from notifications import plan_one_time_reminder, plan_regular_reminder
 
 SQLALCHEMY_DATABASE_URL = "sqlite:///./shift_db.db"
 
@@ -29,6 +29,17 @@ class OneTimeReminder(Base):
     job_id = Column(String)
 
 
+class RegularReminders(Base):
+    __tablename__ = "regular_reminders"
+
+    id = Column(Integer, primary_key=True, index=True)
+    text = Column(String, index=True)
+    dates = Column(JSON)
+    times = Column(JSON)
+    tg_user_id = Column(String)
+    job_id = Column(JSON)
+
+
 Base.metadata.create_all(bind=engine)
 
 scheduler = AsyncIOScheduler()
@@ -40,8 +51,8 @@ async def lifespan(app: FastAPI):
     all_events = load_all_data_from_db()
     for event in all_events:
         for item in event:
-            job_id = plan_message_about_order_status(scheduler, item.text, item.date, item.time, item.tg_user_id,
-                                                     delete_one_time_reminder, item.id)
+            job_id = plan_one_time_reminder(scheduler, item.text, item.date, item.time, item.tg_user_id,
+                                            delete_one_time_reminder, item.id)
             db = SessionLocal()
             db.query(OneTimeReminder).filter(OneTimeReminder.id == item.id).update({"job_id": job_id})
             db.commit()
@@ -82,7 +93,33 @@ def create_new_regular_reminder(new_regular_reminder: NewRegularReminder):
     # dates = ['Воскресенье', 'Пятница']
     # times = ['19:00', '13:45']
     # tg_user_id = '487020656'
-    return {"message": "Reminder created successfully"}
+
+    db = SessionLocal()
+    db_reminder = RegularReminders(
+        text=new_regular_reminder.text,
+        dates=new_regular_reminder.dates,
+        times=new_regular_reminder.times,
+        tg_user_id=new_regular_reminder.tg_user_id,
+        job_id=None
+    )
+    db.add(db_reminder)
+    db.commit()
+    db.refresh(db_reminder)
+
+    job_ids = plan_regular_reminder(scheduler,
+                                    new_regular_reminder.text,
+                                    new_regular_reminder.dates,
+                                    new_regular_reminder.times,
+                                    new_regular_reminder.tg_user_id,
+                                    delete_one_time_reminder,
+                                    db_reminder.id)
+    print(job_ids)
+
+    db_reminder.job_id = job_ids
+    db.commit()
+    db.close()
+
+    return {"is_ok": True}
 
 
 @app.post("/new_one_time_reminder")
@@ -99,12 +136,12 @@ def create_new_one_time_reminder(new_one_time_reminder: NewOneTimeReminder):
     db.commit()
     db.refresh(db_reminder)
 
-    job_id = plan_message_about_order_status(scheduler,
-                                             new_one_time_reminder.text,
-                                             new_one_time_reminder.date,
-                                             new_one_time_reminder.time,
-                                             new_one_time_reminder.tg_user_id,
-                                             delete_one_time_reminder, db_reminder.id)
+    job_id = plan_one_time_reminder(scheduler,
+                                    new_one_time_reminder.text,
+                                    new_one_time_reminder.date,
+                                    new_one_time_reminder.time,
+                                    new_one_time_reminder.tg_user_id,
+                                    delete_one_time_reminder, db_reminder.id)
 
     db_reminder.job_id = job_id
     db.commit()
