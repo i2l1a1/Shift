@@ -1,17 +1,17 @@
 import {black_bg_color, create_element, create_image} from "../tools/graphical_tools.js";
 import {get_data_from_server, send_data_to_server} from "../tools/networking_tools.js";
+import {get_dates_and_times_for_regular_reminders} from "../tools/auxiliary_tools.js";
 
 let tg = window.Telegram.WebApp;
 
 tg.setHeaderColor(black_bg_color);
 
 let one_time_reminders_holder = document.querySelector(".one_time_reminders_holder");
+let regular_reminders_holder = document.querySelector(".regular_reminders_holder");
 
 get_data_from_server("http://127.0.0.1:9091/get_one_time_reminders").then((data_from_server) => {
     let response_status = data_from_server[0];
-    console.log(response_status);
     data_from_server = data_from_server[1];
-    console.log(data_from_server);
     for (const reminder of data_from_server) {
         let one_time_reminder_div = create_element("div", "one_time_reminder_div");
         let one_time_reminder_div_inner = create_element("div", "one_time_reminder_div_inner");
@@ -43,3 +43,36 @@ get_data_from_server("http://127.0.0.1:9091/get_one_time_reminders").then((data_
     }
 });
 
+get_data_from_server("http://127.0.0.1:9091/get_regular_reminders").then((data_from_server) => {
+    let response_status = data_from_server[0];
+    data_from_server = data_from_server[1];
+    for (const reminder of data_from_server) {
+        console.log(reminder);
+        let regular_reminder_div = create_element("div", "regular_reminder_div");
+        let regular_reminder_div_inner = create_element("div", "regular_reminder_div_inner");
+        regular_reminder_div_inner.setAttribute("data-id", reminder.id);
+        let regular_reminder_delete_button = create_image("img", "../icons/delete_active.svg");
+        let regular_reminder_text_and_dates_times_holder = create_element("div", "regular_reminder_text_and_dates_times_holder");
+        let regular_reminder_text = create_element("div", "regular_reminder_text", reminder.text)
+        let regular_reminder_dates_and_times = create_element("div", "regular_reminder_dates_and_times",
+            get_dates_and_times_for_regular_reminders(reminder.dates, reminder.times));
+
+        regular_reminders_holder.appendChild(regular_reminder_div);
+        regular_reminder_div.appendChild(regular_reminder_div_inner);
+        regular_reminder_div_inner.appendChild(regular_reminder_delete_button);
+        regular_reminder_div_inner.appendChild(regular_reminder_text_and_dates_times_holder);
+        regular_reminder_text_and_dates_times_holder.appendChild(regular_reminder_text);
+        regular_reminder_text_and_dates_times_holder.appendChild(regular_reminder_dates_and_times);
+
+        regular_reminder_delete_button.addEventListener("click", () => {
+            const reminder_div = regular_reminder_delete_button.parentElement.parentElement;
+            const reminder_div_inner = reminder_div.querySelector(".regular_reminder_div_inner");
+            let reminder_id = reminder_div_inner.getAttribute("data-id");
+            send_data_to_server(`http://127.0.0.1:9091/delete_regular_reminder/${reminder_id}`).then(response => {
+                // if (response["is_ok"] === true) {
+                    reminder_div.remove();
+                // }
+            });
+        });
+    }
+});

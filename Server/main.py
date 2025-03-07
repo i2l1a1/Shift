@@ -37,7 +37,7 @@ class RegularReminders(Base):
     dates = Column(JSON)
     times = Column(JSON)
     tg_user_id = Column(String)
-    job_id = Column(JSON)
+    job_ids = Column(JSON)
 
 
 Base.metadata.create_all(bind=engine)
@@ -49,14 +49,20 @@ scheduler = AsyncIOScheduler()
 async def lifespan(app: FastAPI):
     scheduler.start()
     all_events = load_all_data_from_db()
-    for event in all_events:
-        for item in event:
-            job_id = plan_one_time_reminder(scheduler, item.text, item.date, item.time, item.tg_user_id,
-                                            delete_one_time_reminder, item.id)
-            db = SessionLocal()
-            db.query(OneTimeReminder).filter(OneTimeReminder.id == item.id).update({"job_id": job_id})
-            db.commit()
-            db.close()
+    for item in all_events[0]:  # one time reminders
+        job_id = plan_one_time_reminder(scheduler, item.text, item.date, item.time, item.tg_user_id,
+                                        delete_one_time_reminder, item.id)
+        db = SessionLocal()
+        db.query(OneTimeReminder).filter(OneTimeReminder.id == item.id).update({"job_id": job_id})
+        db.commit()
+        db.close()
+    for item in all_events[1]:  # regular reminders
+        job_ids = plan_regular_reminder(scheduler, item.text, item.dates, item.times, item.tg_user_id,
+                                        delete_one_time_reminder, item.id)
+        db = SessionLocal()
+        db.query(RegularReminders).filter(RegularReminders.id == item.id).update({"job_ids": job_ids})
+        db.commit()
+        db.close()
 
     yield
 
@@ -88,34 +94,26 @@ class NewRegularReminder(BaseModel):
 
 @app.post("/new_regular_reminder")
 def create_new_regular_reminder(new_regular_reminder: NewRegularReminder):
-    print(new_regular_reminder)
-    # text = 'something important'
-    # dates = ['Воскресенье', 'Пятница']
-    # times = ['19:00', '13:45']
-    # tg_user_id = '487020656'
-
     db = SessionLocal()
     db_reminder = RegularReminders(
         text=new_regular_reminder.text,
         dates=new_regular_reminder.dates,
         times=new_regular_reminder.times,
         tg_user_id=new_regular_reminder.tg_user_id,
-        job_id=None
+        job_ids=None
     )
     db.add(db_reminder)
     db.commit()
     db.refresh(db_reminder)
 
-    job_ids = plan_regular_reminder(scheduler,
-                                    new_regular_reminder.text,
-                                    new_regular_reminder.dates,
-                                    new_regular_reminder.times,
-                                    new_regular_reminder.tg_user_id,
-                                    delete_one_time_reminder,
-                                    db_reminder.id)
-    print(job_ids)
-
-    db_reminder.job_id = job_ids
+    job_ids_after_planning = plan_regular_reminder(scheduler,
+                                                   new_regular_reminder.text,
+                                                   new_regular_reminder.dates,
+                                                   new_regular_reminder.times,
+                                                   new_regular_reminder.tg_user_id,
+                                                   delete_one_time_reminder,
+                                                   db_reminder.id)
+    db_reminder.job_ids = job_ids_after_planning
     db.commit()
     db.close()
 
@@ -162,7 +160,9 @@ def load_all_data_from_db():
     all_events = []
 
     one_time_reminders = get_one_time_reminders()
+    regular_reminders = get_regular_reminders()
     all_events.append(one_time_reminders)
+    all_events.append(regular_reminders)
 
     return all_events
 
@@ -178,6 +178,34 @@ def delete_one_time_reminder(reminder_id: int, delete_from_scheduler=True):
 
     if delete_from_scheduler and reminder.job_id:
         scheduler.remove_job(str(reminder.job_id))
+
+    db.delete(reminder)
+    db.commit()
+    db.close()
+
+    return {"is_ok": True}
+
+
+@app.get("/get_regular_reminders")
+def get_regular_reminders():
+    db = SessionLocal()
+    reminders = db.query(RegularReminders).all()
+    db.close()
+    return reminders
+
+
+@app.post("/delete_regular_reminder/{reminder_id}")
+def delete_regular_reminder(reminder_id: int, delete_from_scheduler=True):
+    db = SessionLocal()
+    reminder = db.query(RegularReminders).filter(reminder_id == RegularReminders.id).first()
+
+    if reminder is None:
+        db.close()
+        return {"is_ok": False, "error": "Reminder not found"}
+
+    if delete_from_scheduler and reminder.job_ids:
+        for current_job_id in reminder.job_ids:
+            scheduler.remove_job(str(current_job_id))
 
     db.delete(reminder)
     db.commit()

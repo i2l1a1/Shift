@@ -51,7 +51,7 @@
     font-weight: 500;
 }
 
-.one_time_reminders_holder {
+.one_time_reminders_holder, .regular_reminders_holder {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(288px, 1fr));
     flex-direction: column;
@@ -59,14 +59,14 @@
     grid-column-gap: 32px;
 }
 
-.one_time_reminder_div {
+.one_time_reminder_div, .regular_reminder_div {
     background-color: var(--grey-bg);
     border-radius: 12px;
     padding: 16px 12px;
     box-sizing: border-box;
 }
 
-.one_time_reminder_div_inner {
+.one_time_reminder_div_inner, .regular_reminder_div_inner {
     display: flex;
     column-gap: 12px;
     align-items: center;
@@ -91,4 +91,15 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.regular_reminder_text_and_dates_times_holder {
+    display: flex;
+    flex-direction: column;
+    row-gap: 8px;
+    width: 100%;
+}
+
+.regular_reminder_dates_and_times {
+    color: var(--accent-grey);
 }
