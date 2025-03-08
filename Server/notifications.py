@@ -4,13 +4,14 @@ from environs import Env
 from apscheduler.triggers.cron import CronTrigger
 
 
-async def _generate_message_on_time(user_id, notification_text, action_function, reminder_id):
+async def _generate_message_on_time(user_id, notification_text, reminder_id, action_function=None):
     env = Env()
     env.read_env(".env")
     bot_token = env("BOT_TOKEN")
     requests.post(
         f"https://api.telegram.org/bot{bot_token}/sendMessage?chat_id={user_id}&text={notification_text}")
-    action_function(reminder_id, False)
+    if action_function:
+        action_function(reminder_id, False)
 
 
 def plan_one_time_reminder(scheduler, notification_text, notification_date, notification_time, user_id,
@@ -31,7 +32,7 @@ def plan_one_time_reminder(scheduler, notification_text, notification_date, noti
     return job.id
 
 
-def plan_regular_reminder(scheduler, notification_text, dates, times, user_id, action_function, reminder_id):
+def plan_regular_reminder(scheduler, notification_text, dates, times, user_id, reminder_id):
     job_ids = []
     unique_schedules = set()
 
@@ -46,7 +47,6 @@ def plan_regular_reminder(scheduler, notification_text, dates, times, user_id, a
                 trigger=CronTrigger(day_of_week=day, hour=hour, minute=minute),
                 kwargs={'user_id': user_id,
                         'notification_text': notification_text,
-                        'action_function': action_function,
                         'reminder_id': reminder_id}
             )
             job_ids.append(job.id)

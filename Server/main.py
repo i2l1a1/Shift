@@ -57,8 +57,7 @@ async def lifespan(app: FastAPI):
         db.commit()
         db.close()
     for item in all_events[1]:  # regular reminders
-        job_ids = plan_regular_reminder(scheduler, item.text, item.dates, item.times, item.tg_user_id,
-                                        delete_one_time_reminder, item.id)
+        job_ids = plan_regular_reminder(scheduler, item.text, item.dates, item.times, item.tg_user_id, item.id)
         db = SessionLocal()
         db.query(RegularReminders).filter(RegularReminders.id == item.id).update({"job_ids": job_ids})
         db.commit()
@@ -111,7 +110,6 @@ def create_new_regular_reminder(new_regular_reminder: NewRegularReminder):
                                                    new_regular_reminder.dates,
                                                    new_regular_reminder.times,
                                                    new_regular_reminder.tg_user_id,
-                                                   delete_one_time_reminder,
                                                    db_reminder.id)
     db_reminder.job_ids = job_ids_after_planning
     db.commit()

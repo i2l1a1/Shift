@@ -8,11 +8,14 @@ tg.setHeaderColor(black_bg_color);
 
 let one_time_reminders_holder = document.querySelector(".one_time_reminders_holder");
 let regular_reminders_holder = document.querySelector(".regular_reminders_holder");
+let one_time_reminders_header = document.querySelector('.one_time_reminders_header');
+let regular_reminders_header = document.querySelector('.regular_reminders_header');
 
 get_data_from_server("http://127.0.0.1:9091/get_one_time_reminders").then((data_from_server) => {
     let response_status = data_from_server[0];
     data_from_server = data_from_server[1];
     for (const reminder of data_from_server) {
+        one_time_reminders_header.hidden = false;
         let one_time_reminder_div = create_element("div", "one_time_reminder_div");
         let one_time_reminder_div_inner = create_element("div", "one_time_reminder_div_inner");
         one_time_reminder_div_inner.setAttribute("data-id", reminder.id);
@@ -37,8 +40,12 @@ get_data_from_server("http://127.0.0.1:9091/get_one_time_reminders").then((data_
             send_data_to_server(`http://127.0.0.1:9091/delete_one_time_reminder/${reminder_id}`).then(response => {
                 if (response["is_ok"] === true) {
                     reminder_div.remove();
+                    if (!one_time_reminders_holder.children.length) {
+                        one_time_reminders_header.hidden = true;
+                    }
                 }
             });
+
         });
     }
 });
@@ -47,6 +54,7 @@ get_data_from_server("http://127.0.0.1:9091/get_regular_reminders").then((data_f
     let response_status = data_from_server[0];
     data_from_server = data_from_server[1];
     for (const reminder of data_from_server) {
+        regular_reminders_header.hidden = false;
         console.log(reminder);
         let regular_reminder_div = create_element("div", "regular_reminder_div");
         let regular_reminder_div_inner = create_element("div", "regular_reminder_div_inner");
@@ -69,9 +77,12 @@ get_data_from_server("http://127.0.0.1:9091/get_regular_reminders").then((data_f
             const reminder_div_inner = reminder_div.querySelector(".regular_reminder_div_inner");
             let reminder_id = reminder_div_inner.getAttribute("data-id");
             send_data_to_server(`http://127.0.0.1:9091/delete_regular_reminder/${reminder_id}`).then(response => {
-                // if (response["is_ok"] === true) {
+                if (response["is_ok"] === true) {
                     reminder_div.remove();
-                // }
+                    if (!regular_reminders_holder.children.length) {
+                        regular_reminders_header.hidden = true;
+                    }
+                }
             });
         });
     }
