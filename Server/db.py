@@ -1,3 +1,6 @@
+from typing import List
+
+from pydantic import BaseModel
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
 
@@ -9,14 +12,19 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
 
+class DateBase(BaseModel):
+    one_timer_reminders: List
+    regular_reminders: List
+
+
 def load_all_data_from_db():
     from routers import get_one_time_reminders, get_regular_reminders
 
-    all_events = []
+    DateBase.one_timer_reminders = get_one_time_reminders()
+    DateBase.regular_reminders = get_regular_reminders()
 
-    one_time_reminders = get_one_time_reminders()
-    regular_reminders = get_regular_reminders()
-    all_events.append(one_time_reminders)
-    all_events.append(regular_reminders)
+    return DateBase
 
-    return all_events
+
+def init_db():
+    Base.metadata.create_all(bind=engine)

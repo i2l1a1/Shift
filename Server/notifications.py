@@ -18,8 +18,6 @@ def plan_one_time_reminder(scheduler, notification_text, notification_date, noti
                            action_function, reminder_id):
     target_time_datetime = datetime.strptime(f"{notification_date} {notification_time}", "%Y-%m-%d %H:%M")
 
-    print(f"notification_text: {notification_text}, reminder_id: {reminder_id}")
-
     job = scheduler.add_job(
         _generate_message_on_time,
         run_date=target_time_datetime,
