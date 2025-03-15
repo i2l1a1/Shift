@@ -1,0 +1,24 @@
+.navigation_bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 44px;
+    z-index: 1001;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    background-color: var(--black-bg);
+}
+
+.reminders-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.habits-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

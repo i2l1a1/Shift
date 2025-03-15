@@ -1,6 +1,6 @@
-import {send_data_to_server} from "../tools/networking_tools.js";
-import {get_current_date} from "../tools/auxiliary_tools.js";
-import {mobile_focus_for_fields} from "../tools/mobile_adaptations.js";
+import {send_data_to_server} from "../../tools/networking_tools.js";
+import {get_current_date} from "../../tools/auxiliary_tools.js";
+import {mobile_focus_for_fields} from "../../tools/mobile_adaptations.js";
 
 const container = document.querySelector(".container");
 const body = document.querySelector("body");

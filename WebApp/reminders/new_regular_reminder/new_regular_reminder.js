@@ -1,6 +1,6 @@
-import {create_element, create_image} from "../tools/graphical_tools.js";
-import {mobile_focus_for_fields} from "../tools/mobile_adaptations.js";
-import {send_data_to_server} from "../tools/networking_tools.js";
+import {create_element, create_image} from "../../tools/graphical_tools.js";
+import {mobile_focus_for_fields} from "../../tools/mobile_adaptations.js";
+import {send_data_to_server} from "../../tools/networking_tools.js";
 
 const input_fields_holder = document.querySelector(".input_fields_holder");
 const time_input_field = document.querySelector(".time_input_field");
@@ -29,7 +29,7 @@ function create_input_date_and_time_fields_holder() {
     const new_time_input_field = create_element("input", "time_input_field");
     new_time_input_field.placeholder = "Время...";
     const new_drop_down_list = create_drop_down_list();
-    const new_delete_inactive_svg = create_image("delete_inactive_svg", "../icons/delete_inactive.svg");
+    const new_delete_inactive_svg = create_image("delete_inactive_svg", "../../icons/delete_inactive.svg");
 
     let need_to_add_date_time_holder = true;
 

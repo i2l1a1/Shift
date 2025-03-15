@@ -1,6 +1,6 @@
-import {black_bg_color, create_element, create_image} from "../tools/graphical_tools.js";
-import {get_data_from_server, send_data_to_server} from "../tools/networking_tools.js";
-import {get_dates_and_times_for_regular_reminders} from "../tools/auxiliary_tools.js";
+import {black_bg_color, create_element, create_image} from "../../tools/graphical_tools.js";
+import {get_data_from_server, send_data_to_server} from "../../tools/networking_tools.js";
+import {get_dates_and_times_for_regular_reminders} from "../../tools/auxiliary_tools.js";
 
 let tg = window.Telegram.WebApp;
 
@@ -19,7 +19,7 @@ get_data_from_server("http://127.0.0.1:9091/get_one_time_reminders").then((data_
         let one_time_reminder_div = create_element("div", "one_time_reminder_div");
         let one_time_reminder_div_inner = create_element("div", "one_time_reminder_div_inner");
         one_time_reminder_div_inner.setAttribute("data-id", reminder.id);
-        let one_time_reminder_checkbox = create_image("img", "../icons/checkbox_basic_state.svg");
+        let one_time_reminder_checkbox = create_image("img", "../../icons/checkbox_basic_state.svg");
         let one_time_reminder_text = create_element("div", "one_time_reminder_text", reminder.text)
         let one_time_reminder_date_and_time = create_element("div", "one_time_reminder_date_and_time");
         let one_time_reminder_date = create_element("div", "one_time_reminder_date", reminder.date);
@@ -59,7 +59,7 @@ get_data_from_server("http://127.0.0.1:9091/get_regular_reminders").then((data_f
         let regular_reminder_div = create_element("div", "regular_reminder_div");
         let regular_reminder_div_inner = create_element("div", "regular_reminder_div_inner");
         regular_reminder_div_inner.setAttribute("data-id", reminder.id);
-        let regular_reminder_delete_button = create_image("img", "../icons/delete_active.svg");
+        let regular_reminder_delete_button = create_image("img", "../../icons/delete_active.svg");
         let regular_reminder_text_and_dates_times_holder = create_element("div", "regular_reminder_text_and_dates_times_holder");
         let regular_reminder_text = create_element("div", "regular_reminder_text", reminder.text)
         let regular_reminder_dates_and_times = create_element("div", "regular_reminder_dates_and_times",

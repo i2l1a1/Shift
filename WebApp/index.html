@@ -3,49 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="general_design/body.css">
-    <link rel="stylesheet" href="reminders/reminders.css">
     <link rel="stylesheet" href="general_design/colors.css">
+    <link rel="stylesheet" href="general_design/navigation_bar.css">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1">
-    <title>Reminders</title>
+    <title>Habits</title>
 </head>
 <body>
+
+<div class="navigation_bar">
+    <div class="habits-icon">
+        <img src="icons/habits_tab_active.svg" alt="">
+    </div>
+
+    <a href="reminders/reminders_page/reminders.html" class="reminders-icon-link">
+        <div class="reminders-icon">
+            <img src="icons/reminders_tab_inactive.svg" alt="">
+        </div>
+    </a>
+</div>
+
 <div class="container">
-    <div class="header">Создать напоминание</div>
-    <div class="reminders-divs-holder">
-        <a href="new_one_time_reminder/new_one_time_reminder.html" class="new-reminder-link">
-            <div class="new-reminder-div">
-                <div class="new-reminder-circle">
-                    <img src="icons/one_time_reminder.svg" alt="one_time_reminder">
-                </div>
-                <div class="new-reminder-text">
-                    Разовое
-                </div>
-            </div>
-        </a>
-        <a href="new_regular_reminder/new_regular_reminder.html" class="new-reminder-link">
-            <div class="new-reminder-div">
-                <div class="new-reminder-circle">
-                    <img src="icons/regular_reminder.svg" alt="regular_reminder">
-                </div>
-                <div class="new-reminder-text">
-                    Регулярное
-                </div>
-            </div>
-        </a>
-    </div>
-    <div hidden class="header reminders_header one_time_reminders_header">Разовые</div>
-    <div class="one_time_reminders_holder">
 
-    </div>
-    <div hidden class="header reminders_header regular_reminders_header">Регулярные</div>
-    <div class="regular_reminders_holder">
-
-    </div>
 </div>
 
 
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
-<script type="module" src="reminders/reminders.js"></script>
-<script type="module" src="tools/graphical_tools.js"></script>
 </body>
 </html>
