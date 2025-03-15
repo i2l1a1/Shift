@@ -1,9 +1,9 @@
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from fastapi import APIRouter
 
-from crud import get_regular_reminders_crud, get_one_time_reminders_crud, create_new_one_time_reminder_crud, \
+from data_base.crud import get_regular_reminders_crud, get_one_time_reminders_crud, create_new_one_time_reminder_crud, \
     create_new_regular_reminder_crud, delete_one_time_reminder_crud, delete_regular_reminder_crud
-from pydantic_schemas import NewRegularReminder, NewOneTimeReminder
+from schemas.pydantic_schemas import NewRegularReminder, NewOneTimeReminder
 
 scheduler = AsyncIOScheduler()
 

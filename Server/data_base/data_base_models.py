@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String, JSON
-from db import Base
+from data_base.data_base_init import Base
 
 
 class OneTimeReminder(Base):

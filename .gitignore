@@ -6,3 +6,9 @@ WebApp/font/Rubik.ttf
 Server/__pycache__/
 Server/shift_db.db
 Server/.env
+Server/data_base/__pycache__/
+Server/init_server/__pycache__/
+Server/notifications/__pycache__/
+Server/routers/__pycache__/
+Server/schemas/__pycache__/
+

@@ -1,8 +1,8 @@
 import uvicorn
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
-from routers import reminders_router
-from lifespan_function import lifespan
+from routers.reminder_routers import reminders_router
+from init_server.lifespan_function import lifespan
 
 app = FastAPI(lifespan=lifespan)
 

@@ -1,9 +1,9 @@
 from sqlalchemy import select
 
-from db import SessionLocal
-from db_models import RegularReminders, OneTimeReminder
-from notifications import plan_one_time_reminder, plan_regular_reminder
-from pydantic_schemas import NewOneTimeReminder, NewRegularReminder
+from data_base.data_base_init import SessionLocal
+from data_base.data_base_models import RegularReminders, OneTimeReminder
+from notifications.reminders import plan_one_time_reminder, plan_regular_reminder
+from schemas.pydantic_schemas import NewOneTimeReminder, NewRegularReminder
 
 
 async def get_one_time_reminders_crud():

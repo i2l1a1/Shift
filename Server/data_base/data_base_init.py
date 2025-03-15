@@ -20,7 +20,7 @@ class DataBase(BaseModel):
 
 
 async def load_all_data_from_db():
-    from routers import get_one_time_reminders, get_regular_reminders
+    from routers.reminder_routers import get_one_time_reminders, get_regular_reminders
 
     DataBase.one_timer_reminders = await get_one_time_reminders()
     DataBase.regular_reminders = await get_regular_reminders()
