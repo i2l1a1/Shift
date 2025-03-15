@@ -1,5 +1,5 @@
+import aiohttp
 from datetime import datetime
-import requests
 from environs import Env
 from apscheduler.triggers.cron import CronTrigger
 
@@ -8,14 +8,17 @@ async def _generate_message_on_time(user_id, notification_text, reminder_id, act
     env = Env()
     env.read_env(".env")
     bot_token = env("BOT_TOKEN")
-    requests.post(
-        f"https://api.telegram.org/bot{bot_token}/sendMessage?chat_id={user_id}&text={notification_text}")
+
+    async with aiohttp.ClientSession(connector=aiohttp.TCPConnector(ssl=False)) as session:
+        url = f"https://api.telegram.org/bot{bot_token}/sendMessage?chat_id={user_id}&text={notification_text}"
+        await session.post(url)
+
     if action_function:
-        action_function(reminder_id, False)
+        await action_function(reminder_id, False)
 
 
-def plan_one_time_reminder(scheduler, notification_text, notification_date, notification_time, user_id,
-                           action_function, reminder_id):
+async def plan_one_time_reminder(scheduler, notification_text, notification_date, notification_time, user_id,
+                                 action_function, reminder_id):
     target_time_datetime = datetime.strptime(f"{notification_date} {notification_time}", "%Y-%m-%d %H:%M")
 
     job = scheduler.add_job(
@@ -30,7 +33,7 @@ def plan_one_time_reminder(scheduler, notification_text, notification_date, noti
     return job.id
 
 
-def plan_regular_reminder(scheduler, notification_text, dates, times, user_id, reminder_id):
+async def plan_regular_reminder(scheduler, notification_text, dates, times, user_id, reminder_id):
     job_ids = []
     unique_schedules = set()
 

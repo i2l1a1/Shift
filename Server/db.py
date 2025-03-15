@@ -1,30 +1,33 @@
 from typing import List
 
 from pydantic import BaseModel
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, declarative_base
 
-SQLALCHEMY_DATABASE_URL = "sqlite:///./shift_db.db"
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.ext.asyncio import async_sessionmaker
+from sqlalchemy.ext.asyncio import create_async_engine
 
-engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False})
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+SQLALCHEMY_DATABASE_URL = "sqlite+aiosqlite:///./shift_db.db"
+
+engine = create_async_engine(SQLALCHEMY_DATABASE_URL)
+SessionLocal = async_sessionmaker(engine, autocommit=False, autoflush=False)
 
 Base = declarative_base()
 
 
-class DateBase(BaseModel):
+class DataBase(BaseModel):
     one_timer_reminders: List
     regular_reminders: List
 
 
-def load_all_data_from_db():
+async def load_all_data_from_db():
     from routers import get_one_time_reminders, get_regular_reminders
 
-    DateBase.one_timer_reminders = get_one_time_reminders()
-    DateBase.regular_reminders = get_regular_reminders()
+    DataBase.one_timer_reminders = await get_one_time_reminders()
+    DataBase.regular_reminders = await get_regular_reminders()
 
-    return DateBase
+    return DataBase
 
 
-def init_db():
-    Base.metadata.create_all(bind=engine)
+async def init_db():
+    async with engine.begin() as connection:
+        await connection.run_sync(Base.metadata.create_all)
