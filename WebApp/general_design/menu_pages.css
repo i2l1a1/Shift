@@ -5,17 +5,17 @@
     font-weight: 700;
 }
 
-.reminders_header {
+.reminders_header, .habits_header {
     margin-top: 24px;
 }
 
-.reminders-divs-holder {
+.reminders-divs-holder, .habits-divs-holder {
     display: inline-flex;
     flex-direction: row;
     gap: 16px;
 }
 
-.new-reminder-div {
+.new-reminder-div, .new-habit-div {
     width: 100%;
     height: 100%;
     background-color: var(--grey-bg);
@@ -25,7 +25,7 @@
     align-items: center;
 }
 
-.new-reminder-link {
+.new-reminder-link, .new-habit-link {
     display: block;
     width: 136px;
     height: 136px;
@@ -34,7 +34,7 @@
     text-decoration: none;
 }
 
-.new-reminder-circle {
+.new-reminder-circle, .new-habit-circle {
     width: 82px;
     height: 82px;
     margin-top: 12px;
@@ -45,13 +45,13 @@
     justify-content: center;
 }
 
-.new-reminder-text {
+.new-reminder-text, .new-habit-text {
     margin-bottom: 12px;
     color: var(--accent-grey);
     font-weight: 500;
 }
 
-.one_time_reminders_holder, .regular_reminders_holder {
+.one_time_reminders_holder, .regular_reminders_holder, .habits_in_process_holder {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(288px, 1fr));
     flex-direction: column;
