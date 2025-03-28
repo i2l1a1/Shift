@@ -17,5 +17,6 @@ body {
 }
 
 .container {
-    margin: 24px 16px;
+    padding-top: 72px;
+    margin: 0 16px 109px;
 }

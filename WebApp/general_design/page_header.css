@@ -1,7 +1,10 @@
 .page_header {
+    position: fixed;
+    width: 100%;
     display: grid;
     align-items: center;
     grid-template-columns: 44px calc(100% - 88px);
+    background-color: var(--black-bg);
 }
 
 .header_label {
