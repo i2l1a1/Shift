@@ -1,0 +1,42 @@
+.question_with_options {
+    font-weight: bold;
+    margin-bottom: 16px;
+}
+
+.question_options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.question_option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+input[type="radio"] {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 1px solid var(--accent-grey);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    flex-shrink: 0;
+    align-self: flex-start;
+}
+
+input[type="radio"]:checked::before {
+    content: "";
+    width: 20px;
+    height: 20px;
+    background-color: var(--accent-grey);
+    border-radius: 50%;
+    position: absolute;
+    flex-shrink: 0;
+    align-self: flex-start;
+}

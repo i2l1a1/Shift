@@ -1,0 +1,29 @@
+.input_fields_holder {
+    display: flex;
+    flex-direction: column;
+    row-gap: 16px;
+}
+
+.input_field {
+    font-family: Rubik, sans-serif;
+    font-size: 15px;
+    padding: 12px;
+    resize: none;
+    height: 80px;
+    background-color: var(--grey-bg);
+    color: var(--white-text);
+    border: none;
+    border-radius: 12px;
+    outline: none;
+}
+
+.input_field::placeholder {
+    color: var(--input-text);
+    opacity: 1;
+}
+
+.hint_for_user {
+    margin-top: 16px;
+    color: var(--input-text);
+}
+

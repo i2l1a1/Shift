@@ -5,7 +5,7 @@ import {send_data_to_server} from "../../tools/networking_tools.js";
 const input_fields_holder = document.querySelector(".input_fields_holder");
 const time_input_field = document.querySelector(".time_input_field");
 const accept_button = document.querySelector(".accept_button_div");
-const reminder_input_field = document.querySelector(".reminder_input_field");
+const reminder_input_field = document.querySelector(".input_field");
 
 function create_drop_down_list() {
     const days_of_week = [

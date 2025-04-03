@@ -6,6 +6,13 @@
     font-weight: 700;
 }
 
+.header_1 {
+    font-size: 20px;
+    margin-bottom: 12px;
+    margin-top: 20px;
+    font-weight: 600;
+}
+
 .header:first-of-type {
     margin-top: 0;
 }
