@@ -1,9 +1,9 @@
 from sqlalchemy import select
 
 from data_base.data_base_init import SessionLocal
-from data_base.data_base_models import RegularReminders, OneTimeReminder
+from data_base.data_base_models import RegularReminders, OneTimeReminder, NegativeHabits
 from notifications.reminders import plan_one_time_reminder, plan_regular_reminder
-from schemas.pydantic_schemas import NewOneTimeReminder, NewRegularReminder
+from schemas.pydantic_schemas import NewOneTimeReminder, NewRegularReminder, NewNegativeHabit
 
 
 async def get_one_time_reminders_crud():
@@ -67,6 +67,22 @@ async def create_new_regular_reminder_crud(new_regular_reminder: NewRegularRemin
         db_reminder.job_ids = job_ids_after_planning
         await db.commit()
         return {"is_ok": True}
+
+
+async def create_new_negative_habit_crud(new_negative_habit: NewNegativeHabit, scheduler):
+    async with SessionLocal() as db:
+        db_negative_habit = NegativeHabits(
+            negative_habit_name=new_negative_habit.negative_habit_name,
+            now_state=new_negative_habit.now_state,
+            tg_user_id=new_negative_habit.tg_user_id,
+            job_ids=None
+        )
+
+        db.add(db_negative_habit)
+        await db.commit()
+        await db.refresh(db_negative_habit)
+
+        return {"id": db_negative_habit.id}
 
 
 async def delete_one_time_reminder_crud(reminder_id: int, scheduler, delete_from_scheduler=True):

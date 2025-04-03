@@ -22,3 +22,13 @@ class RegularReminders(Base):
     times = Column(JSON)
     tg_user_id = Column(String)
     job_ids = Column(JSON)
+
+
+class NegativeHabits(Base):
+    __tablename__ = "negative_habits"
+
+    id = Column(Integer, primary_key=True, index=True)
+    negative_habit_name = Column(String, index=True)
+    now_state = Column(Integer)
+    tg_user_id = Column(String)
+    job_ids = Column(JSON)

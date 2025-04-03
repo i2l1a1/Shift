@@ -13,7 +13,8 @@ const time_input_field = document.getElementById("time_input_field");
 date_input_field.value = get_current_date();
 
 
-accept_button.addEventListener("click", () => {
+accept_button.addEventListener("click", (event) => {
+    // event.preventDefault();
     console.log(reminder_input_field.value);
     console.log(date_input_field.value);
     console.log(time_input_field.value);

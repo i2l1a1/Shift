@@ -54,7 +54,8 @@ time_input_field.addEventListener('input', function () {
     }
 });
 
-accept_button.addEventListener("click", () => {
+accept_button.addEventListener("click", (event) => {
+    // event.preventDefault();
     const all_input_date_time_holders = document.querySelectorAll(".input_data_and_time_fields_holder");
     let days_of_week = [];
     let times = [];

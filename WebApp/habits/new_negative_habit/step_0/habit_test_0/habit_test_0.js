@@ -1,4 +1,5 @@
 import {create_test_options, test_1} from "../../../../tools/test_functions.js";
+import {send_data_to_server} from "../../../../tools/networking_tools.js";
 
 const accept_button = document.querySelector(".accept_button_div");
 const question_with_options = document.querySelector(".question_with_options");

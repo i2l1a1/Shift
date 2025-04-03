@@ -14,3 +14,9 @@ class NewRegularReminder(BaseModel):
     dates: List[str]
     times: List[str]
     tg_user_id: str
+
+
+class NewNegativeHabit(BaseModel):
+    now_state: int
+    negative_habit_name: str
+    tg_user_id: str
