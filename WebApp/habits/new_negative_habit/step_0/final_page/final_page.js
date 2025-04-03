@@ -3,7 +3,6 @@ import {state_dict, state_numbers, test_1} from "../../../../tools/test_function
 
 const back_button = document.querySelector(".back_button");
 const current_state_paragraph = document.getElementById("current_state_paragraph");
-const future_path_div = document.getElementById("future_path_div");
 
 let answer_0_for_test_page_1 = localStorage.getItem("answer_0_for_test_page_1");
 let answer_0_for_test_page_2 = localStorage.getItem("answer_0_for_test_page_2");

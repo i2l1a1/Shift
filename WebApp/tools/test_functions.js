@@ -51,6 +51,9 @@ export function create_test_options(options_list, parent_element, label_for_loca
         input.type = "radio";
         input.name = "answer";
         input.value = key;
+        if (input.value === localStorage.getItem(label_for_local_storage)) {
+            input.checked = true;
+        }
 
         label.appendChild(input);
         label.appendChild(document.createTextNode(value));
