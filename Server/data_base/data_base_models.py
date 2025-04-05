@@ -37,3 +37,5 @@ class NegativeHabits(Base):
     job_ids = Column(JSON)
     success_counter = Column(Integer, default=0)
     failure_counter = Column(Integer, default=0)
+    unlock_date_for_stage_1 = Column(String)
+    is_unlocked_for_stage_1 = Column(Integer, default=0)

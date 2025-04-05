@@ -31,3 +31,7 @@ class NewNegativeHabitStage1(BaseModel):
 class NewAnotherResult(BaseModel):
     pressed_button: str
     tg_user_id: str
+
+
+class NewNumberOfDaysForMindfulness(BaseModel):
+    number_of_days: int
