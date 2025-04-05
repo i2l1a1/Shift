@@ -2,6 +2,7 @@
 Server/.idea
 TelegramBot/.idea
 TelegramBot/.env
+TelegramBot/__pycache__/
 WebApp/font/Rubik.ttf
 Server/__pycache__/
 Server/shift_db.db
@@ -11,4 +12,3 @@ Server/init_server/__pycache__/
 Server/notifications/__pycache__/
 Server/routers/__pycache__/
 Server/schemas/__pycache__/
-

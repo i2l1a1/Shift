@@ -27,3 +27,6 @@
     color: var(--input-text);
 }
 
+.text {
+    line-height: 130%;
+}

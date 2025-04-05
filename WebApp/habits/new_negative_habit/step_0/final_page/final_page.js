@@ -39,18 +39,6 @@ for (let i = 5; i > now_state - 1; --i) {
     document.getElementById(`state_info_${i}`).hidden = false;
 }
 
-// const url = "http://127.0.0.1:9091/new_negative_habit";
-// let data_for_send = {
-//     "now_state": now_state,
-//     "negative_habit_name": localStorage.getItem("negative_habit_name_page_0"),
-//     // "tg_user_id": window.Telegram.WebApp.initDataUnsafe.user.id.toString()
-//     "tg_user_id": "487020656"
-// }
-//
-// send_data_to_server(url, data_for_send).then(response => {
-//     alert(response["id"]);
-// });
-
 accept_button.addEventListener("click", (event) => {
     event.preventDefault();
     const url = "http://127.0.0.1:9091/new_negative_habit";
@@ -62,7 +50,10 @@ accept_button.addEventListener("click", (event) => {
     }
 
     send_data_to_server(url, data_for_send).then(response => {
-        alert(response["id"]);
+        localStorage.setItem("active_habit", response["id"]);
         window.location.href = "../../step_1/method_info/method_info.html";
+        localStorage.removeItem("answer_0_for_test_page_1");
+        localStorage.removeItem("answer_0_for_test_page_2");
+        localStorage.removeItem("negative_habit_name_page_0");
     });
 });

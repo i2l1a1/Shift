@@ -1,25 +1,26 @@
-import {mobile_focus_for_fields} from "../../tools/mobile_adaptations.js";
-import {send_data_to_server} from "../../tools/networking_tools.js";
+import {mobile_focus_for_fields} from "../../../../tools/mobile_adaptations.js";
+import {send_data_to_server} from "../../../../tools/networking_tools.js";
 import {
     create_input_date_and_time_fields,
     take_dates_and_times_from_page
-} from "../../tools/graphical_tools.js";
+} from "../../../../tools/graphical_tools.js";
 
 
 const accept_button = document.querySelector(".accept_button_div");
 const reminder_input_field = document.querySelector(".input_field");
 
-create_input_date_and_time_fields("../../icons/delete_inactive.svg");
+create_input_date_and_time_fields("../../../../icons/delete_inactive.svg");
+
+console.log(localStorage.getItem("active_habit"));
+
 accept_button.addEventListener("click", () => {
     let days_and_times = take_dates_and_times_from_page();
 
-    const url = "http://127.0.0.1:9091/new_regular_reminder";
+    const url = `http://127.0.0.1:9091/edit_negative_habit/stage_1/add_positive_habit/${localStorage.getItem("active_habit")}`;
     let data_for_send = {
-        "text": reminder_input_field.value,
+        "positive_instead_negative": reminder_input_field.value,
         "dates": days_and_times.days_of_week,
         "times": days_and_times.times,
-        // "tg_user_id": window.Telegram.WebApp.initDataUnsafe.user.id.toString()
-        "tg_user_id": "487020656"
     }
 
     send_data_to_server(url, data_for_send).then(r => {

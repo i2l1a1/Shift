@@ -3,7 +3,8 @@ from sqlalchemy import select
 from data_base.data_base_init import SessionLocal
 from data_base.data_base_models import RegularReminders, OneTimeReminder, NegativeHabits
 from notifications.reminders import plan_one_time_reminder, plan_regular_reminder
-from schemas.pydantic_schemas import NewOneTimeReminder, NewRegularReminder, NewNegativeHabit
+from schemas.pydantic_schemas import NewOneTimeReminder, NewRegularReminder, NewNegativeHabit, NewNegativeHabitStage1, \
+    NewAnotherResult
 
 
 async def get_one_time_reminders_crud():
@@ -118,3 +119,42 @@ async def delete_regular_reminder_crud(reminder_id: int, scheduler, delete_from_
         await db.commit()
 
         return {"is_ok": True}
+
+
+async def edit_negative_habit_stage_1_add_positive_habit_crud(habit_id: int, new_data: NewNegativeHabitStage1,
+                                                              scheduler):
+    async with SessionLocal() as db:
+        db_habit = await db.get(NegativeHabits, habit_id)
+
+        db_habit.positive_instead_negative = new_data.positive_instead_negative
+        db_habit.dates = new_data.dates
+        db_habit.times = new_data.times
+
+        await db.commit()
+        await db.refresh(db_habit)
+
+        job_ids_after_planning = await plan_regular_reminder(
+            scheduler,
+            f"Выполнили ли Вы сегодня привычку «{db_habit.positive_instead_negative}»?",
+            db_habit.dates,
+            db_habit.times,
+            db_habit.tg_user_id,
+            db_habit.id)
+
+        db_habit.job_ids = job_ids_after_planning
+        await db.commit()
+        return {"is_ok": True}
+
+
+async def edit_habit_add_another_result_crud(habit_id: int, new_data: NewAnotherResult,
+                                             scheduler):
+    print(f"[habit_id={habit_id}, tg_user_id={new_data.tg_user_id}] Pressed button: {new_data.pressed_button}")
+    async with SessionLocal() as db:
+        db_habit = await db.get(NegativeHabits, habit_id)
+        if new_data.pressed_button == "yes":
+            db_habit.success_counter += 1
+        else:
+            db_habit.failure_counter += 1
+
+        await db.commit()
+        await db.refresh(db_habit)

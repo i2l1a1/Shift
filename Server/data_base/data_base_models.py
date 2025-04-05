@@ -28,7 +28,12 @@ class NegativeHabits(Base):
     __tablename__ = "negative_habits"
 
     id = Column(Integer, primary_key=True, index=True)
-    negative_habit_name = Column(String, index=True)
+    negative_habit_name = Column(String)
+    positive_instead_negative = Column(String)
+    dates = Column(JSON)
+    times = Column(JSON)
     now_state = Column(Integer)
     tg_user_id = Column(String)
     job_ids = Column(JSON)
+    success_counter = Column(Integer, default=0)
+    failure_counter = Column(Integer, default=0)

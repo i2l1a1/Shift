@@ -1,17 +1,19 @@
-import aiohttp
 from datetime import datetime
-from environs import Env
 from apscheduler.triggers.cron import CronTrigger
+
+import aiohttp
+from environs import Env
 
 
 async def _generate_message_on_time(user_id, notification_text, reminder_id, action_function=None):
     env = Env()
     env.read_env(".env")
-    bot_token = env("BOT_TOKEN")
+    fastapi_url = "http://127.0.0.1:9092"
 
     async with aiohttp.ClientSession(connector=aiohttp.TCPConnector(ssl=False)) as session:
-        url = f"https://api.telegram.org/bot{bot_token}/sendMessage?chat_id={user_id}&text={notification_text}"
-        await session.post(url)
+        url = f"{fastapi_url}/send_message_for_user_with_buttons/{user_id}"
+        payload = {"text": notification_text, "habit_id": reminder_id}
+        await session.post(url, json=payload)
 
     if action_function:
         await action_function(reminder_id, False)
