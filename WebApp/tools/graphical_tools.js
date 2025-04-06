@@ -91,3 +91,57 @@ export function create_input_date_and_time_fields(icon_path) {
         }
     });
 }
+
+export function create_input_subgoals(elements_holder) {
+    const new_subgoal_and_icon_holder = create_element("div", "new_subgoal_and_icon_holder");
+    const new_subgoal_input_field = create_element("input", "new_subgoal_input_field");
+    new_subgoal_input_field.placeholder = "Подцель...";
+    const new_delete_inactive_svg = create_image("delete_inactive_svg", "../../../../icons/delete_inactive.svg");
+
+    let need_to_add_subgoal_holder = true;
+
+    new_subgoal_input_field.addEventListener('input', function () {
+        if (new_subgoal_input_field.value.length >= 2 && need_to_add_subgoal_holder) {
+            create_input_subgoals(elements_holder);
+            need_to_add_subgoal_holder = false;
+        }
+    });
+
+    elements_holder.appendChild(new_subgoal_and_icon_holder);
+    new_subgoal_and_icon_holder.appendChild(new_subgoal_input_field);
+    new_subgoal_and_icon_holder.appendChild(new_delete_inactive_svg);
+}
+
+export function take_habit_and_subgoals_from_page() {
+    const all_input_field_holders = document.querySelectorAll(".new_subgoal_and_icon_holder");
+    const habit_input_field = document.querySelector(".input_field");
+
+    let subgoals = [];
+    all_input_field_holders.forEach(current_input_holder => {
+        const current_input = current_input_holder.querySelector(".new_subgoal_input_field");
+        if (current_input.value) {
+            subgoals.push(current_input.value);
+        }
+    });
+
+    return {
+        "positive_habit": habit_input_field.value,
+        "subgoals": subgoals
+    }
+
+    // let days_of_week = [];
+    // let times = [];
+    // all_input_date_time_holders.forEach(current_input => {
+    //     let current_day_of_week = current_input.querySelector(".date_input_field").value;
+    //     let current_time = current_input.querySelector(".time_input_field").value;
+    //     if (current_time) {
+    //         days_of_week.push(current_day_of_week);
+    //         times.push(current_time);
+    //     }
+    // });
+    // return {
+    //     "days_of_week": days_of_week,
+    //     "times": times
+    // }
+}
+

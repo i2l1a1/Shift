@@ -1,3 +1,63 @@
+.time_input_field, .new_subgoal_input_field {
+    font-family: "Rubik", sans-serif;
+    font-size: 15px;
+    box-sizing: border-box;
+    color: var(--white-text);
+    background-color: var(--grey-bg);
+    border: none;
+    border-radius: 12px;
+    height: 42px;
+    padding: 12px;
+}
+
+.date_input_field:focus,
+.time_input_field:focus,
+.new_subgoal_input_field:focus {
+    outline: none;
+}
+
+.input_data_and_time_fields_holder, .new_subgoal_and_icon_holder {
+    display: flex;
+    width: 100%;
+    gap: 16px;
+}
+
+.date_input_field::placeholder,
+.time_input_field::placeholder,
+.new_subgoal_input_field::placeholder {
+    color: var(--input-text);
+    opacity: 1;
+}
+
+.date_input_field, .time_input_field, .new_subgoal_input_field {
+    flex: 1;
+    min-width: 0;
+}
+
+.date_input_field {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+.date_input_field::-webkit-calendar-picker-indicator {
+    display: none;
+}
+
+
+.date_input_field {
+    font-family: "Rubik", sans-serif;
+    font-size: 15px;
+    box-sizing: border-box;
+    color: var(--white-text);
+    background-color: var(--grey-bg);
+    border: none;
+    border-radius: 12px;
+    height: 42px;
+    padding-right: 12px;
+    padding-left: 12px;
+}
+
 .input_fields_holder {
     display: flex;
     flex-direction: column;

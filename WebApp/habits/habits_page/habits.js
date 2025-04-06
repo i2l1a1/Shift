@@ -4,6 +4,7 @@ import {get_text_stage_by_number} from "../../tools/auxiliary_tools.js";
 
 const habits_in_process_holder = document.querySelector(".habits_in_process_holder");
 const habits_header = document.querySelector(".habits_header");
+const negative_habit_div = document.getElementById("negative_habit_div");
 
 // const tg_user_id = window.Telegram.WebApp.initDataUnsafe.user.id.toString()
 const tg_user_id = "487020656";
@@ -47,4 +48,9 @@ get_data_from_server(url).then((data_from_server) => {
         });
     }
 
+});
+
+
+negative_habit_div.addEventListener("click", () => {
+    localStorage.clear();
 });

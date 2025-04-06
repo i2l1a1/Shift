@@ -40,3 +40,4 @@ class NegativeHabits(Base):
     unlock_date_for_stage_1 = Column(String)
     is_unlocked_for_stage_1 = Column(Integer, default=0)
     now_page = Column(String)
+    subgoals = Column(JSON)

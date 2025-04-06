@@ -1,10 +1,12 @@
+import json
+
 from sqlalchemy import select
 
 from data_base.data_base_init import SessionLocal
 from data_base.data_base_models import RegularReminders, OneTimeReminder, NegativeHabits
 from notifications.reminders import plan_one_time_reminder, plan_regular_reminder, plan_one_time_action
 from schemas.pydantic_schemas import NewOneTimeReminder, NewRegularReminder, NewNegativeHabit, NewNegativeHabitStage1, \
-    NewAnotherResult, NewNumberOfDaysForMindfulness
+    NewAnotherResult, NewNumberOfDaysForMindfulness, NewSubgoals
 from datetime import datetime, timedelta
 
 
@@ -169,8 +171,8 @@ async def edit_negative_habit_stage_1_add_number_of_days_for_mindfulness_crud(ha
 
         if not db_habit.unlock_date_for_stage_1:
             current_date = datetime.now()
-            unlock_date = current_date + timedelta(days=new_data.number_of_days)
-            # unlock_date = current_date + timedelta(minutes=1)
+            # unlock_date = current_date + timedelta(days=new_data.number_of_days)
+            unlock_date = current_date + timedelta(minutes=1)
 
             db_habit.unlock_date_for_stage_1 = unlock_date.strftime("%Y-%m-%d %H:%M:00")
 
@@ -209,6 +211,14 @@ async def get_negative_habits_crud(user_id: str):
     return habits
 
 
+async def get_negative_habit_crud(habit_id: int):
+    async with SessionLocal() as db:
+        query = select(NegativeHabits).where(NegativeHabits.id == habit_id)
+        result = await db.execute(query)
+        habits = result.scalars().all()
+    return habits
+
+
 async def edit_now_page_crud(habit_id: int, now_page_url: str):
     async with SessionLocal() as db:
         db_habit = await db.get(NegativeHabits, habit_id)
@@ -224,3 +234,13 @@ async def get_now_page_for_negative_habit_crud(habit_id: int):
         db_habit = await db.get(NegativeHabits, habit_id)
 
         return db_habit.now_page
+
+
+async def add_subgoals_crud(habit_id: int, new_subgoals: NewSubgoals):
+    async with SessionLocal() as db:
+        db_habit = await db.get(NegativeHabits, habit_id)
+        db_habit.positive_instead_negative = new_subgoals.positive_habit
+        db_habit.subgoals = new_subgoals.subgoals
+
+        await db.commit()
+        await db.refresh(db_habit)

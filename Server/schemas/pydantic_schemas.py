@@ -39,3 +39,8 @@ class NewNumberOfDaysForMindfulness(BaseModel):
 
 class NowPageUrl(BaseModel):
     page_url: str
+
+
+class NewSubgoals(BaseModel):
+    positive_habit: str
+    subgoals: List[str]
