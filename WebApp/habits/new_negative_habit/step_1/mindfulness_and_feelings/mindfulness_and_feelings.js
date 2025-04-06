@@ -1,4 +1,12 @@
-import {get_data_from_server, send_data_to_server} from "../../../../tools/networking_tools.js";
+import {
+    get_data_from_server,
+    send_data_to_server,
+    send_page_name_to_server
+} from "../../../../tools/networking_tools.js";
+
+send_page_name_to_server("new_negative_habit/step_1/mindfulness_and_feelings/mindfulness_and_feelings.html").then(r => {
+
+});
 
 const accept_button = document.querySelector(".accept_button_div");
 

@@ -170,9 +170,9 @@ async def edit_negative_habit_stage_1_add_number_of_days_for_mindfulness_crud(ha
         if not db_habit.unlock_date_for_stage_1:
             current_date = datetime.now()
             unlock_date = current_date + timedelta(days=new_data.number_of_days)
+            # unlock_date = current_date + timedelta(minutes=1)
 
-            # db_habit.unlock_date_for_stage_1 = unlock_date.strftime("%Y-%m-%d %H:%M:00")
-            db_habit.unlock_date_for_stage_1 = unlock_date.strftime("2025-04-05 18:31:00")
+            db_habit.unlock_date_for_stage_1 = unlock_date.strftime("%Y-%m-%d %H:%M:00")
 
             job_id = await plan_one_time_action(scheduler,
                                                 db_habit.unlock_date_for_stage_1,

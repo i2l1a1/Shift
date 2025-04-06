@@ -1,9 +1,13 @@
 import {mobile_focus_for_fields} from "../../../../tools/mobile_adaptations.js";
-import {send_data_to_server} from "../../../../tools/networking_tools.js";
+import {send_data_to_server, send_page_name_to_server} from "../../../../tools/networking_tools.js";
 import {
     create_input_date_and_time_fields,
     take_dates_and_times_from_page
 } from "../../../../tools/graphical_tools.js";
+
+send_page_name_to_server("new_negative_habit/step_1/positive_instead_negative/positive_instead_negative.html").then(r => {
+
+});
 
 
 const accept_button = document.querySelector(".accept_button_div");

@@ -1,4 +1,9 @@
 import {create_test_options, test_2} from "../../../../tools/test_functions.js";
+import {send_page_name_to_server} from "../../../../tools/networking_tools.js";
+
+send_page_name_to_server("new_negative_habit/step_1/test_after_thinking/test_after_thinking.html").then(r => {
+
+});
 
 const accept_button = document.querySelector(".accept_button_div");
 
