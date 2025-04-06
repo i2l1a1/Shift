@@ -12,11 +12,15 @@ get_data_from_server(url_for_check).then((data_from_server) => {
 
     if (data_from_server === 1) {
         accept_button.querySelector(".accept_button").setAttribute("href", "../test_after_thinking/test_after_thinking.html");
+        window.location.href = "../test_after_thinking/test_after_thinking.html";
         accept_button.querySelector(".accept_button").textContent = "Далее";
     }
 });
 
 accept_button.addEventListener("click", () => {
+    // убрать!
+    // accept_button.querySelector(".accept_button").setAttribute("href", "../test_after_thinking/test_after_thinking.html");
+
 
     get_data_from_server(url_for_check).then((data_from_server) => {
         let response_status = data_from_server[0];
@@ -26,6 +30,7 @@ accept_button.addEventListener("click", () => {
 
         if (data_from_server === 1) {
             accept_button.querySelector(".accept_button").setAttribute("href", "../test_after_thinking/test_after_thinking.html");
+            window.location.href = "../test_after_thinking/test_after_thinking.html";
             accept_button.querySelector(".accept_button").textContent = "Далее";
         }
     });

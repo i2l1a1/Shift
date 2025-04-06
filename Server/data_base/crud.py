@@ -171,8 +171,8 @@ async def edit_negative_habit_stage_1_add_number_of_days_for_mindfulness_crud(ha
             current_date = datetime.now()
             unlock_date = current_date + timedelta(days=new_data.number_of_days)
 
-            db_habit.unlock_date_for_stage_1 = unlock_date.strftime("%Y-%m-%d %H:%M:00")
-            # db_habit.unlock_date_for_stage_1 = unlock_date.strftime("2025-04-05 17:17:00")
+            # db_habit.unlock_date_for_stage_1 = unlock_date.strftime("%Y-%m-%d %H:%M:00")
+            db_habit.unlock_date_for_stage_1 = unlock_date.strftime("2025-04-05 18:31:00")
 
             job_id = await plan_one_time_action(scheduler,
                                                 db_habit.unlock_date_for_stage_1,
@@ -199,3 +199,28 @@ async def get_unlock_status_stage_1_crud(habit_id: int):
         db_habit = await db.get(NegativeHabits, habit_id)
 
         return db_habit.is_unlocked_for_stage_1
+
+
+async def get_negative_habits_crud(user_id: str):
+    async with SessionLocal() as db:
+        query = select(NegativeHabits).where(NegativeHabits.tg_user_id == str(user_id))
+        result = await db.execute(query)
+        habits = result.scalars().all()
+    return habits
+
+
+async def edit_now_page_crud(habit_id: int, now_page_url: str):
+    async with SessionLocal() as db:
+        db_habit = await db.get(NegativeHabits, habit_id)
+        print(db_habit)
+        db_habit.now_page = now_page_url
+
+        await db.commit()
+        await db.refresh(db_habit)
+
+
+async def get_now_page_for_negative_habit_crud(habit_id: int):
+    async with SessionLocal() as db:
+        db_habit = await db.get(NegativeHabits, habit_id)
+
+        return db_habit.now_page

@@ -39,3 +39,4 @@ class NegativeHabits(Base):
     failure_counter = Column(Integer, default=0)
     unlock_date_for_stage_1 = Column(String)
     is_unlocked_for_stage_1 = Column(Integer, default=0)
+    now_page = Column(String)

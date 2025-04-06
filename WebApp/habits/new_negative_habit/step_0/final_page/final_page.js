@@ -1,5 +1,5 @@
 import {state_dict, state_numbers, test_1} from "../../../../tools/test_functions.js";
-import {send_data_to_server} from "../../../../tools/networking_tools.js";
+import {send_data_to_server, send_page_name_to_server} from "../../../../tools/networking_tools.js";
 
 
 const back_button = document.querySelector(".back_button");
@@ -10,22 +10,28 @@ let answer_0_for_test_page_1 = localStorage.getItem("answer_0_for_test_page_1");
 let answer_0_for_test_page_2 = localStorage.getItem("answer_0_for_test_page_2");
 let now_state = 0;
 
-if (answer_0_for_test_page_1 === "option_1") {
-    back_button.href = "../habit_test_yes_1/habit_test_yes_1.html";
-    if (answer_0_for_test_page_2 === "option_1") { // раздумье
-        now_state = 1;
-    } else if (answer_0_for_test_page_2 === "option_2") { // подготовка
-        now_state = 2;
-    } else if (answer_0_for_test_page_2 === "option_3") { // усилия
-        now_state = 3;
+const now_state_from_local_storage = localStorage.getItem("now_state");
+
+if (!now_state_from_local_storage) {
+    if (answer_0_for_test_page_1 === "option_1") {
+        // back_button.href = "../habit_test_yes_1/habit_test_yes_1.html";
+        if (answer_0_for_test_page_2 === "option_1") { // раздумье
+            now_state = 1;
+        } else if (answer_0_for_test_page_2 === "option_2") { // подготовка
+            now_state = 2;
+        } else if (answer_0_for_test_page_2 === "option_3") { // усилия
+            now_state = 3;
+        }
+    } else {
+        // back_button.href = "../habit_test_no_1/habit_test_no_1.html";
+        if (answer_0_for_test_page_2 === "option_1") { // раздумья
+            now_state = 1;
+        } else { // постоянство
+            now_state = 4;
+        }
     }
 } else {
-    back_button.href = "../habit_test_no_1/habit_test_no_1.html";
-    if (answer_0_for_test_page_2 === "option_1") { // раздумья
-        now_state = 1;
-    } else { // постоянство
-        now_state = 4;
-    }
+    now_state = +now_state_from_local_storage;
 }
 
 console.log("negative habit:", localStorage.getItem("negative_habit_name_page_0"));
@@ -51,9 +57,14 @@ accept_button.addEventListener("click", (event) => {
 
     send_data_to_server(url, data_for_send).then(response => {
         localStorage.setItem("active_habit", response["id"]);
-        window.location.href = "../../step_1/method_info/method_info.html";
         localStorage.removeItem("answer_0_for_test_page_1");
         localStorage.removeItem("answer_0_for_test_page_2");
         localStorage.removeItem("negative_habit_name_page_0");
+
+        send_page_name_to_server("new_negative_habit/step_0/final_page/final_page.html").then(r => {
+
+        });
+
+        window.location.href = "../../step_1/method_info/method_info.html";
     });
 });

@@ -40,3 +40,9 @@ input[type="radio"]:checked::before {
     flex-shrink: 0;
     align-self: flex-start;
 }
+
+.question_with_options_holder {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}

@@ -35,3 +35,7 @@ class NewAnotherResult(BaseModel):
 
 class NewNumberOfDaysForMindfulness(BaseModel):
     number_of_days: int
+
+
+class NowPageUrl(BaseModel):
+    page_url: str

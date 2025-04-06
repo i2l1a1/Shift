@@ -34,3 +34,14 @@ export function get_dates_and_times_for_regular_reminders(dates_from_server, tim
     });
     return string_for_user.slice(0, -2);
 }
+
+export function get_text_stage_by_number(stage_number) {
+    const stages = {
+        1: "Этап 1 — раздумье.",
+        2: "Этап 2 — подготовка.",
+        3: "Этап 3 — усилия.",
+        4: "Этап 4 — постоянство.",
+        5: "Этап 5 — сохранение.",
+    };
+    return stages[stage_number];
+}

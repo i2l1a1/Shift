@@ -25,6 +25,37 @@ export let test_1 = {
     },
 };
 
+export let test_2 = {
+    question_1: {
+        question_text: "Я искал информацию о проблеме своего поведения.",
+        options: {
+            option_1: "Да",
+            option_2: "Скорее, да",
+            option_3: "Скорее, нет",
+            option_4: "Нет",
+        }
+    },
+    question_2: {
+        question_text: "Я размышлял о том, что прочитал в статьях и книгах, и о том, как преодолеть мои проблемы.",
+        options: {
+            option_1: "Да",
+            option_2: "Скорее, да",
+            option_3: "Скорее, нет",
+            option_4: "Нет",
+        }
+    },
+    question_3: {
+        question_text: "Я вспомнил, что говорили мне люди о преимуществах изменения моего поведения.",
+        options: {
+            option_1: "Да",
+            option_2: "Скорее, да",
+            option_3: "Скорее, нет",
+            option_4: "Нет",
+        }
+    }
+};
+
+
 export let state_dict = {
     1: "раздумье",
     2: "подготовка",
@@ -49,7 +80,7 @@ export function create_test_options(options_list, parent_element, label_for_loca
 
         let input = create_element("input");
         input.type = "radio";
-        input.name = "answer";
+        input.name = label_for_local_storage;
         input.value = key;
         if (input.value === localStorage.getItem(label_for_local_storage)) {
             input.checked = true;

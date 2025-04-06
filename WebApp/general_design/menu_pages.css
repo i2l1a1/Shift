@@ -71,14 +71,14 @@
     grid-column-gap: 32px;
 }
 
-.one_time_reminder_div, .regular_reminder_div {
+.one_time_reminder_div, .regular_reminder_div, .habit_div {
     background-color: var(--grey-bg);
     border-radius: 12px;
     padding: 16px 12px;
     box-sizing: border-box;
 }
 
-.one_time_reminder_div_inner, .regular_reminder_div_inner {
+.one_time_reminder_div_inner, .regular_reminder_div_inner, .habit_div_inner {
     display: flex;
     column-gap: 12px;
     align-items: center;
@@ -105,13 +105,13 @@
     align-items: center;
 }
 
-.regular_reminder_text_and_dates_times_holder {
+.regular_reminder_text_and_dates_times_holder, .habit_text_and_stage_holder {
     display: flex;
     flex-direction: column;
     row-gap: 8px;
     width: 100%;
 }
 
-.regular_reminder_dates_and_times {
+.regular_reminder_dates_and_times, .habit_stage {
     color: var(--accent-grey);
 }
