@@ -15,9 +15,7 @@ const url_for_check = `http://127.0.0.1:9091/stage_1/get_unlock_status_stage_1/$
 get_data_from_server(url_for_check).then((data_from_server) => {
     let response_status = data_from_server[0];
     data_from_server = data_from_server[1];
-
-    console.log(data_from_server);
-
+    
     if (data_from_server === 1) {
         accept_button.querySelector(".accept_button").setAttribute("href", "../test_after_thinking/test_after_thinking.html");
         window.location.href = "../test_after_thinking/test_after_thinking.html";
@@ -33,8 +31,6 @@ accept_button.addEventListener("click", () => {
     get_data_from_server(url_for_check).then((data_from_server) => {
         let response_status = data_from_server[0];
         data_from_server = data_from_server[1];
-
-        console.log(data_from_server);
 
         if (data_from_server === 1) {
             accept_button.querySelector(".accept_button").setAttribute("href", "../test_after_thinking/test_after_thinking.html");

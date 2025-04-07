@@ -33,6 +33,6 @@ accept_button.addEventListener("click", (event) => {
     });
 });
 
-mobile_focus_for_fields()
+mobile_focus_for_fields();
 
 

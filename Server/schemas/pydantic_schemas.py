@@ -33,7 +33,7 @@ class NewAnotherResult(BaseModel):
     tg_user_id: str
 
 
-class NewNumberOfDaysForMindfulness(BaseModel):
+class NewNumberOfDays(BaseModel):
     number_of_days: int
 
 
@@ -44,3 +44,15 @@ class NowPageUrl(BaseModel):
 class NewSubgoals(BaseModel):
     positive_habit: str
     subgoals: List[str]
+
+
+class NewTriggerFactorsTestAnswers(BaseModel):
+    time_of_days: str
+    situations: str
+    triggers: str
+    behaviour: str
+    consequences: str
+
+
+class NewStartingDate(BaseModel):
+    date: str

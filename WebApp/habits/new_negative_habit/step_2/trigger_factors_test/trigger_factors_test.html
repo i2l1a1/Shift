@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../../../../general_design/body.css">
+    <link rel="stylesheet" href="../../../../general_design/colors.css">
+    <link rel="stylesheet" href="../../../../general_design/page_header.css">
+    <link rel="stylesheet" href="../../../../general_design/accept_button.css">
+    <link rel="stylesheet" href="../../../../general_design/general_styles.css">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1">
+    <title>Title</title>
+</head>
+<body>
+<div class="page_header">
+    <a class="back_button" href="../method_info/method_info.html">
+        <img class="back_button_svg" src="../../../../icons/back_arrow.svg" alt="">
+    </a>
+    <div class="header_label">Вводим привычку</div>
+</div>
+<div class="container">
+    <div class="textarea_fields_holder">
+        <div class="textarea_and_hint_for_user_holder">
+            <textarea class="input_field"
+                      placeholder="Время дня, когда Вы сделали то, от чего хотите избавиться"
+                      id="time_of_days_textarea"></textarea>
+            <div class="hint_for_user">Например, полдень или 19:00.</div>
+        </div>
+
+        <div class="textarea_and_hint_for_user_holder">
+            <textarea class="input_field"
+                      placeholder="Ситуации, вызывающие проблемы"
+                      id="situations_textarea"></textarea>
+            <div class="hint_for_user">Например, стресс на работе.</div>
+        </div>
+
+        <div class="textarea_and_hint_for_user_holder">
+            <textarea class="input_field" placeholder="Пусковые факторы, относящиеся к ситуации и чувствам"
+                      id="triggers_textarea"></textarea>
+            <div class="hint_for_user">Где вы были, что делали, с кем были? Что чувствовали: печаль, счастье, напряжение
+                и так далее?
+            </div>
+        </div>
+
+        <div class="textarea_and_hint_for_user_holder">
+            <textarea class="input_field" placeholder="Поведение" id="behaviour_textarea"></textarea>
+            <div class="hint_for_user">Величина или количественная характеристика проблемного поведения (например,
+                количество выпитого или сумма денег).
+            </div>
+        </div>
+
+        <div class="textarea_and_hint_for_user_holder">
+            <textarea class="input_field" placeholder="Последствия" id="consequences_textarea"></textarea>
+            <div class="hint_for_user">Краткосрочные результаты проблемного поведения, а также долгосрочное воздействие
+                на ваши чувства и реакцию окружающих.
+            </div>
+        </div>
+
+    </div>
+    <div class="accept_button_wrapper">
+        <div class="accept_button_div" id="accept_button">
+            <a class="accept_button" href="../support_group/support_group.html">Далее</a>
+        </div>
+    </div>
+</div>
+</body>
+<script type="module" src="trigger_factors_test.js"></script>
+</html>
