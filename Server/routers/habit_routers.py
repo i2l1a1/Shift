@@ -6,7 +6,7 @@ from data_base.crud import create_new_negative_habit_crud, edit_negative_habit_s
     edit_negative_habit_stage_1_add_number_of_days_for_mindfulness_crud, get_unlock_status_stage_1_crud, \
     get_negative_habits_crud, edit_now_page_crud, get_now_page_for_negative_habit_crud, get_negative_habit_crud, \
     add_subgoals_crud, add_trigger_factors_crud, edit_negative_habit_stage_2_start_trigger_tracking_crud, \
-    get_unlock_status_stage_2_crud, add_starting_date_crud
+    get_unlock_status_stage_2_crud, add_starting_date_crud, get_all_negative_habits_crud
 from schemas.pydantic_schemas import NewNegativeHabit, NewNegativeHabitStage1, NewAnotherResult, \
     NewNumberOfDays, NowPageUrl, NewSubgoals, NewTriggerFactorsTestAnswers, NewStartingDate
 
@@ -21,7 +21,6 @@ async def create_new_negative_habit(new_negative_habit: NewNegativeHabit):
 @habits_router.post("/edit_negative_habit/stage_1/add_positive_habit/{habit_id}")
 async def edit_negative_habit_stage_1_add_positive_habit(habit_id: int,
                                                          new_negative_habit_stage_1: NewNegativeHabitStage1):
-    print(new_negative_habit_stage_1)
     return await edit_negative_habit_stage_1_add_positive_habit_crud(habit_id, new_negative_habit_stage_1, scheduler)
 
 
@@ -57,6 +56,11 @@ async def get_unlock_status_stage_2(habit_id: int):
 @habits_router.get("/get_negative_habits/{user_id}")
 async def get_negative_habits(user_id: str):
     return await get_negative_habits_crud(user_id)
+
+
+@habits_router.get("/get_all_negative_habits")
+async def get_all_negative_habits():
+    return await get_all_negative_habits_crud()
 
 
 @habits_router.get("/get_negative_habit/{habit_id}")

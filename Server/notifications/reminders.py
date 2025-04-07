@@ -23,17 +23,6 @@ async def edit_negative_habit_stage_1_set_ok_status_for_mindfulness_(action_func
     await action_function(reminder_id)
 
 
-async def plan_one_time_action(scheduler, date_and_time, action_function, reminder_id):
-    job = scheduler.add_job(
-        edit_negative_habit_stage_1_set_ok_status_for_mindfulness_,
-        run_date=date_and_time,
-        kwargs={'action_function': action_function,
-                'reminder_id': reminder_id}
-    )
-
-    return job.id
-
-
 async def plan_one_time_reminder(scheduler, notification_text, notification_date, notification_time, user_id,
                                  action_function, reminder_id):
     target_time_datetime = datetime.strptime(f"{notification_date} {notification_time}", "%Y-%m-%d %H:%M")

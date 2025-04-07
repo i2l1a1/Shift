@@ -4,7 +4,7 @@ from sqlalchemy import select
 
 from data_base.data_base_init import SessionLocal
 from data_base.data_base_models import RegularReminders, OneTimeReminder, NegativeHabits
-from notifications.reminders import plan_one_time_reminder, plan_regular_reminder, plan_one_time_action
+from notifications.reminders import plan_one_time_reminder, plan_regular_reminder
 from schemas.pydantic_schemas import NewOneTimeReminder, NewRegularReminder, NewNegativeHabit, NewNegativeHabitStage1, \
     NewAnotherResult, NewNumberOfDays, NewSubgoals, NewTriggerFactorsTestAnswers, NewStartingDate
 from datetime import datetime, timedelta
@@ -79,7 +79,7 @@ async def create_new_negative_habit_crud(new_negative_habit: NewNegativeHabit, s
             negative_habit_name=new_negative_habit.negative_habit_name,
             now_state=new_negative_habit.now_state,
             tg_user_id=new_negative_habit.tg_user_id,
-            job_ids=None
+            job_ids_for_reminders=None
         )
 
         db.add(db_negative_habit)
@@ -136,16 +136,17 @@ async def edit_negative_habit_stage_1_add_positive_habit_crud(habit_id: int, new
         await db.commit()
         await db.refresh(db_habit)
 
-        # job_ids_after_planning = await plan_regular_reminder(
-        #     scheduler,
-        #     f"Выполнили ли Вы сегодня привычку «{db_habit.positive_instead_negative}»?",
-        #     db_habit.dates,
-        #     db_habit.times,
-        #     db_habit.tg_user_id,
-        #     db_habit.id)
-        #
-        # db_habit.job_ids = job_ids_after_planning
-        # await db.commit()
+        job_ids_after_planning = await plan_regular_reminder(
+            scheduler,
+            f"Выполнили ли Вы сегодня привычку «{db_habit.positive_instead_negative}»?",
+            db_habit.dates,
+            db_habit.times,
+            db_habit.tg_user_id,
+            db_habit.id)
+
+        db_habit.job_ids_for_reminders = job_ids_after_planning
+        await db.commit()
+
         return {"is_ok": True}
 
 
@@ -176,11 +177,6 @@ async def edit_negative_habit_stage_1_add_number_of_days_for_mindfulness_crud(ha
 
             db_habit.unlock_date_for_stage_1 = unlock_date.strftime("%Y-%m-%d %H:%M:00")
 
-            job_id = await plan_one_time_action(scheduler,
-                                                db_habit.unlock_date_for_stage_1,
-                                                edit_negative_habit_stage_1_set_ok_status_for_mindfulness_crud,
-                                                db_habit.id)
-
             await db.commit()
             await db.refresh(db_habit)
 
@@ -200,52 +196,49 @@ async def edit_negative_habit_stage_2_start_trigger_tracking_crud(habit_id: int,
 
             db_habit.unlock_date_for_stage_2 = unlock_date.strftime("%Y-%m-%d %H:%M:00")
 
-            job_id = await plan_one_time_action(scheduler,
-                                                db_habit.unlock_date_for_stage_2,
-                                                edit_negative_habit_stage_2_set_ok_status_for_triggers_tracking_crud,
-                                                db_habit.id)
-
             await db.commit()
             await db.refresh(db_habit)
 
         return db_habit.unlock_date_for_stage_2
 
 
-async def edit_negative_habit_stage_1_set_ok_status_for_mindfulness_crud(habit_id: int):
-    async with SessionLocal() as db:
-        db_habit = await db.get(NegativeHabits, habit_id)
-        db_habit.is_unlocked_for_stage_1 = 1
-
-        await db.commit()
-        await db.refresh(db_habit)
-
-
-async def edit_negative_habit_stage_2_set_ok_status_for_triggers_tracking_crud(habit_id: int):
-    async with SessionLocal() as db:
-        db_habit = await db.get(NegativeHabits, habit_id)
-        db_habit.is_unlocked_for_stage_2 = 1
-
-        await db.commit()
-        await db.refresh(db_habit)
-
-
 async def get_unlock_status_stage_1_crud(habit_id: int):
     async with SessionLocal() as db:
         db_habit = await db.get(NegativeHabits, habit_id)
 
-        return db_habit.is_unlocked_for_stage_1
+        if not db_habit.unlock_date_for_stage_1:
+            return 0
+
+        unlock_date = datetime.strptime(db_habit.unlock_date_for_stage_1, "%Y-%m-%d %H:%M:%S")
+        now_time = datetime.now()
+
+        return 1 if now_time >= unlock_date else 0
 
 
 async def get_unlock_status_stage_2_crud(habit_id: int):
     async with SessionLocal() as db:
         db_habit = await db.get(NegativeHabits, habit_id)
 
-        return db_habit.is_unlocked_for_stage_2
+        if not db_habit.unlock_date_for_stage_2:
+            return 0
+
+        unlock_date = datetime.strptime(db_habit.unlock_date_for_stage_2, "%Y-%m-%d %H:%M:%S")
+        now_time = datetime.now()
+
+        return 1 if now_time >= unlock_date else 0
 
 
 async def get_negative_habits_crud(user_id: str):
     async with SessionLocal() as db:
         query = select(NegativeHabits).where(NegativeHabits.tg_user_id == str(user_id))
+        result = await db.execute(query)
+        habits = result.scalars().all()
+    return habits
+
+
+async def get_all_negative_habits_crud():
+    async with SessionLocal() as db:
+        query = select(NegativeHabits)
         result = await db.execute(query)
         habits = result.scalars().all()
     return habits
@@ -262,7 +255,6 @@ async def get_negative_habit_crud(habit_id: int):
 async def edit_now_page_crud(habit_id: int, now_page_url: str):
     async with SessionLocal() as db:
         db_habit = await db.get(NegativeHabits, habit_id)
-        print(db_habit)
         db_habit.now_page = now_page_url
 
         await db.commit()

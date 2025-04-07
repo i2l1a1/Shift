@@ -17,13 +17,16 @@ Base = declarative_base()
 class DataBase(BaseModel):
     one_timer_reminders: List
     regular_reminders: List
+    negative_habits: List
 
 
 async def load_all_data_from_db():
     from routers.reminder_routers import get_one_time_reminders, get_regular_reminders
+    from routers.habit_routers import get_all_negative_habits
 
     DataBase.one_timer_reminders = await get_one_time_reminders()
     DataBase.regular_reminders = await get_regular_reminders()
+    DataBase.negative_habits = await get_all_negative_habits()
 
     return DataBase
 
