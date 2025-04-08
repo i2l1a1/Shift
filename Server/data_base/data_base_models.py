@@ -47,3 +47,4 @@ class NegativeHabits(Base):
     trigger_factors_consequences = Column(String)
     unlock_date_for_stage_2 = Column(String)
     starting_date = Column(String)
+    unlock_date_for_stage_3 = Column(String)
