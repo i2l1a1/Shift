@@ -5,22 +5,22 @@ import aiohttp
 from environs import Env
 
 
-async def _generate_message_on_time(user_id, notification_text, reminder_id, action_function=None):
+async def _generate_message_on_time(user_id, notification_text, reminder_id, with_buttons=False, action_function=None):
     env = Env()
     env.read_env(".env")
     fastapi_url = "http://127.0.0.1:9092"
 
     async with aiohttp.ClientSession(connector=aiohttp.TCPConnector(ssl=False)) as session:
         url = f"{fastapi_url}/send_message_for_user_with_buttons/{user_id}"
-        payload = {"text": notification_text, "habit_id": reminder_id}
+        payload = {
+            "text": notification_text,
+            "habit_id": reminder_id,
+            "with_buttons": with_buttons
+        }
         await session.post(url, json=payload)
 
     if action_function:
         await action_function(reminder_id, False)
-
-
-async def edit_negative_habit_stage_1_set_ok_status_for_mindfulness_(action_function, reminder_id):
-    await action_function(reminder_id)
 
 
 async def plan_one_time_reminder(scheduler, notification_text, notification_date, notification_time, user_id,
@@ -39,7 +39,7 @@ async def plan_one_time_reminder(scheduler, notification_text, notification_date
     return job.id
 
 
-async def plan_regular_reminder(scheduler, notification_text, dates, times, user_id, reminder_id):
+async def plan_regular_reminder(scheduler, notification_text, dates, times, user_id, reminder_id, with_buttons=False):
     job_ids = []
     unique_schedules = set()
 
@@ -52,9 +52,12 @@ async def plan_regular_reminder(scheduler, notification_text, dates, times, user
             job = scheduler.add_job(
                 _generate_message_on_time,
                 trigger=CronTrigger(day_of_week=day, hour=hour, minute=minute),
-                kwargs={'user_id': user_id,
-                        'notification_text': notification_text,
-                        'reminder_id': reminder_id}
+                kwargs={
+                    'user_id': user_id,
+                    'notification_text': notification_text,
+                    'reminder_id': reminder_id,
+                    'with_buttons': with_buttons
+                }
             )
             job_ids.append(job.id)
 

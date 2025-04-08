@@ -58,26 +58,32 @@ async def cmd_start(message: types.Message):
     await message.answer("Сообщение с веб аппом...", reply_markup=webapp_keyboard)
 
 
-class MessageForUserWithButtons(BaseModel):
+class MessageForUser(BaseModel):
     text: str
     habit_id: int
+    with_buttons: bool
 
 
 @app.post("/send_message_for_user_with_buttons/{user_id}")
-async def send_message_for_user_with_buttons(user_id: int, message: MessageForUserWithButtons):
-    yes_button = InlineKeyboardButton(
-        text="✅",
-        callback_data=f"yes_{message.habit_id}"
-    )
-    no_button = InlineKeyboardButton(
-        text="❌",
-        callback_data=f"no_{message.habit_id}"
-    )
-    keyboard = InlineKeyboardMarkup(inline_keyboard=[[no_button, yes_button]])
+async def send_message_for_user_with_buttons(user_id: int, message: MessageForUser):
+    if message.with_buttons:
+        yes_button = InlineKeyboardButton(
+            text="✅",
+            callback_data=f"yes_{message.habit_id}"
+        )
+        no_button = InlineKeyboardButton(
+            text="❌",
+            callback_data=f"no_{message.habit_id}"
+        )
+        keyboard = InlineKeyboardMarkup(inline_keyboard=[[no_button, yes_button]])
 
-    await bot.send_message(user_id,
-                           f"message for user [id={user_id}, reminder_id_in_db={message.habit_id}]: {message.text}",
-                           reply_markup=keyboard)
+        await bot.send_message(user_id,
+                               f"message for user [id={user_id}, reminder_id_in_db={message.habit_id}]: {message.text}",
+                               reply_markup=keyboard)
+    else:
+        await bot.send_message(user_id,
+                               f"message for user [id={user_id}, reminder_id_in_db={message.habit_id}]: {message.text}")
+
     return {"status": "success"}
 
 

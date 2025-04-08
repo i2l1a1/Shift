@@ -142,7 +142,8 @@ async def edit_negative_habit_stage_1_add_positive_habit_crud(habit_id: int, new
             db_habit.dates,
             db_habit.times,
             db_habit.tg_user_id,
-            db_habit.id)
+            db_habit.id,
+            with_buttons=True)
 
         db_habit.job_ids_for_reminders = job_ids_after_planning
         await db.commit()
