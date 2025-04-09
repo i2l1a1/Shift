@@ -6,7 +6,8 @@ from data_base.data_base_init import SessionLocal
 from data_base.data_base_models import RegularReminders, OneTimeReminder, NegativeHabits
 from notifications.reminders import plan_one_time_reminder, plan_regular_reminder
 from schemas.pydantic_schemas import NewOneTimeReminder, NewRegularReminder, NewNegativeHabit, NewNegativeHabitStage1, \
-    NewAnotherResult, NewNumberOfDays, NewSubgoals, NewTriggerFactorsTestAnswers, NewStartingDate
+    NewAnotherResult, NewNumberOfDays, NewSubgoals, NewTriggerFactorsTestAnswers, NewStartingDate, \
+    NewBreakdownTestAnswers
 from datetime import datetime, timedelta
 
 
@@ -242,6 +243,19 @@ async def get_unlock_status_stage_3_crud(habit_id: int):
         return 1 if now_time >= unlock_date else 0
 
 
+async def get_unlock_status_stage_4_crud(habit_id: int):
+    async with SessionLocal() as db:
+        db_habit = await db.get(NegativeHabits, habit_id)
+
+        if not db_habit.unlock_date_for_stage_4:
+            return 0
+
+        unlock_date = datetime.strptime(db_habit.unlock_date_for_stage_4, "%Y-%m-%d %H:%M:%S")
+        now_time = datetime.now()
+
+        return 1 if now_time >= unlock_date else 0
+
+
 async def get_negative_habits_crud(user_id: str):
     async with SessionLocal() as db:
         query = select(NegativeHabits).where(NegativeHabits.tg_user_id == str(user_id))
@@ -305,6 +319,18 @@ async def add_trigger_factors_crud(habit_id: int, trigger_factors: NewTriggerFac
         await db.refresh(db_habit)
 
 
+async def add_breakdown_factors_crud(habit_id: int, breakdown: NewBreakdownTestAnswers):
+    async with SessionLocal() as db:
+        db_habit = await db.get(NegativeHabits, habit_id)
+        db_habit.breakdown_places = breakdown.places
+        db_habit.breakdown_actions = breakdown.actions
+        db_habit.breakdown_when = breakdown.when
+        db_habit.breakdown_who = breakdown.who
+
+        await db.commit()
+        await db.refresh(db_habit)
+
+
 async def add_starting_date_crud(habit_id: int, starting_date: NewStartingDate):
     async with SessionLocal() as db:
         db_habit = await db.get(NegativeHabits, habit_id)
@@ -329,3 +355,20 @@ async def edit_negative_habit_stage_3_start_effort_stage_crud(habit_id, number_o
             await db.refresh(db_habit)
 
         return db_habit.unlock_date_for_stage_3
+
+
+async def edit_negative_habit_stage_4_start_breakdown_tracking_crud(habit_id, number_of_days, scheduler):
+    async with SessionLocal() as db:
+        db_habit = await db.get(NegativeHabits, habit_id)
+
+        if not db_habit.unlock_date_for_stage_4:
+            current_date = datetime.now()
+            # unlock_date = current_date + timedelta(days=new_data.number_of_days)
+            unlock_date = current_date + timedelta(minutes=1)
+
+            db_habit.unlock_date_for_stage_4 = unlock_date.strftime("%Y-%m-%d %H:%M:00")
+
+            await db.commit()
+            await db.refresh(db_habit)
+
+        return db_habit.unlock_date_for_stage_4

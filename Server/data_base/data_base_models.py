@@ -48,3 +48,8 @@ class NegativeHabits(Base):
     unlock_date_for_stage_2 = Column(String)
     starting_date = Column(String)
     unlock_date_for_stage_3 = Column(String)
+    unlock_date_for_stage_4 = Column(String)
+    breakdown_places = Column(String)
+    breakdown_actions = Column(String)
+    breakdown_when = Column(String)
+    breakdown_who = Column(String)

@@ -56,3 +56,10 @@ class NewTriggerFactorsTestAnswers(BaseModel):
 
 class NewStartingDate(BaseModel):
     date: str
+
+
+class NewBreakdownTestAnswers(BaseModel):
+    places: str
+    actions: str
+    when: str
+    who: str

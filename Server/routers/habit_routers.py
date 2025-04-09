@@ -7,9 +7,11 @@ from data_base.crud import create_new_negative_habit_crud, edit_negative_habit_s
     get_negative_habits_crud, edit_now_page_crud, get_now_page_for_negative_habit_crud, get_negative_habit_crud, \
     add_subgoals_crud, add_trigger_factors_crud, edit_negative_habit_stage_2_start_trigger_tracking_crud, \
     get_unlock_status_stage_2_crud, add_starting_date_crud, get_all_negative_habits_crud, \
-    edit_negative_habit_stage_3_start_effort_stage_crud, get_unlock_status_stage_3_crud
+    edit_negative_habit_stage_3_start_effort_stage_crud, get_unlock_status_stage_3_crud, \
+    edit_negative_habit_stage_4_start_breakdown_tracking_crud, get_unlock_status_stage_4_crud, \
+    add_breakdown_factors_crud
 from schemas.pydantic_schemas import NewNegativeHabit, NewNegativeHabitStage1, NewAnotherResult, \
-    NewNumberOfDays, NowPageUrl, NewSubgoals, NewTriggerFactorsTestAnswers, NewStartingDate
+    NewNumberOfDays, NowPageUrl, NewSubgoals, NewTriggerFactorsTestAnswers, NewStartingDate, NewBreakdownTestAnswers
 
 habits_router = APIRouter()
 
@@ -102,3 +104,18 @@ async def edit_negative_habit_stage_3_start_effort_stage(habit_id: int, number_o
 @habits_router.get("/stage_3/get_unlock_status_stage_3/{habit_id}")
 async def get_unlock_status_stage_3(habit_id: int):
     return await get_unlock_status_stage_3_crud(habit_id)
+
+
+@habits_router.post("/edit_negative_habit/stage_4/start_breakdown_tracking/{habit_id}")
+async def edit_negative_habit_stage_4_start_breakdown_tracking(habit_id: int, number_of_days: NewNumberOfDays):
+    return await edit_negative_habit_stage_4_start_breakdown_tracking_crud(habit_id, number_of_days, scheduler)
+
+
+@habits_router.get("/stage_4/get_unlock_status_stage_4/{habit_id}")
+async def get_unlock_status_stage_4(habit_id: int):
+    return await get_unlock_status_stage_4_crud(habit_id)
+
+
+@habits_router.post("/edit_negative_habit/stage_4/add_breakdown_factors/{habit_id}")
+async def add_breakdown_factors(habit_id: int, breakdown_test: NewBreakdownTestAnswers):
+    return await add_breakdown_factors_crud(habit_id, breakdown_test)
