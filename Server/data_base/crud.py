@@ -7,7 +7,7 @@ from data_base.data_base_models import RegularReminders, OneTimeReminder, Negati
 from notifications.reminders import plan_one_time_reminder, plan_regular_reminder
 from schemas.pydantic_schemas import NewOneTimeReminder, NewRegularReminder, NewNegativeHabit, NewNegativeHabitStage1, \
     NewAnotherResult, NewNumberOfDays, NewSubgoals, NewTriggerFactorsTestAnswers, NewStartingDate, \
-    NewBreakdownTestAnswers
+    NewBreakdownTestAnswers, NewStageNumber
 from datetime import datetime, timedelta
 
 
@@ -372,3 +372,12 @@ async def edit_negative_habit_stage_4_start_breakdown_tracking_crud(habit_id, nu
             await db.refresh(db_habit)
 
         return db_habit.unlock_date_for_stage_4
+
+
+async def change_stage_crud(habit_id, stage_number: NewStageNumber):
+    async with SessionLocal() as db:
+        db_habit = await db.get(NegativeHabits, habit_id)
+        db_habit.now_state = stage_number.stage_number
+
+        await db.commit()
+        await db.refresh(db_habit)

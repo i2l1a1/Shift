@@ -1,3 +1,5 @@
+import {send_data_to_server} from "./networking_tools.js";
+
 export function get_current_date() {
     const now = new Date();
     const year = now.getFullYear();
@@ -44,4 +46,17 @@ export function get_text_stage_by_number(stage_number) {
         5: "Этап 5 — сохранение.",
     };
     return stages[stage_number];
+}
+
+
+export function update_stage_number(stage_number) {
+    let data_for_send = {
+        "stage_number": stage_number
+    }
+
+    const url = `http://127.0.0.1:9091/edit_negative_habit/change_stage/${localStorage.getItem("active_habit")}`;
+
+    send_data_to_server(url, data_for_send).then(r => {
+
+    });
 }

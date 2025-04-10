@@ -9,9 +9,10 @@ from data_base.crud import create_new_negative_habit_crud, edit_negative_habit_s
     get_unlock_status_stage_2_crud, add_starting_date_crud, get_all_negative_habits_crud, \
     edit_negative_habit_stage_3_start_effort_stage_crud, get_unlock_status_stage_3_crud, \
     edit_negative_habit_stage_4_start_breakdown_tracking_crud, get_unlock_status_stage_4_crud, \
-    add_breakdown_factors_crud
+    add_breakdown_factors_crud, change_stage_crud
 from schemas.pydantic_schemas import NewNegativeHabit, NewNegativeHabitStage1, NewAnotherResult, \
-    NewNumberOfDays, NowPageUrl, NewSubgoals, NewTriggerFactorsTestAnswers, NewStartingDate, NewBreakdownTestAnswers
+    NewNumberOfDays, NowPageUrl, NewSubgoals, NewTriggerFactorsTestAnswers, NewStartingDate, NewBreakdownTestAnswers, \
+    NewStageNumber
 
 habits_router = APIRouter()
 
@@ -119,3 +120,8 @@ async def get_unlock_status_stage_4(habit_id: int):
 @habits_router.post("/edit_negative_habit/stage_4/add_breakdown_factors/{habit_id}")
 async def add_breakdown_factors(habit_id: int, breakdown_test: NewBreakdownTestAnswers):
     return await add_breakdown_factors_crud(habit_id, breakdown_test)
+
+
+@habits_router.post("/edit_negative_habit/change_stage/{habit_id}")
+async def change_stage(habit_id: int, stage_number: NewStageNumber):
+    return await change_stage_crud(habit_id, stage_number)

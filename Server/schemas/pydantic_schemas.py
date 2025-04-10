@@ -63,3 +63,7 @@ class NewBreakdownTestAnswers(BaseModel):
     actions: str
     when: str
     who: str
+
+
+class NewStageNumber(BaseModel):
+    stage_number: int
