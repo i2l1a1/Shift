@@ -1,4 +1,4 @@
-import {send_data_to_server} from "./networking_tools.js";
+import {get_data_from_server, send_data_to_server} from "./networking_tools.js";
 
 export function get_current_date() {
     const now = new Date();
@@ -58,5 +58,63 @@ export function update_stage_number(stage_number) {
 
     send_data_to_server(url, data_for_send).then(r => {
 
+    });
+}
+
+function get_status_and_date(stage_number) {
+    const url = `http://127.0.0.1:9091/get_negative_habit/${localStorage.getItem("active_habit")}`;
+
+    return get_data_from_server(url).then((data_from_server) => {
+        let response_status = data_from_server[0];
+        data_from_server = data_from_server[1];
+        let unlock_date = data_from_server[0][`unlock_date_for_stage_${stage_number}`];
+
+        const url_for_check = `http://127.0.0.1:9091/stage_${stage_number}/get_unlock_status_stage_${stage_number}/${localStorage.getItem("active_habit")}`;
+
+        return get_data_from_server(url_for_check).then((data_from_server) => {
+            let response_status = data_from_server[0];
+            data_from_server = data_from_server[1];
+            let unlock_status = data_from_server;
+
+            return {
+                "status": unlock_status,
+                "date": unlock_date
+            };
+        });
+    });
+}
+
+export function action_timer(number_of_days, url_for_button, stage_number, url_for_changing) {
+    const accept_button = document.querySelector(".accept_button_div");
+
+    get_status_and_date(stage_number).then((status_and_date) => {
+        if (status_and_date.date !== null) {
+            if (status_and_date.status === 1) {
+                accept_button.querySelector(".accept_button").textContent = "Далее";
+                accept_button.href = url_for_button;
+            } else {
+                accept_button.querySelector(".accept_button").textContent = `Откроется ${status_and_date.date}`;
+            }
+        }
+    });
+
+    accept_button.addEventListener("click", () => {
+        get_status_and_date(stage_number).then((status_and_date) => {
+            if (status_and_date.date !== null) {
+                if (status_and_date.status === 1) {
+                    window.location.href = url_for_button;
+                } else {
+                    accept_button.querySelector(".accept_button").textContent = `Откроется ${status_and_date.date}`;
+                }
+            } else {
+                let data_for_send = {
+                    "number_of_days": number_of_days
+                }
+
+                send_data_to_server(url_for_changing, data_for_send).then(response => {
+                    accept_button.querySelector(".accept_button").textContent = `Откроется ${response}`;
+                });
+            }
+        });
     });
 }
