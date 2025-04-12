@@ -1,11 +1,15 @@
-from datetime import datetime
 from apscheduler.triggers.cron import CronTrigger
 
 import aiohttp
 from environs import Env
 
+from datetime import datetime
 
-async def _generate_message_on_time(user_id, notification_text, reminder_id, with_buttons=False, action_function=None):
+from data_base.data_base_init import SessionLocal
+from data_base.data_base_models import NegativeHabits
+
+
+async def _send_message(user_id, notification_text, reminder_id, with_buttons=False):
     env = Env()
     env.read_env(".env")
     fastapi_url = "http://127.0.0.1:9092"
@@ -18,6 +22,26 @@ async def _generate_message_on_time(user_id, notification_text, reminder_id, wit
             "with_buttons": with_buttons
         }
         await session.post(url, json=payload)
+
+
+async def _generate_message_on_time(user_id, notification_text,
+                                    reminder_id, with_buttons=False,
+                                    action_function=None, for_habit=False):
+    if for_habit:
+        async with SessionLocal() as db:
+            db_habit = await db.get(NegativeHabits, reminder_id)
+
+            print(f"starting_date: {db_habit.starting_date}")
+            print(f"db_habit.unlock_date_for_stage_3: {db_habit.unlock_date_for_stage_3}")
+            print(
+                f'datetime.strptime: {datetime.strptime(db_habit.starting_date, "%Y-%m-%d").date() <= datetime.now().date()}')
+
+            if not db_habit.starting_date or (
+                    db_habit.unlock_date_for_stage_3 and datetime.strptime(db_habit.starting_date,
+                                                                           "%Y-%m-%d").date() <= datetime.now().date()):
+                await _send_message(user_id, notification_text, reminder_id, with_buttons=with_buttons)
+    else:
+        await _send_message(user_id, notification_text, reminder_id)
 
     if action_function:
         await action_function(reminder_id, False)
@@ -39,7 +63,9 @@ async def plan_one_time_reminder(scheduler, notification_text, notification_date
     return job.id
 
 
-async def plan_regular_reminder(scheduler, notification_text, dates, times, user_id, reminder_id, with_buttons=False):
+async def plan_regular_reminder(scheduler, notification_text,
+                                dates, times, user_id,
+                                reminder_id, with_buttons=False, for_habit=False):
     job_ids = []
     unique_schedules = set()
 
@@ -49,6 +75,7 @@ async def plan_regular_reminder(scheduler, notification_text, dates, times, user
 
         if schedule_key not in unique_schedules:
             unique_schedules.add(schedule_key)
+
             job = scheduler.add_job(
                 _generate_message_on_time,
                 trigger=CronTrigger(day_of_week=day, hour=hour, minute=minute),
@@ -56,7 +83,8 @@ async def plan_regular_reminder(scheduler, notification_text, dates, times, user
                     'user_id': user_id,
                     'notification_text': notification_text,
                     'reminder_id': reminder_id,
-                    'with_buttons': with_buttons
+                    'with_buttons': with_buttons,
+                    'for_habit': for_habit
                 }
             )
             job_ids.append(job.id)

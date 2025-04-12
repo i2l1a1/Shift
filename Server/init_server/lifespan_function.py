@@ -36,9 +36,11 @@ async def lifespan(app: FastAPI):
             await db.commit()
 
         for item in all_events_from_db.negative_habits:
-            job_ids = await plan_regular_reminder(scheduler, item.positive_instead_negative, item.dates, item.times,
+            job_ids = await plan_regular_reminder(scheduler,
+                                                  f"Выполнили ли Вы сегодня привычку «{item.positive_instead_negative}»?",
+                                                  item.dates, item.times,
                                                   item.tg_user_id,
-                                                  item.id)
+                                                  item.id, for_habit=True, with_buttons=True)
 
             await db.execute(
                 update(NegativeHabits)

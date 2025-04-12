@@ -1,5 +1,3 @@
-import json
-
 from sqlalchemy import select
 
 from data_base.data_base_init import SessionLocal
@@ -144,7 +142,9 @@ async def edit_negative_habit_stage_1_add_positive_habit_crud(habit_id: int, new
             db_habit.times,
             db_habit.tg_user_id,
             db_habit.id,
-            with_buttons=True)
+            for_habit=True,
+            with_buttons=True
+        )
 
         db_habit.job_ids_for_reminders = job_ids_after_planning
         await db.commit()
@@ -175,7 +175,7 @@ async def edit_negative_habit_stage_1_add_number_of_days_for_mindfulness_crud(ha
         if not db_habit.unlock_date_for_stage_1:
             current_date = datetime.now()
             # unlock_date = current_date + timedelta(days=new_data.number_of_days)
-            unlock_date = current_date + timedelta(minutes=1)
+            unlock_date = current_date + timedelta(minutes=0)
 
             db_habit.unlock_date_for_stage_1 = unlock_date.strftime("%Y-%m-%d %H:%M:00")
 
@@ -194,7 +194,7 @@ async def edit_negative_habit_stage_2_start_trigger_tracking_crud(habit_id: int,
         if not db_habit.unlock_date_for_stage_2:
             current_date = datetime.now()
             # unlock_date = current_date + timedelta(days=new_data.number_of_days)
-            unlock_date = current_date + timedelta(minutes=1)
+            unlock_date = current_date + timedelta(minutes=0)
 
             db_habit.unlock_date_for_stage_2 = unlock_date.strftime("%Y-%m-%d %H:%M:00")
 
@@ -347,7 +347,7 @@ async def edit_negative_habit_stage_3_start_effort_stage_crud(habit_id, number_o
         if not db_habit.unlock_date_for_stage_3:
             current_date = datetime.now()
             # unlock_date = current_date + timedelta(days=new_data.number_of_days)
-            unlock_date = current_date + timedelta(minutes=1)
+            unlock_date = current_date + timedelta(minutes=10)
 
             db_habit.unlock_date_for_stage_3 = unlock_date.strftime("%Y-%m-%d %H:%M:00")
 
@@ -364,7 +364,7 @@ async def edit_negative_habit_stage_4_start_breakdown_tracking_crud(habit_id, nu
         if not db_habit.unlock_date_for_stage_4:
             current_date = datetime.now()
             # unlock_date = current_date + timedelta(days=new_data.number_of_days)
-            unlock_date = current_date + timedelta(minutes=1)
+            unlock_date = current_date + timedelta(minutes=0)
 
             db_habit.unlock_date_for_stage_4 = unlock_date.strftime("%Y-%m-%d %H:%M:00")
 
