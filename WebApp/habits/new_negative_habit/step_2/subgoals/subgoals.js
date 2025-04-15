@@ -8,17 +8,17 @@ import {
     create_input_subgoals,
     take_habit_and_subgoals_from_page
 } from "../../../../tools/graphical_tools.js";
-
-send_page_name_to_server("new_negative_habit/step_2/subgoals/subgoals.html").then(r => {
-
-});
+import {get_item} from "../../../../tools/auxiliary_tools.js";
 
 const accept_button = document.querySelector(".accept_button_div");
 const habit_input_field = document.querySelector(".input_field");
 const input_fields_holder = document.querySelector(".input_fields_holder");
 
+send_page_name_to_server("new_negative_habit/step_2/subgoals/subgoals.html").then(r => {
 
-const url = `http://127.0.0.1:9091/get_negative_habit/${localStorage.getItem("active_habit")}`;
+});
+
+const url = `http://127.0.0.1:9091/get_negative_habit/${get_item("active_habit", false)}`;
 
 get_data_from_server(url).then((data_from_server) => {
     let response_status = data_from_server[0];
@@ -30,7 +30,7 @@ create_input_subgoals(input_fields_holder);
 
 accept_button.addEventListener("click", () => {
     const habit_and_subgoals = take_habit_and_subgoals_from_page();
-    const url = `http://127.0.0.1:9091/edit_negative_habit/stage_2/add_subgoals/${localStorage.getItem("active_habit")}`;
+    const url = `http://127.0.0.1:9091/edit_negative_habit/stage_2/add_subgoals/${get_item("active_habit", false)}`;
 
     let data_for_send = {
         "positive_habit": habit_and_subgoals.positive_habit,

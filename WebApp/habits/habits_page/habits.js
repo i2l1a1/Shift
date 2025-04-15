@@ -1,6 +1,6 @@
 import {get_data_from_server} from "../../tools/networking_tools.js";
 import {create_element} from "../../tools/graphical_tools.js";
-import {get_text_stage_by_number} from "../../tools/auxiliary_tools.js";
+import {get_text_stage_by_number, set_item, remove_item} from "../../tools/auxiliary_tools.js";
 
 const habits_in_process_holder = document.querySelector(".habits_in_process_holder");
 const habits_header = document.querySelector(".habits_header");
@@ -36,9 +36,9 @@ get_data_from_server(url).then((data_from_server) => {
 
         habit_inner.addEventListener("click", () => {
             const active_habit = habit_inner.getAttribute("data-id");
-            localStorage.setItem("active_habit", active_habit);
-
-            localStorage.setItem("now_state", habit.now_state);
+            set_item("active_habit", active_habit, false);
+            set_item("now_state", habit.now_state);
+            remove_item("now_negative_habit_name");
 
             const url_for_now_habit_page = `http://127.0.0.1:9091/get_now_page_for_negative_habit/${active_habit}`
             get_data_from_server(url_for_now_habit_page).then((data_from_server) => {
@@ -55,5 +55,6 @@ get_data_from_server(url).then((data_from_server) => {
 
 
 negative_habit_div.addEventListener("click", () => {
-    localStorage.clear();
+    remove_item("active_habit");
+    remove_item("now_negative_habit_name");
 });

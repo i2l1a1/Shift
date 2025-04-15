@@ -39,6 +39,7 @@ export function get_dates_and_times_for_regular_reminders(dates_from_server, tim
 
 export function get_text_stage_by_number(stage_number) {
     const stages = {
+        0: "Определение этапа",
         1: "Этап 1 — раздумье.",
         2: "Этап 2 — подготовка.",
         3: "Этап 3 — усилия.",
@@ -54,7 +55,7 @@ export function update_stage_number(stage_number) {
         "stage_number": stage_number
     }
 
-    const url = `http://127.0.0.1:9091/edit_negative_habit/change_stage/${localStorage.getItem("active_habit")}`;
+    const url = `http://127.0.0.1:9091/edit_negative_habit/change_stage/${get_item("active_habit", false)}`;
 
     send_data_to_server(url, data_for_send).then(r => {
 
@@ -62,14 +63,14 @@ export function update_stage_number(stage_number) {
 }
 
 function get_status_and_date(stage_number) {
-    const url = `http://127.0.0.1:9091/get_negative_habit/${localStorage.getItem("active_habit")}`;
+    const url = `http://127.0.0.1:9091/get_negative_habit/${get_item("active_habit", false)}`;
 
     return get_data_from_server(url).then((data_from_server) => {
         let response_status = data_from_server[0];
         data_from_server = data_from_server[1];
         let unlock_date = data_from_server[0][`unlock_date_for_stage_${stage_number}`];
 
-        const url_for_check = `http://127.0.0.1:9091/stage_${stage_number}/get_unlock_status_stage_${stage_number}/${localStorage.getItem("active_habit")}`;
+        const url_for_check = `http://127.0.0.1:9091/stage_${stage_number}/get_unlock_status_stage_${stage_number}/${get_item("active_habit", false)}`;
 
         return get_data_from_server(url_for_check).then((data_from_server) => {
             let response_status = data_from_server[0];
@@ -117,4 +118,40 @@ export function action_timer(number_of_days, url_for_button, stage_number, url_f
             }
         });
     });
+}
+
+export function get_item(key, add_postfix = true) {
+    if (add_postfix) {
+        return localStorage.getItem(`${key}_${localStorage.getItem("active_habit")}`);
+    } else {
+        return localStorage.getItem(key);
+    }
+}
+
+export function set_item(key, value, add_postfix = true) {
+    if (add_postfix) {
+        localStorage.setItem(`${key}_${get_item("active_habit", false)}`, value);
+    } else {
+        localStorage.setItem(key, value);
+    }
+}
+
+export function remove_item(key) {
+    localStorage.removeItem(key);
+}
+
+function set_data_from_input_immediately(element, key, add_postfix = true) {
+    element.addEventListener('input', () => {
+        set_item(key, element.value, add_postfix);
+    });
+}
+
+
+function recovery_data_for_input(element, key, add_postfix = true) {
+    element.value = get_item(key, add_postfix);
+}
+
+export function serve_input_field(element, key, add_postfix = true) {
+    set_data_from_input_immediately(element, key, add_postfix);
+    recovery_data_for_input(element, key, add_postfix);
 }

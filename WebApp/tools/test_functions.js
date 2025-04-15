@@ -1,4 +1,5 @@
 import {create_element} from "./graphical_tools.js";
+import {set_item, get_item} from "./auxiliary_tools.js";
 
 export let test_2 = {
     question_1: {
@@ -57,7 +58,7 @@ export function create_test_options(options_list, parent_element, label_for_loca
         input.type = "radio";
         input.name = label_for_local_storage;
         input.value = key;
-        if (input.value === localStorage.getItem(label_for_local_storage)) {
+        if (input.value === get_item(label_for_local_storage)) {
             input.checked = true;
         }
 
@@ -67,7 +68,7 @@ export function create_test_options(options_list, parent_element, label_for_loca
         parent_element.appendChild(label);
 
         input.addEventListener("change", function () {
-            localStorage.setItem(label_for_local_storage, this.value);
+            set_item(label_for_local_storage, this.value);
         });
     }
 }

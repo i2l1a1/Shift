@@ -2,7 +2,7 @@ import {
     get_data_from_server,
     send_page_name_to_server
 } from "../../../../tools/networking_tools.js";
-import {action_timer} from "../../../../tools/auxiliary_tools.js";
+import {action_timer, get_item} from "../../../../tools/auxiliary_tools.js";
 
 send_page_name_to_server("new_negative_habit/step_3/change_statistics/change_statistics.html").then(r => {
 
@@ -14,7 +14,7 @@ const success_bar = document.getElementById("success_bar");
 const failure_bar = document.getElementById("failure_bar");
 
 
-const url = `http://127.0.0.1:9091/get_negative_habit/${localStorage.getItem("active_habit")}`;
+const url = `http://127.0.0.1:9091/get_negative_habit/${get_item("active_habit", false)}`;
 
 get_data_from_server(url).then((data_from_server) => {
     let response_status = data_from_server[0];
@@ -35,4 +35,4 @@ get_data_from_server(url).then((data_from_server) => {
 action_timer(5,
     "../final_page/final_page.html",
     3,
-    `http://127.0.0.1:9091/edit_negative_habit/stage_3/start_effort_stage/${localStorage.getItem("active_habit")}`);
+    `http://127.0.0.1:9091/edit_negative_habit/stage_3/start_effort_stage/${get_item("active_habit", false)}`);

@@ -1,5 +1,6 @@
 import {create_test_options, test_2} from "../../../../tools/test_functions.js";
 import {send_page_name_to_server} from "../../../../tools/networking_tools.js";
+import {get_item} from "../../../../tools/auxiliary_tools.js";
 
 send_page_name_to_server("new_negative_habit/step_1/test_after_thinking/test_after_thinking.html").then(r => {
 
@@ -19,15 +20,15 @@ question_1_with_options.innerHTML = test_2.question_1.question_text;
 question_2_with_options.innerHTML = test_2.question_2.question_text;
 question_3_with_options.innerHTML = test_2.question_3.question_text;
 
-create_test_options(test_2.question_1.options, habit_test_question_1, "answer_1_for_test_page_1");
-create_test_options(test_2.question_2.options, habit_test_question_2, "answer_2_for_test_page_1");
-create_test_options(test_2.question_3.options, habit_test_question_3, "answer_3_for_test_page_1");
+create_test_options(test_2.question_1.options, habit_test_question_1, "answer_1_for_test");
+create_test_options(test_2.question_2.options, habit_test_question_2, "answer_2_for_test");
+create_test_options(test_2.question_3.options, habit_test_question_3, "answer_3_for_test");
 
 accept_button.addEventListener("click", (event) => {
     event.preventDefault();
-    const question_1 = localStorage.getItem("answer_1_for_test_page_1");
-    const question_2 = localStorage.getItem("answer_2_for_test_page_1");
-    const question_3 = localStorage.getItem("answer_3_for_test_page_1");
+    const question_1 = get_item("answer_1_for_test");
+    const question_2 = get_item("answer_2_for_test");
+    const question_3 = get_item("answer_3_for_test");
 
     if (["option_1", "option_2"].includes(question_1) &&
         ["option_1", "option_2"].includes(question_2) &&
