@@ -1,4 +1,5 @@
 import {send_data_to_server, send_page_name_to_server} from "../../../../tools/networking_tools.js";
+import {action_timer} from "../../../../tools/auxiliary_tools.js";
 
 const time_of_days_textarea = document.getElementById("time_of_days_textarea");
 const situations_textarea = document.getElementById("situations_textarea");
@@ -27,3 +28,8 @@ accept_button.addEventListener("click", () => {
 
     });
 });
+
+action_timer(5,
+    "../support_group/support_group.html",
+    2,
+    `http://127.0.0.1:9091/edit_negative_habit/stage_2/start_trigger_tracking/${localStorage.getItem("active_habit")}`);

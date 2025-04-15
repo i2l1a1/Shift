@@ -15,6 +15,11 @@ send_page_name_to_server("new_negative_habit/step_4/breakdown_test/breakdown_tes
 
 const accept_button = document.querySelector(".accept_button_div");
 
+action_timer(5,
+    "../final_page/final_page.html",
+    4,
+    `http://127.0.0.1:9091/edit_negative_habit/stage_4/start_breakdown_tracking/${localStorage.getItem("active_habit")}`);
+
 accept_button.addEventListener("click", () => {
 
     let data_for_send = {
@@ -30,9 +35,3 @@ accept_button.addEventListener("click", () => {
 
     });
 });
-
-
-action_timer(5,
-    "../final_page/final_page.html",
-    4,
-    `http://127.0.0.1:9091/edit_negative_habit/stage_4/start_breakdown_tracking/${localStorage.getItem("active_habit")}`);

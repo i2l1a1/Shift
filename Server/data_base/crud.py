@@ -175,7 +175,7 @@ async def edit_negative_habit_stage_1_add_number_of_days_for_mindfulness_crud(ha
         if not db_habit.unlock_date_for_stage_1:
             current_date = datetime.now()
             # unlock_date = current_date + timedelta(days=new_data.number_of_days)
-            unlock_date = current_date + timedelta(minutes=0)
+            unlock_date = current_date + timedelta(minutes=1)
 
             db_habit.unlock_date_for_stage_1 = unlock_date.strftime("%Y-%m-%d %H:%M:00")
 
@@ -194,7 +194,7 @@ async def edit_negative_habit_stage_2_start_trigger_tracking_crud(habit_id: int,
         if not db_habit.unlock_date_for_stage_2:
             current_date = datetime.now()
             # unlock_date = current_date + timedelta(days=new_data.number_of_days)
-            unlock_date = current_date + timedelta(minutes=0)
+            unlock_date = current_date + timedelta(minutes=1)
 
             db_habit.unlock_date_for_stage_2 = unlock_date.strftime("%Y-%m-%d %H:%M:00")
 
@@ -251,6 +251,19 @@ async def get_unlock_status_stage_4_crud(habit_id: int):
             return 0
 
         unlock_date = datetime.strptime(db_habit.unlock_date_for_stage_4, "%Y-%m-%d %H:%M:%S")
+        now_time = datetime.now()
+
+        return 1 if now_time >= unlock_date else 0
+
+
+async def get_unlock_status_stage_5_crud(habit_id: int):
+    async with SessionLocal() as db:
+        db_habit = await db.get(NegativeHabits, habit_id)
+
+        if not db_habit.unlock_date_for_stage_5:
+            return 0
+
+        unlock_date = datetime.strptime(db_habit.unlock_date_for_stage_5, "%Y-%m-%d %H:%M:%S")
         now_time = datetime.now()
 
         return 1 if now_time >= unlock_date else 0
@@ -347,7 +360,7 @@ async def edit_negative_habit_stage_3_start_effort_stage_crud(habit_id, number_o
         if not db_habit.unlock_date_for_stage_3:
             current_date = datetime.now()
             # unlock_date = current_date + timedelta(days=new_data.number_of_days)
-            unlock_date = current_date + timedelta(minutes=10)
+            unlock_date = current_date + timedelta(minutes=1)
 
             db_habit.unlock_date_for_stage_3 = unlock_date.strftime("%Y-%m-%d %H:%M:00")
 
@@ -364,7 +377,7 @@ async def edit_negative_habit_stage_4_start_breakdown_tracking_crud(habit_id, nu
         if not db_habit.unlock_date_for_stage_4:
             current_date = datetime.now()
             # unlock_date = current_date + timedelta(days=new_data.number_of_days)
-            unlock_date = current_date + timedelta(minutes=0)
+            unlock_date = current_date + timedelta(minutes=1)
 
             db_habit.unlock_date_for_stage_4 = unlock_date.strftime("%Y-%m-%d %H:%M:00")
 
@@ -372,6 +385,23 @@ async def edit_negative_habit_stage_4_start_breakdown_tracking_crud(habit_id, nu
             await db.refresh(db_habit)
 
         return db_habit.unlock_date_for_stage_4
+
+
+async def edit_negative_habit_stage_5_start_list_creating_crud(habit_id, number_of_days):
+    async with SessionLocal() as db:
+        db_habit = await db.get(NegativeHabits, habit_id)
+
+        if not db_habit.unlock_date_for_stage_5:
+            current_date = datetime.now()
+            # unlock_date = current_date + timedelta(days=new_data.number_of_days)
+            unlock_date = current_date + timedelta(minutes=1)
+
+            db_habit.unlock_date_for_stage_5 = unlock_date.strftime("%Y-%m-%d %H:%M:00")
+
+            await db.commit()
+            await db.refresh(db_habit)
+
+        return db_habit.unlock_date_for_stage_5
 
 
 async def change_stage_crud(habit_id, stage_number: NewStageNumber):
