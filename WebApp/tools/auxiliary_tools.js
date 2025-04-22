@@ -92,9 +92,11 @@ export function action_timer(number_of_days, url_for_button, stage_number, url_f
         if (status_and_date.date !== null) {
             if (status_and_date.status === 1) {
                 accept_button.querySelector(".accept_button").textContent = text_for_button_after_action;
-                accept_button.href = url_for_button;
+                // accept_button.href = url_for_button;
+                on_accept_button();
             } else {
                 accept_button.querySelector(".accept_button").textContent = `Откроется ${status_and_date.date}`;
+                off_accept_button();
             }
         }
     });
@@ -154,4 +156,35 @@ function recovery_data_for_input(element, key, add_postfix = true) {
 export function serve_input_field(element, key, add_postfix = true) {
     set_data_from_input_immediately(element, key, add_postfix);
     recovery_data_for_input(element, key, add_postfix);
+}
+
+export function on_accept_button() {
+    let accept_button_div = document.querySelector(".accept_button_div");
+    let accept_button = document.querySelector(".accept_button");
+    accept_button_div.classList.remove("accept_button_div_inactive");
+    accept_button.classList.remove("accept_button_inactive");
+    accept_button_div.setAttribute("active", "true");
+}
+
+export function off_accept_button() {
+    let accept_button_div = document.querySelector(".accept_button_div");
+    let accept_button = document.querySelector(".accept_button");
+    accept_button_div.classList.add("accept_button_div_inactive");
+    accept_button.classList.add("accept_button_inactive");
+    accept_button_div.setAttribute("active", "false");
+}
+
+export function serve_accept_button(input_fields) {
+    for (let input_field of input_fields) {
+        if (input_field.value !== "") {
+            on_accept_button();
+        }
+        input_field.addEventListener("input", () => {
+            if (input_field.value !== "") {
+                on_accept_button();
+            } else {
+                off_accept_button();
+            }
+        });
+    }
 }

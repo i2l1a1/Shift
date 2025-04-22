@@ -16,6 +16,10 @@
     padding-left: 28px;
 }
 
+.accept_button_div_inactive {
+    background-color: var(--inactive-blue-sky);
+}
+
 .accept_button {
     display: flex;
     align-items: center;
@@ -26,6 +30,10 @@
     width: 100%;
     height: 100%;
     color: var(--white-text);
+}
+
+.accept_button_inactive {
+    color: var(--inactive-white-text);
 }
 
 .accept_button_wrapper {
