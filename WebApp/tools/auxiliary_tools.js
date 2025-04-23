@@ -85,7 +85,7 @@ function get_status_and_date(stage_number) {
     });
 }
 
-export function action_timer(number_of_days, url_for_button, stage_number, url_for_changing, text_for_button_after_action = "Далее") {
+export function action_timer(number_of_days, url_for_button, stage_number, url_for_changing, text_for_button_after_action = "Далее", reject_href = false, reject_off = false, all_attribute = ["active"]) {
     const accept_button = document.querySelector(".accept_button_div");
 
     get_status_and_date(stage_number).then((status_and_date) => {
@@ -93,10 +93,12 @@ export function action_timer(number_of_days, url_for_button, stage_number, url_f
             if (status_and_date.status === 1) {
                 accept_button.querySelector(".accept_button").textContent = text_for_button_after_action;
                 // accept_button.href = url_for_button;
-                on_accept_button();
+                on_accept_button("active_time", all_attribute);
             } else {
                 accept_button.querySelector(".accept_button").textContent = `Откроется ${status_and_date.date}`;
-                off_accept_button();
+                if (!reject_off) {
+                    off_accept_button("active_time", all_attribute);
+                }
             }
         }
     });
@@ -105,7 +107,9 @@ export function action_timer(number_of_days, url_for_button, stage_number, url_f
         get_status_and_date(stage_number).then((status_and_date) => {
             if (status_and_date.date !== null) {
                 if (status_and_date.status === 1) {
-                    window.location.href = url_for_button;
+                    if (!reject_href) {
+                        window.location.href = url_for_button;
+                    }
                 } else {
                     accept_button.querySelector(".accept_button").textContent = `Откроется ${status_and_date.date}`;
                 }
@@ -158,32 +162,68 @@ export function serve_input_field(element, key, add_postfix = true) {
     recovery_data_for_input(element, key, add_postfix);
 }
 
-export function on_accept_button() {
+export function on_accept_button(attribute = "active", all_attribute = ["active"]) {
     let accept_button_div = document.querySelector(".accept_button_div");
     let accept_button = document.querySelector(".accept_button");
-    accept_button_div.classList.remove("accept_button_div_inactive");
-    accept_button.classList.remove("accept_button_inactive");
-    accept_button_div.setAttribute("active", "true");
-}
 
-export function off_accept_button() {
-    let accept_button_div = document.querySelector(".accept_button_div");
-    let accept_button = document.querySelector(".accept_button");
-    accept_button_div.classList.add("accept_button_div_inactive");
-    accept_button.classList.add("accept_button_inactive");
-    accept_button_div.setAttribute("active", "false");
-}
+    accept_button_div.setAttribute(attribute, "true");
 
-export function serve_accept_button(input_fields) {
-    for (let input_field of input_fields) {
-        if (input_field.value !== "") {
-            on_accept_button();
+    let all_ok = true;
+    for (let elem of all_attribute) {
+        if (accept_button_div.getAttribute(elem) !== "true") {
+            all_ok = false;
         }
+    }
+
+    if (all_ok) {
+        accept_button_div.classList.remove("accept_button_div_inactive");
+        accept_button.classList.remove("accept_button_inactive");
+    }
+}
+
+export function off_accept_button(attribute = "active", all_attribute = ["active"]) {
+    let accept_button_div = document.querySelector(".accept_button_div");
+    let accept_button = document.querySelector(".accept_button");
+
+    accept_button_div.setAttribute(attribute, "false");
+
+    console.log(accept_button_div);
+
+    for (let elem of all_attribute) {
+        if (accept_button_div.getAttribute(elem) !== "true") {
+            accept_button_div.classList.add("accept_button_div_inactive");
+            accept_button.classList.add("accept_button_inactive");
+        }
+    }
+}
+
+export function serve_accept_button(input_fields, all_attribute = ["active"]) {
+    let all_ok = true;
+    for (let input_field of input_fields) {
+        if (input_field.value === "") {
+            all_ok = false;
+        }
+    }
+
+    if (all_ok) {
+        on_accept_button("active", all_attribute);
+    } else {
+        off_accept_button("active", all_attribute);
+    }
+
+    for (let input_field of input_fields) {
         input_field.addEventListener("input", () => {
-            if (input_field.value !== "") {
-                on_accept_button();
+            let all_ok = true;
+            for (let input_field of input_fields) {
+                if (input_field.value === "") {
+                    all_ok = false;
+                }
+            }
+
+            if (all_ok) {
+                on_accept_button("active", all_attribute);
             } else {
-                off_accept_button();
+                off_accept_button("active", all_attribute);
             }
         });
     }

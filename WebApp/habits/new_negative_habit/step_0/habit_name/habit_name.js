@@ -15,6 +15,8 @@ if (current_text_input_field !== "") {
     input_field.textContent = current_text_input_field;
 }
 
+serve_input_field(input_field, "now_negative_habit_name", false);
+
 accept_button.addEventListener("click", (event) => {
     if (accept_button.getAttribute("active") === "true") {
         event.preventDefault();
@@ -36,6 +38,5 @@ accept_button.addEventListener("click", (event) => {
     }
 });
 
-serve_input_field(input_field, "now_negative_habit_name", false);
 serve_accept_button([input_field]);
 mobile_focus_for_fields();

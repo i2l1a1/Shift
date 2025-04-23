@@ -19,7 +19,7 @@ serve_accept_button([
     situations_textarea,
     triggers_textarea,
     behaviour_textarea,
-    consequences_textarea], ["active_data", "active_time"]
+    consequences_textarea], ["active", "active_time"]
 );
 
 send_page_name_to_server("new_negative_habit/step_2/trigger_factors_test/trigger_factors_test.html").then(r => {
@@ -47,11 +47,10 @@ action_timer(5,
     "../support_group/support_group.html",
     2,
     `http://127.0.0.1:9091/edit_negative_habit/stage_2/start_trigger_tracking/${get_item("active_habit", false)}`,
-    "Далее",
-    ["active", "active_time"]);
+    "Далее", true, false, ["active", "active_time"]);
 
 accept_button.addEventListener("click", (event) => {
-    if (accept_button.getAttribute("active_data") === "true" &&
+    if (accept_button.getAttribute("active") === "true" &&
         accept_button.getAttribute("active_time") === "true") {
         event.preventDefault();
         window.location.href = "../support_group/support_group.html";

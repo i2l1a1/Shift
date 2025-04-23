@@ -35,4 +35,8 @@ get_data_from_server(url).then((data_from_server) => {
 action_timer(5,
     "../final_page/final_page.html",
     3,
-    `http://127.0.0.1:9091/edit_negative_habit/stage_3/start_effort_stage/${get_item("active_habit", false)}`);
+    `http://127.0.0.1:9091/edit_negative_habit/stage_3/start_effort_stage/${get_item("active_habit", false)}`,
+    "Далее",
+    false,
+    true,
+    ["active"]);
