@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../../general_design/body.css">
+    <link rel="stylesheet" href="../../general_design/colors.css">
+    <link rel="stylesheet" href="../../general_design/page_header.css">
+    <link rel="stylesheet" href="../../general_design/accept_button.css">
+    <link rel="stylesheet" href="../../general_design/menu_pages.css">
+    <link rel="stylesheet" href="../../general_design/general_styles.css">
+    <link rel="stylesheet" href="../../general_design/question_styles.css">
+    <link rel="stylesheet" href="now_habit.css">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1">
+    <title>Title</title>
+</head>
+<body>
+<div class="page_header">
+    <a class="back_button" href="../../index.html">
+        <img class="back_button_svg" src="../../icons/back_arrow.svg" alt="">
+    </a>
+    <div class="header_label">Этапы</div>
+</div>
+<div class="container">
+    <div class="header">Привычки</div>
+    <div>
+        <div class="header_1">Негативная привычка</div>
+        <div class="text" id="negative_habit_text"></div>
+    </div>
+
+    <div>
+        <div class="header_1" id="positive_habit_header" hidden>Позитивная привычка</div>
+        <div class="text" id="positive_habit_text" hidden></div>
+    </div>
+
+    <div id="subgoals_section" hidden>
+        <div class="header_1">Подцели</div>
+    </div>
+
+    <div class="header" id="now_stage_header" hidden>Текущий этап</div>
+    <div class="text" id="now_stage_text" hidden></div>
+
+    <div class="header" id="progress_header" hidden>Прогресс</div>
+    <div id="success_section" hidden>
+        <div class="header_1">Успехи</div>
+        <div class="text" id="success_counter_text"></div>
+    </div>
+
+    <div id="failure_section" hidden>
+        <div class="header_1">Неудачи</div>
+        <div class="text" id="failure_counter_text"></div>
+    </div>
+
+    <div class="header" id="starting_date_header" hidden>Дата начала</div>
+    <div class="text" id="starting_date_text" hidden></div>
+
+    <div class="header" id="reminders_header" hidden>Напоминания</div>
+    <div class="text" id="reminders_text" hidden></div>
+
+    <div class="header" id="triggers_header" hidden>Пусковые факторы</div>
+    <div id="time_of_days_section" hidden>
+        <div class="header_1">Время суток</div>
+        <div class="text" id="time_of_days_text"></div>
+    </div>
+
+    <div id="situations_section" hidden>
+        <div class="header_1">Ситуации</div>
+        <div class="text" id="situations_text"></div>
+    </div>
+
+    <div id="triggers_section" hidden>
+        <div class="header_1">Чувства</div>
+        <div class="text" id="triggers_text"></div>
+    </div>
+
+    <div id="behaviour_section" hidden>
+        <div class="header_1">Вознаграждение</div>
+        <div class="text" id="behaviour_text"></div>
+    </div>
+
+    <div id="consequences_section" hidden>
+        <div class="header_1">Последствия</div>
+        <div class="text" id="consequences_text"></div>
+    </div>
+
+    <div class="header" id="trigger_section" hidden>Триггеры</div>
+    <div id="breakdown_places_section" hidden>
+        <div class="header_1">Где?</div>
+        <div class="text" id="breakdown_places_text"></div>
+    </div>
+
+    <div id="breakdown_actions_section" hidden>
+        <div class="header_1">Что?</div>
+        <div class="text" id="breakdown_actions_text"></div>
+    </div>
+
+    <div id="breakdown_when_section" hidden>
+        <div class="header_1">Когда?</div>
+        <div class="text" id="breakdown_when_text"></div>
+    </div>
+
+    <div id="breakdown_who_section" hidden>
+        <div class="header_1">Кто?</div>
+        <div class="text" id="breakdown_who_text"></div>
+    </div>
+</div>
+
+<div class="accept_button_wrapper">
+    <div class="accept_button_div" id="accept_button">
+        <a class="accept_button">Продолжить</a>
+    </div>
+</div>
+</body>
+<script type="module" src="now_habit.js"></script>
+</html>

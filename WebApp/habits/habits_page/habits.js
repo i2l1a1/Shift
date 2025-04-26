@@ -26,7 +26,7 @@ get_data_from_server(url).then((data_from_server) => {
 
         let habit_text = create_element("div", "habit_text", habit_text_content);
 
-        let habit_stage = create_element("div", "habit_stage", get_text_stage_by_number(habit.now_state));
+        let habit_stage = create_element("div", "habit_stage", `${get_text_stage_by_number(habit.now_state)}.`);
 
         habits_in_process_holder.appendChild(habit_div);
         habit_div.appendChild(habit_inner);
@@ -46,7 +46,7 @@ get_data_from_server(url).then((data_from_server) => {
                 data_from_server = data_from_server[1];
 
                 console.log(data_from_server);
-                window.location.href = `habits/${data_from_server}`;
+                window.location.href = `habits/now_habit/now_habit.html`;
             });
         });
     }

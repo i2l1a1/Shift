@@ -27,7 +27,7 @@ function get_day_of_week_for_user(days_of_week_from_server) {
     return days_of_week_for_user;
 }
 
-export function get_dates_and_times_for_regular_reminders(dates_from_server, times_from_server) {
+export function convert_dates_and_times_for_user(dates_from_server, times_from_server) {
     dates_from_server = get_day_of_week_for_user(dates_from_server);
     let string_for_user = ""
     dates_from_server.forEach((current_date, index) => {
@@ -40,11 +40,11 @@ export function get_dates_and_times_for_regular_reminders(dates_from_server, tim
 export function get_text_stage_by_number(stage_number) {
     const stages = {
         0: "Определение этапа",
-        1: "Этап 1 — раздумье.",
-        2: "Этап 2 — подготовка.",
-        3: "Этап 3 — усилия.",
-        4: "Этап 4 — постоянство.",
-        5: "Этап 5 — сохранение.",
+        1: "Этап 1 — раздумье",
+        2: "Этап 2 — подготовка",
+        3: "Этап 3 — усилия",
+        4: "Этап 4 — постоянство",
+        5: "Этап 5 — сохранение",
     };
     return stages[stage_number];
 }

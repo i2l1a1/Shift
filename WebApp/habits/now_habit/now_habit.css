@@ -1,0 +1,5 @@
+.subgoal_elem_holder {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}

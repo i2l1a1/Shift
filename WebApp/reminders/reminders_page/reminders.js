@@ -1,6 +1,6 @@
 import {black_bg_color, create_element, create_image} from "../../tools/graphical_tools.js";
 import {get_data_from_server, send_data_to_server} from "../../tools/networking_tools.js";
-import {get_dates_and_times_for_regular_reminders} from "../../tools/auxiliary_tools.js";
+import {convert_dates_and_times_for_user} from "../../tools/auxiliary_tools.js";
 
 let tg = window.Telegram.WebApp;
 
@@ -63,7 +63,7 @@ get_data_from_server("http://127.0.0.1:9091/get_regular_reminders").then((data_f
         let regular_reminder_text_and_dates_times_holder = create_element("div", "regular_reminder_text_and_dates_times_holder");
         let regular_reminder_text = create_element("div", "regular_reminder_text", reminder.text)
         let regular_reminder_dates_and_times = create_element("div", "regular_reminder_dates_and_times",
-            get_dates_and_times_for_regular_reminders(reminder.dates, reminder.times));
+            convert_dates_and_times_for_user(reminder.dates, reminder.times));
 
         regular_reminders_holder.appendChild(regular_reminder_div);
         regular_reminder_div.appendChild(regular_reminder_div_inner);
