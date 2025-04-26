@@ -15,9 +15,6 @@ date_input_field.value = get_current_date();
 
 accept_button.addEventListener("click", (event) => {
     // event.preventDefault();
-    console.log(reminder_input_field.value);
-    console.log(date_input_field.value);
-    console.log(time_input_field.value);
 
     const url = "http://127.0.0.1:9091/new_one_time_reminder";
     let data_for_send = {

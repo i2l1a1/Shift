@@ -1,16 +1,31 @@
 .page_header {
-    position: fixed;
-    width: 100%;
-    display: grid;
+    height: 50px;
+    display: flex;
     align-items: center;
-    grid-template-columns: 44px calc(100% - 88px);
+    justify-content: space-between;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
     background-color: var(--black-bg);
-    z-index: 999;
+    z-index: 1000;
+}
+
+.back_button {
+    display: flex;
+    align-items: center;
 }
 
 .header_label {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    flex: 1;
+    text-align: center;
     font-size: 16px;
+}
+
+.header_label_without_back_button {
+    margin-left: 44px;
+}
+
+.header_label_without_menu_button {
+    margin-right: 44px;
 }

@@ -187,8 +187,6 @@ export function off_accept_button(attribute = "active", all_attribute = ["active
 
     accept_button_div.setAttribute(attribute, "false");
 
-    console.log(accept_button_div);
-
     for (let elem of all_attribute) {
         if (accept_button_div.getAttribute(elem) !== "true") {
             accept_button_div.classList.add("accept_button_div_inactive");

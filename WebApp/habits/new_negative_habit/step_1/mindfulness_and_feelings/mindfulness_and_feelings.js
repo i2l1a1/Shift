@@ -15,5 +15,3 @@ action_timer(5,
     false,
     true,
     ["active"]);
-
-//export function action_timer(number_of_days, url_for_button, stage_number, url_for_changing, text_for_button_after_action = "Далее", reject_href = false, reject_off = false, all_attribute = ["active"]) {

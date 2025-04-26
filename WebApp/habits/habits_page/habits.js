@@ -45,7 +45,6 @@ get_data_from_server(url).then((data_from_server) => {
                 let response_status = data_from_server[0];
                 data_from_server = data_from_server[1];
 
-                console.log(data_from_server);
                 window.location.href = `habits/now_habit/now_habit.html`;
             });
         });

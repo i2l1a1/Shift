@@ -8,11 +8,9 @@ export async function get_data_from_server(url) {
         if (response.ok) {
             return [response.status, await response.json()];
         } else {
-            console.log(response.status);
             return [response.status, ""]
         }
     } catch (error) {
-        console.log(error);
         return [error, ""];
     }
 }

@@ -55,7 +55,6 @@ get_data_from_server("http://127.0.0.1:9091/get_regular_reminders").then((data_f
     data_from_server = data_from_server[1];
     for (const reminder of data_from_server) {
         regular_reminders_header.hidden = false;
-        console.log(reminder);
         let regular_reminder_div = create_element("div", "regular_reminder_div");
         let regular_reminder_div_inner = create_element("div", "regular_reminder_div_inner");
         regular_reminder_div_inner.setAttribute("data-id", reminder.id);
