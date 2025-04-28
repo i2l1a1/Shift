@@ -47,29 +47,26 @@ if (all_ok) {
     on_accept_button("time", ["active", "time"]);
 }
 
-input_fields_holder.addEventListener("input", () => {
 
-    let now_time_input_elements = input_fields_holder.querySelectorAll(".time_input_field");
+function validate_and_save() {
+    const now_time_input_elements = input_fields_holder.querySelectorAll(".time_input_field");
     let all_ok = true;
 
-    let days_and_times = take_dates_and_times_from_page();
-
-    set_item(
-        "days_and_times",
-        JSON.stringify(days_and_times)
-    );
+    const days_and_times = take_dates_and_times_from_page();
+    set_item("days_and_times", JSON.stringify(days_and_times));
 
     if (now_time_input_elements.length === 1) {
         all_ok = false;
     } else {
-        for (let i = 0; i < now_time_input_elements.length; ++i) {
-            if (!is_valid_time(now_time_input_elements[i].value) && now_time_input_elements[i].value) {
+        for (let elem of now_time_input_elements) {
+            if (elem.value && !is_valid_time(elem.value)) {
                 all_ok = false;
+                break;
             }
         }
 
-        const has_any_text = Array.from(now_time_input_elements).some(el => el.value.trim() !== '');
-
+        const has_any_text = Array.from(now_time_input_elements)
+            .some(el => el.value.trim() !== "");
         if (!has_any_text) {
             all_ok = false;
         }
@@ -80,8 +77,15 @@ input_fields_holder.addEventListener("input", () => {
     } else {
         off_accept_button("time", ["active", "time"]);
     }
-});
+}
 
+input_fields_holder.addEventListener("input", validate_and_save);
+
+input_fields_holder.addEventListener("click", (e) => {
+    if (e.target.classList.contains("delete_active_svg")) {
+        validate_and_save();
+    }
+});
 
 accept_button.addEventListener("click", (event) => {
     if (accept_button.getAttribute("active") === "true" &&
@@ -89,8 +93,6 @@ accept_button.addEventListener("click", (event) => {
         event.preventDefault();
 
         let days_and_times = take_dates_and_times_from_page();
-
-        alert(days_and_times.times);
 
         const url = `http://127.0.0.1:9091/edit_negative_habit/stage_1/add_positive_habit/${get_item("active_habit", false)}`;
         let data_for_send = {

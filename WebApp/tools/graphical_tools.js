@@ -42,29 +42,59 @@ function create_drop_down_list() {
 }
 
 export function create_input_date_and_time_fields_holder(elements_holder, icon_path) {
-    const new_input_date_and_time_fields_holder = create_element("div", "input_data_and_time_fields_holder");
+    const new_holder = create_element("div", "input_data_and_time_fields_holder");
+    const active_icon_path = icon_path.replace("delete_inactive.svg", "delete_active.svg");
+
     const new_time_input_field = create_element("input", "time_input_field");
     new_time_input_field.placeholder = "Время...";
     const new_drop_down_list = create_drop_down_list();
-    const new_delete_inactive_svg = create_image("delete_inactive_svg", icon_path);
 
     let need_to_add_date_time_holder = true;
 
-    new_time_input_field.addEventListener('input', function () {
+    new_time_input_field.addEventListener("input", function () {
         if (is_valid_time(new_time_input_field.value) && need_to_add_date_time_holder) {
-            const all_holders = elements_holder.querySelectorAll('.input_data_and_time_fields_holder');
-            if (all_holders[all_holders.length - 1].querySelector(".time_input_field").value) {
+            const all_holders = elements_holder.querySelectorAll(".input_data_and_time_fields_holder");
+            const last_holder = all_holders[all_holders.length - 1];
+            if (last_holder.querySelector(".time_input_field").value) {
                 create_input_date_and_time_fields_holder(elements_holder, icon_path);
             }
             need_to_add_date_time_holder = false;
         }
     });
 
-    elements_holder.appendChild(new_input_date_and_time_fields_holder);
-    new_input_date_and_time_fields_holder.appendChild(new_drop_down_list);
-    new_input_date_and_time_fields_holder.appendChild(new_time_input_field);
-    new_input_date_and_time_fields_holder.appendChild(new_delete_inactive_svg);
+    new_holder.appendChild(new_drop_down_list);
+    new_holder.appendChild(new_time_input_field);
+    elements_holder.appendChild(new_holder);
+
+    function refresh_delete_icons() {
+        const holders = elements_holder.querySelectorAll(".input_data_and_time_fields_holder");
+        holders.forEach((holder, index) => {
+            const old_icon = holder.querySelector("img.delete_active_svg, img.delete_inactive_svg");
+            if (old_icon) {
+                holder.removeChild(old_icon);
+            }
+
+            const is_last = index === holders.length - 1;
+            const icon_file_name = is_last ? "delete_inactive.svg" : "delete_active.svg";
+            const icon_class = is_last ? "delete_inactive_svg" : "delete_active_svg";
+            const icon_src = is_last ? icon_path : active_icon_path;
+            const delete_icon = create_image(icon_class, icon_src, "");
+
+            if (!is_last) {
+                delete_icon.style.cursor = "pointer";
+                delete_icon.addEventListener("click", () => {
+                    elements_holder.removeChild(holder);
+                    refresh_delete_icons();
+                });
+            }
+
+            holder.appendChild(delete_icon);
+        });
+    }
+
+    refresh_delete_icons();
 }
+
 
 export function take_dates_and_times_from_page() {
     const all_input_date_time_holders = document.querySelectorAll(".input_data_and_time_fields_holder");
@@ -91,7 +121,12 @@ export function create_input_date_and_time_fields(icon_path) {
     let need_to_add_date_time_holder = true;
     time_input_field.addEventListener('input', function () {
         if (is_valid_time(time_input_field.value) && need_to_add_date_time_holder) {
-            create_input_date_and_time_fields_holder(input_fields_holder, icon_path);
+
+            const all_holders = input_fields_holder.querySelectorAll(".input_data_and_time_fields_holder");
+            const last_holder = all_holders[all_holders.length - 1];
+            if (last_holder.querySelector(".time_input_field").value) {
+                create_input_date_and_time_fields_holder(input_fields_holder, icon_path);
+            }
             need_to_add_date_time_holder = false;
         }
     });
@@ -133,20 +168,5 @@ export function take_habit_and_subgoals_from_page() {
         "positive_habit": habit_input_field.value,
         "subgoals": subgoals
     }
-
-    // let days_of_week = [];
-    // let times = [];
-    // all_input_date_time_holders.forEach(current_input => {
-    //     let current_day_of_week = current_input.querySelector(".date_input_field").value;
-    //     let current_time = current_input.querySelector(".time_input_field").value;
-    //     if (current_time) {
-    //         days_of_week.push(current_day_of_week);
-    //         times.push(current_time);
-    //     }
-    // });
-    // return {
-    //     "days_of_week": days_of_week,
-    //     "times": times
-    // }
 }
 
