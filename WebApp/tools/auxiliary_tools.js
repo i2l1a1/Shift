@@ -226,3 +226,7 @@ export function serve_accept_button(input_fields, all_attribute = ["active"]) {
         });
     }
 }
+
+export function is_valid_time(time_from_user) {
+    return /^([01]?\d|2[0-3]):[0-5]\d$/.test(time_from_user);
+}

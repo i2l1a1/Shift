@@ -1,3 +1,5 @@
+import {is_valid_time} from "./auxiliary_tools.js";
+
 export const black_bg_color = getComputedStyle(document.querySelector('body')).backgroundColor;
 
 export function create_element(element_type, class_name = "", text_content = "", is_hidden = false) {
@@ -39,7 +41,7 @@ function create_drop_down_list() {
     return new_drop_down_list;
 }
 
-function create_input_date_and_time_fields_holder_(elements_holder, icon_path) {
+export function create_input_date_and_time_fields_holder(elements_holder, icon_path) {
     const new_input_date_and_time_fields_holder = create_element("div", "input_data_and_time_fields_holder");
     const new_time_input_field = create_element("input", "time_input_field");
     new_time_input_field.placeholder = "Время...";
@@ -49,8 +51,11 @@ function create_input_date_and_time_fields_holder_(elements_holder, icon_path) {
     let need_to_add_date_time_holder = true;
 
     new_time_input_field.addEventListener('input', function () {
-        if (new_time_input_field.value.length >= 2 && need_to_add_date_time_holder) {
-            create_input_date_and_time_fields_holder_(elements_holder, icon_path);
+        if (is_valid_time(new_time_input_field.value) && need_to_add_date_time_holder) {
+            const all_holders = elements_holder.querySelectorAll('.input_data_and_time_fields_holder');
+            if (all_holders[all_holders.length - 1].querySelector(".time_input_field").value) {
+                create_input_date_and_time_fields_holder(elements_holder, icon_path);
+            }
             need_to_add_date_time_holder = false;
         }
     });
@@ -85,8 +90,8 @@ export function create_input_date_and_time_fields(icon_path) {
 
     let need_to_add_date_time_holder = true;
     time_input_field.addEventListener('input', function () {
-        if (time_input_field.value.length >= 2 && need_to_add_date_time_holder) {
-            create_input_date_and_time_fields_holder_(input_fields_holder, icon_path);
+        if (is_valid_time(time_input_field.value) && need_to_add_date_time_holder) {
+            create_input_date_and_time_fields_holder(input_fields_holder, icon_path);
             need_to_add_date_time_holder = false;
         }
     });
@@ -101,7 +106,7 @@ export function create_input_subgoals(elements_holder) {
     let need_to_add_subgoal_holder = true;
 
     new_subgoal_input_field.addEventListener('input', function () {
-        if (new_subgoal_input_field.value.length >= 2 && need_to_add_subgoal_holder) {
+        if (is_valid_time(new_subgoal_input_field.value) && need_to_add_subgoal_holder) {
             create_input_subgoals(elements_holder);
             need_to_add_subgoal_holder = false;
         }
