@@ -133,24 +133,58 @@ export function create_input_date_and_time_fields(icon_path) {
 }
 
 export function create_input_subgoals(elements_holder) {
-    const new_subgoal_and_icon_holder = create_element("div", "new_subgoal_and_icon_holder");
+    const active_icon_path = "../../../../icons/delete_active.svg";
+    const inactive_icon_path = "../../../../icons/delete_inactive.svg";
+
+    function refresh_delete_icons() {
+        const holders = elements_holder.querySelectorAll(".new_subgoal_and_icon_holder");
+        holders.forEach((holder, index) => {
+            const old_icon = holder.querySelector("img.delete_active_svg, img.delete_inactive_svg");
+            if (old_icon) {
+                holder.removeChild(old_icon);
+            }
+
+            const is_last = index === holders.length - 1;
+            const icon_src   = is_last ? inactive_icon_path : active_icon_path;
+            const icon_class = is_last ? "delete_inactive_svg" : "delete_active_svg";
+            const delete_icon = create_image(icon_class, icon_src, "");
+
+            if (!is_last) {
+                delete_icon.style.cursor = "pointer";
+                delete_icon.addEventListener("click", () => {
+                    elements_holder.removeChild(holder);
+                    refresh_delete_icons();
+                });
+            }
+
+            holder.appendChild(delete_icon);
+        });
+    }
+
+    const new_holder = create_element("div", "new_subgoal_and_icon_holder");
     const new_subgoal_input_field = create_element("input", "new_subgoal_input_field");
     new_subgoal_input_field.placeholder = "Подцель...";
-    const new_delete_inactive_svg = create_image("delete_inactive_svg", "../../../../icons/delete_inactive.svg");
+
+    elements_holder.appendChild(new_holder);
+    new_holder.appendChild(new_subgoal_input_field);
 
     let need_to_add_subgoal_holder = true;
+    new_subgoal_input_field.addEventListener("input", () => {
+        if (new_subgoal_input_field.value && need_to_add_subgoal_holder) {
 
-    new_subgoal_input_field.addEventListener('input', function () {
-        if (is_valid_time(new_subgoal_input_field.value) && need_to_add_subgoal_holder) {
-            create_input_subgoals(elements_holder);
+            const all_holders = elements_holder.querySelectorAll(".new_subgoal_and_icon_holder");
+            const last_holder = all_holders[all_holders.length - 1];
+            if (last_holder.querySelector(".new_subgoal_input_field").value) {
+                create_input_subgoals(elements_holder);
+            }
+
             need_to_add_subgoal_holder = false;
         }
     });
 
-    elements_holder.appendChild(new_subgoal_and_icon_holder);
-    new_subgoal_and_icon_holder.appendChild(new_subgoal_input_field);
-    new_subgoal_and_icon_holder.appendChild(new_delete_inactive_svg);
+    refresh_delete_icons();
 }
+
 
 export function take_habit_and_subgoals_from_page() {
     const all_input_field_holders = document.querySelectorAll(".new_subgoal_and_icon_holder");

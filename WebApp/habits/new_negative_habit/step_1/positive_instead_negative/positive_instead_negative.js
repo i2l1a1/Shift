@@ -26,27 +26,28 @@ create_input_date_and_time_fields("../../../../icons/delete_inactive.svg");
 
 let loaded_days_and_times = JSON.parse(get_item("days_and_times"));
 
-for (let i = 0; i < loaded_days_and_times.days_of_week.length; ++i) {
-    create_input_date_and_time_fields_holder(input_fields_holder, "../../../../icons/delete_inactive.svg");
-}
+if (loaded_days_and_times) {
+    for (let i = 0; i < loaded_days_and_times.days_of_week.length; ++i) {
+        create_input_date_and_time_fields_holder(input_fields_holder, "../../../../icons/delete_inactive.svg");
+    }
 
-let now_time_input_elements = input_fields_holder.querySelectorAll(".input_data_and_time_fields_holder");
+    let now_time_input_elements = input_fields_holder.querySelectorAll(".input_data_and_time_fields_holder");
 
-let all_ok = true;
+    let all_ok = true;
 
-for (let i = 0; i < loaded_days_and_times.days_of_week.length; ++i) {
-    now_time_input_elements[i].querySelector(".date_input_field").value = loaded_days_and_times.days_of_week[i];
-    now_time_input_elements[i].querySelector(".time_input_field").value = loaded_days_and_times.times[i];
+    for (let i = 0; i < loaded_days_and_times.days_of_week.length; ++i) {
+        now_time_input_elements[i].querySelector(".date_input_field").value = loaded_days_and_times.days_of_week[i];
+        now_time_input_elements[i].querySelector(".time_input_field").value = loaded_days_and_times.times[i];
 
-    if (!is_valid_time(loaded_days_and_times.times[i])) {
-        all_ok = false;
+        if (!is_valid_time(loaded_days_and_times.times[i])) {
+            all_ok = false;
+        }
+    }
+
+    if (all_ok) {
+        on_accept_button("time", ["active", "time"]);
     }
 }
-
-if (all_ok) {
-    on_accept_button("time", ["active", "time"]);
-}
-
 
 function validate_and_save() {
     const now_time_input_elements = input_fields_holder.querySelectorAll(".time_input_field");
