@@ -304,3 +304,7 @@ export function recovery_for_days_and_times(input_fields_holder, add_postfix = t
 export function is_valid_time(time_from_user) {
     return /^([01]?\d|2[0-3]):[0-5]\d$/.test(time_from_user);
 }
+
+export function current_habit_is_negative() {
+    return get_item("current_habit_type", false) === "negative";
+}
