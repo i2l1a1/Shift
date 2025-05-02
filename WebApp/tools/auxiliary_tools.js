@@ -8,6 +8,15 @@ export function get_current_date() {
     return `${year}-${month}-${day}`;
 }
 
+export function check_date(selected_date) {
+    const selected_date_obj = new Date(selected_date);
+
+    const today_date = new Date();
+    today_date.setHours(0, 0, 0, 0);
+
+    return selected_date_obj >= today_date;
+}
+
 function get_day_of_week_for_user(days_of_week_from_server) {
     let days_of_week_for_user = [];
     const days_of_week_for_user_dict = {

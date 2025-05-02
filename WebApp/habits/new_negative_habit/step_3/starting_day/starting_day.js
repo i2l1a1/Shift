@@ -1,5 +1,6 @@
 import {send_data_to_server, send_page_name_to_server} from "../../../../tools/networking_tools.js";
 import {
+    check_date,
     get_current_date,
     get_item,
     off_accept_button,
@@ -14,17 +15,6 @@ send_page_name_to_server("new_negative_habit/step_3/starting_day/starting_day.ht
 
 const accept_button = document.querySelector(".accept_button_div");
 const date_input_field = document.getElementById("date_input_field");
-
-function check_date(selected_date) {
-    selected_date = new Date(date_input_field.value);
-
-    const today_date = new Date();
-    today_date.setHours(0, 0, 0, 0);
-
-    set_item("starting_date", date_input_field.value);
-
-    return selected_date >= today_date;
-}
 
 const prev_date_from_user = get_item("starting_date");
 
