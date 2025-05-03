@@ -16,7 +16,7 @@ const current_text_input_field = get_item("negative_habit_name");
 
 if (current_habit_is_negative()) {
     habit_textarea.placeholder = "Ваша вредная привычка";
-    hint_for_user.textContent = "Например, «курение» или «неподвижный образ жизни». На следующих этапах мы переформулируем её из негативной в позитивную.";
+    hint_for_user.textContent = "Напишите привычку, от которой хотите избавиться. Например, «неподвижный образ жизни» или «переедание». На следующих этапах мы поработаем над её трансформацией в положительное поведение.";
 } else {
     habit_textarea.placeholder = "Желаемая привычка";
     hint_for_user.textContent = "Например, «ЗОЖ» или «чтение книг».";

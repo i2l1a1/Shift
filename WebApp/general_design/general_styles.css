@@ -102,3 +102,21 @@
 .text {
     line-height: 130%;
 }
+
+.text_margin_top {
+    margin-top: 8px;
+}
+
+.hint_for_user_start_button {
+    color: var(--hint-for-user-start-button);
+    font-style: italic;
+}
+
+.custom_ul {
+    padding-left: 24px;
+    margin-top: 12px;
+    margin-bottom: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
