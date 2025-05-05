@@ -31,14 +31,12 @@ async def _generate_message_on_time(user_id, notification_text,
         async with SessionLocal() as db:
             db_habit = await db.get(NegativeHabits, reminder_id)
 
-            print(f"starting_date: {db_habit.starting_date}")
-            print(f"db_habit.unlock_date_for_stage_3: {db_habit.unlock_date_for_stage_3}")
-            print(
-                f'datetime.strptime: {datetime.strptime(db_habit.starting_date, "%Y-%m-%d").date() <= datetime.now().date()}')
+        if db_habit.starting_date and db_habit.unlock_date_for_stage_3:
+            now = datetime.now()
+            start_date = datetime.strptime(db_habit.starting_date, "%Y-%m-%d")
+            unlock_date = datetime.strptime(db_habit.unlock_date_for_stage_3, "%Y-%m-%d %H:%M:%S")
 
-            if not db_habit.starting_date or (
-                    db_habit.unlock_date_for_stage_3 and datetime.strptime(db_habit.starting_date,
-                                                                           "%Y-%m-%d").date() <= datetime.now().date()):
+            if start_date <= now <= unlock_date:
                 await _send_message(user_id, notification_text, reminder_id, with_buttons=with_buttons)
     else:
         await _send_message(user_id, notification_text, reminder_id)
