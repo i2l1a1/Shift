@@ -1,6 +1,12 @@
 import {create_test_options, test_2} from "../../../../tools/test_functions.js";
 import {send_page_name_to_server} from "../../../../tools/networking_tools.js";
-import {get_item, off_accept_button, on_accept_button, set_item} from "../../../../tools/auxiliary_tools.js";
+import {
+    current_habit_is_negative,
+    get_item,
+    off_accept_button,
+    on_accept_button,
+    set_item
+} from "../../../../tools/auxiliary_tools.js";
 
 send_page_name_to_server("new_habit/step_1/test_after_thinking/test_after_thinking.html").then(r => {
 
@@ -16,9 +22,16 @@ const question_1_with_options = document.getElementById("question_1_with_options
 const question_2_with_options = document.getElementById("question_2_with_options");
 const question_3_with_options = document.getElementById("question_3_with_options");
 
-question_1_with_options.innerHTML = test_2.question_1.question_text;
-question_2_with_options.innerHTML = test_2.question_2.question_text;
-question_3_with_options.innerHTML = test_2.question_3.question_text;
+if (current_habit_is_negative()) {
+    question_1_with_options.innerHTML = test_2.question_1.question_text_negative_habit;
+    question_2_with_options.innerHTML = test_2.question_2.question_text_negative_habit;
+    question_3_with_options.innerHTML = test_2.question_3.question_text_negative_habit;
+
+} else {
+    question_1_with_options.innerHTML = test_2.question_1.question_text_positive_habit;
+    question_2_with_options.innerHTML = test_2.question_2.question_text_positive_habit;
+    question_3_with_options.innerHTML = test_2.question_3.question_text_positive_habit;
+}
 
 function all_true(data) {
     for (let elem of data) if (elem === false) return false;

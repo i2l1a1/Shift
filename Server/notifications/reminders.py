@@ -69,24 +69,25 @@ async def plan_regular_reminder(scheduler, notification_text,
     job_ids = []
     unique_schedules = set()
 
-    for day, time in zip(dates, times):
-        hour, minute = map(int, time.split(":"))
-        schedule_key = (day, hour, minute)
+    if dates and times:
+        for day, time in zip(dates, times):
+            hour, minute = map(int, time.split(":"))
+            schedule_key = (day, hour, minute)
 
-        if schedule_key not in unique_schedules:
-            unique_schedules.add(schedule_key)
+            if schedule_key not in unique_schedules:
+                unique_schedules.add(schedule_key)
 
-            job = scheduler.add_job(
-                _generate_message_on_time,
-                trigger=CronTrigger(day_of_week=day, hour=hour, minute=minute),
-                kwargs={
-                    'user_id': user_id,
-                    'notification_text': notification_text,
-                    'reminder_id': reminder_id,
-                    'with_buttons': with_buttons,
-                    'for_habit': for_habit
-                }
-            )
-            job_ids.append(job.id)
+                job = scheduler.add_job(
+                    _generate_message_on_time,
+                    trigger=CronTrigger(day_of_week=day, hour=hour, minute=minute),
+                    kwargs={
+                        'user_id': user_id,
+                        'notification_text': notification_text,
+                        'reminder_id': reminder_id,
+                        'with_buttons': with_buttons,
+                        'for_habit': for_habit
+                    }
+                )
+                job_ids.append(job.id)
 
-    return job_ids
+    return job_ids if job_ids != [] else None

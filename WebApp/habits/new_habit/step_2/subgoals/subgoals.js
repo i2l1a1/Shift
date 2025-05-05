@@ -22,6 +22,12 @@ const habit_input_field = document.querySelector(".input_field");
 const input_fields_holder = document.querySelector(".input_fields_holder");
 const input_field = document.querySelector(".input_field");
 
+if (current_habit_is_negative()) {
+    habit_input_field.placeholder = "Полезная привычка";
+} else {
+    habit_input_field.placeholder = "Желаемая привычка";
+}
+
 send_page_name_to_server("new_habit/step_2/subgoals/subgoals.html").then(r => {
 
 });

@@ -8,14 +8,21 @@ import {
     get_item,
     serve_input_field,
     serve_accept_button,
-    recovery_for_days_and_times, validate_and_save_for_days_and_times
+    recovery_for_days_and_times, validate_and_save_for_days_and_times, current_habit_is_negative
 } from "../../../../tools/auxiliary_tools.js";
 
 const accept_button = document.querySelector(".accept_button_div");
-const reminder_input_field = document.querySelector(".input_field");
+const input_field = document.querySelector(".input_field");
 const input_fields_holder = document.querySelector(".input_fields_holder");
 
-serve_input_field(reminder_input_field, "positive_instead_negative");
+if (current_habit_is_negative()) {
+    input_field.placeholder = "Полезная привычка";
+} else {
+    input_field.placeholder = "Желаемая привычка";
+}
+
+
+serve_input_field(input_field, "positive_instead_negative");
 
 send_page_name_to_server("new_habit/step_1/positive_instead_negative/positive_instead_negative.html").then(r => {
 
@@ -41,7 +48,7 @@ accept_button.addEventListener("click", (event) => {
 
         const url = `http://127.0.0.1:9091/edit_negative_habit/stage_1/add_positive_habit/${get_item("active_habit", false)}`;
         let data_for_send = {
-            "positive_instead_negative": reminder_input_field.value,
+            "positive_instead_negative": input_field.value,
             "dates": days_and_times.days_of_week,
             "times": days_and_times.times,
         }
@@ -52,5 +59,5 @@ accept_button.addEventListener("click", (event) => {
     }
 });
 
-serve_accept_button([reminder_input_field], ["active", "time"]);
+serve_accept_button([input_field], ["active", "time"]);
 mobile_focus_for_fields()
