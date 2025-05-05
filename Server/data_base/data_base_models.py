@@ -24,12 +24,14 @@ class RegularReminders(Base):
     job_ids = Column(JSON)
 
 
-class NegativeHabits(Base):
-    __tablename__ = "negative_habits"
+class HabitModel(Base):
+    __tablename__ = "habits"
 
     id = Column(Integer, primary_key=True, index=True)
     negative_habit_name = Column(String)
     positive_instead_negative = Column(String)
+    habit_type = Column(String)
+
     dates = Column(JSON)
     times = Column(JSON)
     now_state = Column(Integer)

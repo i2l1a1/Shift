@@ -36,7 +36,8 @@ accept_button.addEventListener("click", (event) => {
             "now_state": 0,
             "negative_habit_name": input_field.value,
             // "tg_user_id": window.Telegram.WebApp.initDataUnsafe.user.id.toString()
-            "tg_user_id": "487020656"
+            "tg_user_id": "487020656",
+            "habit_type": current_habit_is_negative() ? "negative" : "positive"
         }
 
         send_data_to_server(url, data_for_send).then(response => {

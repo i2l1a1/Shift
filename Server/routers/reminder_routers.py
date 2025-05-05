@@ -2,9 +2,8 @@ from routers.init_scheduler import scheduler
 from fastapi import APIRouter
 
 from data_base.crud import get_regular_reminders_crud, get_one_time_reminders_crud, create_new_one_time_reminder_crud, \
-    create_new_regular_reminder_crud, delete_one_time_reminder_crud, delete_regular_reminder_crud, \
-    create_new_negative_habit_crud, edit_negative_habit_stage_1_add_positive_habit_crud
-from schemas.pydantic_schemas import NewRegularReminder, NewOneTimeReminder, NewNegativeHabit, NewNegativeHabitStage1
+    create_new_regular_reminder_crud, delete_one_time_reminder_crud, delete_regular_reminder_crud
+from schemas.pydantic_schemas import NewRegularReminder, NewOneTimeReminder
 
 reminders_router = APIRouter()
 
@@ -17,18 +16,6 @@ async def create_new_regular_reminder(new_regular_reminder: NewRegularReminder):
 @reminders_router.post("/new_one_time_reminder")
 async def create_new_one_time_reminder(new_one_time_reminder: NewOneTimeReminder):
     return await create_new_one_time_reminder_crud(new_one_time_reminder, scheduler, delete_one_time_reminder)
-
-
-@reminders_router.post("/new_negative_habit")
-async def create_new_negative_habit(new_negative_habit: NewNegativeHabit):
-    return await create_new_negative_habit_crud(new_negative_habit, scheduler)
-
-
-@reminders_router.post("/edit_negative_habit/stage_1/add_positive_habit/{habit_id}")
-async def edit_negative_habit_stage_1_add_positive_habit(habit_id: int,
-                                                         new_negative_habit_stage_1: NewNegativeHabitStage1):
-    print(new_negative_habit_stage_1)
-    return await edit_negative_habit_stage_1_add_positive_habit_crud(habit_id, new_negative_habit_stage_1, scheduler)
 
 
 @reminders_router.get("/get_one_time_reminders")

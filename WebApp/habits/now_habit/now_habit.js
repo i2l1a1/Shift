@@ -27,8 +27,11 @@ const breakdown_who_text = document.getElementById("breakdown_who_text");
 const trigger_section = document.getElementById("trigger_section");
 
 get_data_from_server(url).then((data_from_server) => {
+
     let response_status = data_from_server[0];
     data_from_server = data_from_server[1][0];
+
+    console.log(data_from_server);
 
     accept_button.querySelector(".accept_button").href = `../${data_from_server["now_page"]}`;
 

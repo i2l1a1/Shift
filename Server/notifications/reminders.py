@@ -6,7 +6,7 @@ from environs import Env
 from datetime import datetime
 
 from data_base.data_base_init import SessionLocal
-from data_base.data_base_models import NegativeHabits
+from data_base.data_base_models import HabitModel
 
 
 async def _send_message(user_id, notification_text, reminder_id, with_buttons=False):
@@ -29,7 +29,7 @@ async def _generate_message_on_time(user_id, notification_text,
                                     action_function=None, for_habit=False):
     if for_habit:
         async with SessionLocal() as db:
-            db_habit = await db.get(NegativeHabits, reminder_id)
+            db_habit = await db.get(HabitModel, reminder_id)
 
         if db_habit.starting_date and db_habit.unlock_date_for_stage_3:
             now = datetime.now()

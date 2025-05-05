@@ -20,6 +20,7 @@ class NewNegativeHabit(BaseModel):
     now_state: int
     negative_habit_name: str
     tg_user_id: str
+    habit_type: str
 
 
 class NewNegativeHabitStage1(BaseModel):
