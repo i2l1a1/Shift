@@ -21,14 +21,9 @@ get_data_from_server(url).then((data_from_server) => {
         let habit_inner = create_element("div", "habit_div_inner");
         habit_inner.setAttribute("data-id", habit.id);
         let habit_text_and_stage_holder = create_element("div", "habit_text_and_stage_holder");
-        let habit_text_content = "";
-        if (habit.habit_type === "negative") {
-            habit_text_content = habit.positive_instead_negative !== null
-                ? habit.positive_instead_negative
-                : `Проблема с «${habit.negative_habit_name}»`;
-        } else {
-            habit_text_content = habit.negative_habit_name;
-        }
+        let habit_text_content = habit.positive_habit_name !== null
+            ? habit.positive_habit_name
+            : `Проблема с «${habit.negative_habit_name}»`;
 
         let habit_text = create_element("div", "habit_text", habit_text_content);
 

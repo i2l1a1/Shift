@@ -22,7 +22,7 @@ if (current_habit_is_negative()) {
 }
 
 
-serve_input_field(input_field, "positive_instead_negative");
+serve_input_field(input_field, "positive_habit_name");
 
 send_page_name_to_server("new_habit/step_1/positive_instead_negative/positive_instead_negative.html").then(r => {
 
@@ -48,7 +48,7 @@ accept_button.addEventListener("click", (event) => {
 
         const url = `http://127.0.0.1:9091/edit_negative_habit/stage_1/add_positive_habit/${get_item("active_habit", false)}`;
         let data_for_send = {
-            "positive_instead_negative": input_field.value,
+            "positive_habit_name": input_field.value,
             "dates": days_and_times.days_of_week,
             "times": days_and_times.times,
         }

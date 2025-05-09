@@ -41,7 +41,7 @@ get_data_from_server(url).then((data_from_server) => {
     if (get_item("now_positive_habit_name") !== "") {
         habit_input_field.value = get_item("now_positive_habit_name");
     } else {
-        habit_input_field.value = data_from_server[0].positive_instead_negative;
+        habit_input_field.value = data_from_server[0].positive_habit_name;
     }
     serve_accept_button([input_field], ["active", "subgoals"]);
 });

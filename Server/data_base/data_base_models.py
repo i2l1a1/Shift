@@ -29,7 +29,7 @@ class HabitModel(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     negative_habit_name = Column(String)
-    positive_instead_negative = Column(String)
+    positive_habit_name = Column(String)
     habit_type = Column(String)
 
     dates = Column(JSON)

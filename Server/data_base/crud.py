@@ -78,8 +78,7 @@ async def create_new_negative_habit_crud(new_negative_habit: NewNegativeHabit, s
             negative_habit_name=new_negative_habit.negative_habit_name,
             now_state=new_negative_habit.now_state,
             tg_user_id=new_negative_habit.tg_user_id,
-            job_ids_for_reminders=None,
-            habit_type=new_negative_habit.habit_type
+            job_ids_for_reminders=None
         )
 
         db.add(db_negative_habit)
@@ -129,7 +128,7 @@ async def edit_negative_habit_stage_1_add_positive_habit_crud(habit_id: int, new
     async with SessionLocal() as db:
         db_habit = await db.get(HabitModel, habit_id)
 
-        db_habit.positive_habit_name = new_data.positive_instead_negative
+        db_habit.positive_habit_name = new_data.positive_habit_name
         db_habit.dates = new_data.dates
         db_habit.times = new_data.times
 
