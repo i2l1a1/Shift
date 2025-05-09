@@ -31,12 +31,13 @@ serve_input_field(input_field, "now_negative_habit_name", false);
 accept_button.addEventListener("click", (event) => {
     if (accept_button.getAttribute("active") === "true") {
         event.preventDefault();
-        const url = "http://127.0.0.1:9091/new_negative_habit";
+        const url = "http://127.0.0.1:9091/new_habit";
         let data_for_send = {
             "now_state": 0,
-            "negative_habit_name": input_field.value,
+            "habit_name": input_field.value,
             // "tg_user_id": window.Telegram.WebApp.initDataUnsafe.user.id.toString()
-            "tg_user_id": "487020656"
+            "tg_user_id": "487020656",
+            "habit_type": get_item("current_habit_type", false)
         }
 
         send_data_to_server(url, data_for_send).then(response => {

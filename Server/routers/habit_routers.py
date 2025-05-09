@@ -1,7 +1,7 @@
 from routers.init_scheduler import scheduler
 from fastapi import APIRouter
 
-from data_base.crud import create_new_negative_habit_crud, edit_negative_habit_stage_1_add_positive_habit_crud, \
+from data_base.crud import create_new_habit_crud, edit_negative_habit_stage_1_add_positive_habit_crud, \
     edit_habit_add_another_result_crud, \
     edit_negative_habit_stage_1_add_number_of_days_for_mindfulness_crud, get_unlock_status_stage_1_crud, \
     get_negative_habits_crud, edit_now_page_crud, get_now_page_for_negative_habit_crud, get_negative_habit_crud, \
@@ -11,16 +11,16 @@ from data_base.crud import create_new_negative_habit_crud, edit_negative_habit_s
     edit_negative_habit_stage_4_start_breakdown_tracking_crud, get_unlock_status_stage_4_crud, \
     add_breakdown_factors_crud, change_stage_crud, edit_negative_habit_stage_5_start_list_creating_crud, \
     get_unlock_status_stage_5_crud
-from schemas.pydantic_schemas import NewNegativeHabit, NewNegativeHabitStage1, NewAnotherResult, \
+from schemas.pydantic_schemas import NewHabit, NewNegativeHabitStage1, NewAnotherResult, \
     NewNumberOfDays, NowPageUrl, NewSubgoals, NewTriggerFactorsTestAnswers, NewStartingDate, NewBreakdownTestAnswers, \
     NewStageNumber
 
 habits_router = APIRouter()
 
 
-@habits_router.post("/new_negative_habit")
-async def create_new_negative_habit(new_negative_habit: NewNegativeHabit):
-    return await create_new_negative_habit_crud(new_negative_habit, scheduler)
+@habits_router.post("/new_habit")
+async def create_new_habit(new_habit: NewHabit):
+    return await create_new_habit_crud(new_habit, scheduler)
 
 
 @habits_router.post("/edit_negative_habit/stage_1/add_positive_habit/{habit_id}")

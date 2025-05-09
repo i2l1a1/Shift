@@ -3,7 +3,7 @@ from sqlalchemy import select
 from data_base.data_base_init import SessionLocal
 from data_base.data_base_models import RegularReminders, OneTimeReminder, HabitModel
 from notifications.reminders import plan_one_time_reminder, plan_regular_reminder
-from schemas.pydantic_schemas import NewOneTimeReminder, NewRegularReminder, NewNegativeHabit, NewNegativeHabitStage1, \
+from schemas.pydantic_schemas import NewOneTimeReminder, NewRegularReminder, NewHabit, NewNegativeHabitStage1, \
     NewAnotherResult, NewNumberOfDays, NewSubgoals, NewTriggerFactorsTestAnswers, NewStartingDate, \
     NewBreakdownTestAnswers, NewStageNumber
 from datetime import datetime, timedelta
@@ -72,20 +72,30 @@ async def create_new_regular_reminder_crud(new_regular_reminder: NewRegularRemin
         return {"is_ok": True}
 
 
-async def create_new_negative_habit_crud(new_negative_habit: NewNegativeHabit, scheduler):
+async def create_new_habit_crud(new_habit: NewHabit, scheduler):
     async with SessionLocal() as db:
-        db_negative_habit = HabitModel(
-            negative_habit_name=new_negative_habit.negative_habit_name,
-            now_state=new_negative_habit.now_state,
-            tg_user_id=new_negative_habit.tg_user_id,
-            job_ids_for_reminders=None
-        )
+        if new_habit.habit_type == "negative":
+            db_habit = HabitModel(
+                negative_habit_name=new_habit.habit_name,
+                now_state=new_habit.now_state,
+                tg_user_id=new_habit.tg_user_id,
+                job_ids_for_reminders=None,
+                habit_type=new_habit.habit_type
+            )
+        else:
+            db_habit = HabitModel(
+                positive_habit_name=new_habit.habit_name,
+                now_state=new_habit.now_state,
+                tg_user_id=new_habit.tg_user_id,
+                job_ids_for_reminders=None,
+                habit_type=new_habit.habit_type
+            )
 
-        db.add(db_negative_habit)
+        db.add(db_habit)
         await db.commit()
-        await db.refresh(db_negative_habit)
+        await db.refresh(db_habit)
 
-        return {"id": db_negative_habit.id}
+        return {"id": db_habit.id}
 
 
 async def delete_one_time_reminder_crud(reminder_id: int, scheduler, delete_from_scheduler=True):
