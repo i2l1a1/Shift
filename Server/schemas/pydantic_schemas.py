@@ -23,7 +23,7 @@ class NewHabit(BaseModel):
     habit_type: str
 
 
-class NewNegativeHabitStage1(BaseModel):
+class NewHabitStage1(BaseModel):
     positive_habit_name: str
     dates: List[str]
     times: List[str]

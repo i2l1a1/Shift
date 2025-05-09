@@ -3,7 +3,7 @@ from sqlalchemy import select
 from data_base.data_base_init import SessionLocal
 from data_base.data_base_models import RegularReminders, OneTimeReminder, HabitModel
 from notifications.reminders import plan_one_time_reminder, plan_regular_reminder
-from schemas.pydantic_schemas import NewOneTimeReminder, NewRegularReminder, NewHabit, NewNegativeHabitStage1, \
+from schemas.pydantic_schemas import NewOneTimeReminder, NewRegularReminder, NewHabit, NewHabitStage1, \
     NewAnotherResult, NewNumberOfDays, NewSubgoals, NewTriggerFactorsTestAnswers, NewStartingDate, \
     NewBreakdownTestAnswers, NewStageNumber
 from datetime import datetime, timedelta
@@ -133,8 +133,8 @@ async def delete_regular_reminder_crud(reminder_id: int, scheduler, delete_from_
         return {"is_ok": True}
 
 
-async def edit_negative_habit_stage_1_add_positive_habit_crud(habit_id: int, new_data: NewNegativeHabitStage1,
-                                                              scheduler):
+async def edit_habit_stage_1_add_or_change_positive_habit_crud(habit_id: int, new_data: NewHabitStage1,
+                                                               scheduler):
     async with SessionLocal() as db:
         db_habit = await db.get(HabitModel, habit_id)
 

@@ -46,7 +46,7 @@ accept_button.addEventListener("click", (event) => {
 
         let days_and_times = take_dates_and_times_from_page();
 
-        const url = `http://127.0.0.1:9091/edit_negative_habit/stage_1/add_positive_habit/${get_item("active_habit", false)}`;
+        const url = `http://127.0.0.1:9091/edit_habit/stage_1/add_or_change_positive_habit/${get_item("active_habit", false)}`;
         let data_for_send = {
             "positive_habit_name": input_field.value,
             "dates": days_and_times.days_of_week,

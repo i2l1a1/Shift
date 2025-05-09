@@ -16,10 +16,12 @@ get_data_from_server(url).then((data_from_server) => {
     data_from_server = data_from_server[1];
 
     for (const habit of data_from_server) {
+        console.log(habit);
         habits_header.hidden = false;
         let habit_div = create_element("div", "habit_div");
         let habit_inner = create_element("div", "habit_div_inner");
         habit_inner.setAttribute("data-id", habit.id);
+        habit_inner.setAttribute("habit-type", habit.habit_type);
         let habit_text_and_stage_holder = create_element("div", "habit_text_and_stage_holder");
         let habit_text_content = habit.positive_habit_name !== null
             ? habit.positive_habit_name
@@ -37,7 +39,9 @@ get_data_from_server(url).then((data_from_server) => {
 
         habit_inner.addEventListener("click", () => {
             const active_habit = habit_inner.getAttribute("data-id");
+            const current_habit_type = habit_inner.getAttribute("habit-type");
             set_item("active_habit", active_habit, false);
+            set_item("current_habit_type", current_habit_type, false);
             set_item("now_state", habit.now_state);
             remove_item("now_negative_habit_name");
 
