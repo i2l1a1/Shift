@@ -117,7 +117,7 @@ async def get_unlock_status_stage_5(habit_id: int):
     return await get_unlock_status_stage_5_crud(habit_id)
 
 
-@habits_router.post("/edit_negative_habit/stage_4/add_breakdown_factors/{habit_id}")
+@habits_router.post("/edit_habit/stage_4/add_breakdown_factors/{habit_id}")
 async def add_breakdown_factors(habit_id: int, breakdown_test: NewBreakdownTestAnswers):
     return await add_breakdown_factors_crud(habit_id, breakdown_test)
 

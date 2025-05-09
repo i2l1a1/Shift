@@ -44,7 +44,7 @@ accept_button.addEventListener("click", (event) => {
             "who": who_textarea.value,
         }
 
-        const url = `http://127.0.0.1:9091/edit_negative_habit/stage_4/add_breakdown_factors/${get_item("active_habit", false)}`;
+        const url = `http://127.0.0.1:9091/edit_habit/stage_4/add_breakdown_factors/${get_item("active_habit", false)}`;
 
         send_data_to_server(url, data_for_send).then(r => {
             window.location.href = "../final_page/final_page.html";
