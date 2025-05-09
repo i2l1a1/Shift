@@ -105,7 +105,7 @@ accept_button.addEventListener("click", (event) => {
         accept_button.getAttribute("subgoals") === "true") {
         event.preventDefault();
         const habit_and_subgoals = take_habit_and_subgoals_from_page();
-        const url = `http://127.0.0.1:9091/edit_negative_habit/stage_2/add_subgoals/${get_item("active_habit", false)}`;
+        const url = `http://127.0.0.1:9091/edit_habit/stage_2/add_subgoals/${get_item("active_habit", false)}`;
 
         let data_for_send = {
             "positive_habit": habit_and_subgoals.positive_habit,

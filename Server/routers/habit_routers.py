@@ -72,7 +72,7 @@ async def edit_now_page(habit_id: int, now_page_url: NowPageUrl):
     return await edit_now_page_crud(habit_id, now_page_url.page_url)
 
 
-@habits_router.post("/edit_negative_habit/stage_2/add_subgoals/{habit_id}")
+@habits_router.post("/edit_habit/stage_2/add_subgoals/{habit_id}")
 async def add_subgoals(habit_id: int, new_subgoals: NewSubgoals):
     return await add_subgoals_crud(habit_id, new_subgoals)
 
