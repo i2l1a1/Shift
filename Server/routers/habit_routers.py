@@ -87,7 +87,7 @@ async def add_trigger_factors(habit_id: int, trigger_factors: NewTriggerFactorsT
     return await add_trigger_factors_crud(habit_id, trigger_factors)
 
 
-@habits_router.post("/edit_negative_habit/stage_2/add_starting_date/{habit_id}")
+@habits_router.post("/edit_habit/stage_2/add_starting_date/{habit_id}")
 async def add_starting_date(habit_id: int, new_starting_date: NewStartingDate):
     return await add_starting_date_crud(habit_id, new_starting_date)
 

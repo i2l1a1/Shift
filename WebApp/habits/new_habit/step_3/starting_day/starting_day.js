@@ -43,7 +43,7 @@ date_input_field.addEventListener("input", () => {
 accept_button.addEventListener("click", (event) => {
     if (accept_button.getAttribute("active") === "true") {
         event.preventDefault();
-        const url = `http://127.0.0.1:9091/edit_negative_habit/stage_2/add_starting_date/${get_item("active_habit", false)}`;
+        const url = `http://127.0.0.1:9091/edit_habit/stage_2/add_starting_date/${get_item("active_habit", false)}`;
         let data_for_send = {
             "date": date_input_field.value
         }
