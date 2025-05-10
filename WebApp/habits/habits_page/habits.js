@@ -1,4 +1,4 @@
-import {get_data_from_server, server_url} from "../../tools/networking_tools.js";
+import {get_data_from_server, server_url, tg_user_id} from "../../tools/networking_tools.js";
 import {create_element} from "../../tools/graphical_tools.js";
 import {get_text_stage_by_number, set_item, remove_item} from "../../tools/auxiliary_tools.js";
 
@@ -7,8 +7,6 @@ const habits_header = document.querySelector(".habits_header");
 const negative_habit_div = document.getElementById("negative_habit_div");
 const positive_habit_div = document.getElementById("positive_habit_div");
 
-// const tg_user_id = window.Telegram.WebApp.initDataUnsafe.user.id.toString()
-const tg_user_id = "487020656";
 const url = `${server_url}/get_negative_habits/${tg_user_id}`;
 
 get_data_from_server(url).then((data_from_server) => {

@@ -5,7 +5,12 @@ import {
     serve_input_field,
     serve_accept_button, current_habit_is_negative, remove_item
 } from "../../../../tools/auxiliary_tools.js";
-import {send_data_to_server, send_page_name_to_server, server_url} from "../../../../tools/networking_tools.js";
+import {
+    send_data_to_server,
+    send_page_name_to_server,
+    server_url,
+    tg_user_id
+} from "../../../../tools/networking_tools.js";
 
 const accept_button = document.querySelector(".accept_button_div");
 const input_field = document.querySelector(".input_field");
@@ -31,8 +36,7 @@ accept_button.addEventListener("click", (event) => {
         let data_for_send = {
             "now_state": 0,
             "habit_name": input_field.value,
-            // "tg_user_id": window.Telegram.WebApp.initDataUnsafe.user.id.toString()
-            "tg_user_id": "487020656",
+            "tg_user_id": tg_user_id,
             "habit_type": get_item("current_habit_type", false)
         }
 

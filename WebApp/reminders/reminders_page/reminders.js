@@ -1,5 +1,5 @@
 import {black_bg_color, create_element, create_image} from "../../tools/graphical_tools.js";
-import {get_data_from_server, send_data_to_server, server_url} from "../../tools/networking_tools.js";
+import {get_data_from_server, send_data_to_server, server_url, tg_user_id} from "../../tools/networking_tools.js";
 import {convert_dates_and_times_for_user} from "../../tools/auxiliary_tools.js";
 
 let tg = window.Telegram.WebApp;
@@ -11,7 +11,8 @@ let regular_reminders_holder = document.querySelector(".regular_reminders_holder
 let one_time_reminders_header = document.querySelector('.one_time_reminders_header');
 let regular_reminders_header = document.querySelector('.regular_reminders_header');
 
-get_data_from_server(`${server_url}/get_one_time_reminders`).then((data_from_server) => {
+
+get_data_from_server(`${server_url}/get_one_time_reminders/${tg_user_id}`).then((data_from_server) => {
     let response_status = data_from_server[0];
     data_from_server = data_from_server[1];
     for (const reminder of data_from_server) {
@@ -50,7 +51,7 @@ get_data_from_server(`${server_url}/get_one_time_reminders`).then((data_from_ser
     }
 });
 
-get_data_from_server(`${server_url}/get_regular_reminders`).then((data_from_server) => {
+get_data_from_server(`${server_url}/get_regular_reminders/${tg_user_id}`).then((data_from_server) => {
     let response_status = data_from_server[0];
     data_from_server = data_from_server[1];
     for (const reminder of data_from_server) {

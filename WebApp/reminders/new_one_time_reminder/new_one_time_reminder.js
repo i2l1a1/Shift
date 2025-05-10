@@ -1,4 +1,4 @@
-import {send_data_to_server, server_url} from "../../tools/networking_tools.js";
+import {send_data_to_server, server_url, tg_user_id} from "../../tools/networking_tools.js";
 import {
     check_date,
     get_current_date,
@@ -88,8 +88,7 @@ accept_button.addEventListener("click", (event) => {
             "text": reminder_input_field.value,
             "date": date_input_field.value,
             "time": time_input_field.value,
-            // "tg_user_id": window.Telegram.WebApp.initDataUnsafe.user.id.toString()
-            "tg_user_id": "487020656"
+            "tg_user_id": tg_user_id
         }
 
         send_data_to_server(url, data_for_send).then(r => {

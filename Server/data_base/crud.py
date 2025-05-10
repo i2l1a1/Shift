@@ -9,16 +9,26 @@ from schemas.pydantic_schemas import NewOneTimeReminder, NewRegularReminder, New
 from datetime import datetime, timedelta
 
 
-async def get_one_time_reminders_crud():
+async def get_one_time_reminders_crud(user_id):
     async with SessionLocal() as db:
-        result = await db.execute(select(OneTimeReminder))
+        if user_id:
+            result = await db.execute(
+                select(OneTimeReminder).where(OneTimeReminder.tg_user_id == str(user_id))
+            )
+        else:
+            result = await db.execute(select(OneTimeReminder))
         reminders = result.scalars().all()
     return reminders
 
 
-async def get_regular_reminders_crud():
+async def get_regular_reminders_crud(user_id):
     async with SessionLocal() as db:
-        result = await db.execute(select(RegularReminders))
+        if user_id:
+            result = await db.execute(
+                select(RegularReminders).where(RegularReminders.tg_user_id == str(user_id))
+            )
+        else:
+            result = await db.execute(select(RegularReminders))
         reminders = result.scalars().all()
     return reminders
 

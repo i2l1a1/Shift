@@ -1,5 +1,5 @@
 import {mobile_focus_for_fields} from "../../tools/mobile_adaptations.js";
-import {send_data_to_server, server_url} from "../../tools/networking_tools.js";
+import {send_data_to_server, server_url, tg_user_id} from "../../tools/networking_tools.js";
 import {
     create_input_date_and_time_fields,
     take_dates_and_times_from_page
@@ -42,8 +42,7 @@ accept_button.addEventListener("click", (event) => {
             "text": reminder_input_field.value,
             "dates": days_and_times.days_of_week,
             "times": days_and_times.times,
-            // "tg_user_id": window.Telegram.WebApp.initDataUnsafe.user.id.toString()
-            "tg_user_id": "487020656"
+            "tg_user_id": tg_user_id
         }
 
         send_data_to_server(url, data_for_send).then(r => {

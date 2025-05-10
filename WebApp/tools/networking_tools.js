@@ -1,6 +1,9 @@
 import {get_item} from "./auxiliary_tools.js";
 
 export const server_url = "http://127.0.0.1:9091";
+export const tg_user_id = "123";
+
+// export const tg_user_id = window.Telegram.WebApp.initDataUnsafe.user.id.toString();
 
 export async function get_data_from_server(url) {
     try {
