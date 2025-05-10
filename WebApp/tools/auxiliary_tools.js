@@ -152,8 +152,12 @@ export function set_item(key, value, add_postfix = true) {
     }
 }
 
-export function remove_item(key) {
-    localStorage.removeItem(key);
+export function remove_item(key, add_postfix = false) {
+    if (add_postfix) {
+        return localStorage.removeItem(`${key}_${localStorage.getItem("active_habit")}`);
+    } else {
+        return localStorage.removeItem(key);
+    }
 }
 
 function set_data_from_input_immediately(element, key, add_postfix = true) {
