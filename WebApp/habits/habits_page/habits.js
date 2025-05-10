@@ -1,4 +1,4 @@
-import {get_data_from_server} from "../../tools/networking_tools.js";
+import {get_data_from_server, server_url} from "../../tools/networking_tools.js";
 import {create_element} from "../../tools/graphical_tools.js";
 import {get_text_stage_by_number, set_item, remove_item} from "../../tools/auxiliary_tools.js";
 
@@ -9,7 +9,7 @@ const positive_habit_div = document.getElementById("positive_habit_div");
 
 // const tg_user_id = window.Telegram.WebApp.initDataUnsafe.user.id.toString()
 const tg_user_id = "487020656";
-const url = `http://127.0.0.1:9091/get_negative_habits/${tg_user_id}`;
+const url = `${server_url}/get_negative_habits/${tg_user_id}`;
 
 get_data_from_server(url).then((data_from_server) => {
     let response_status = data_from_server[0];
@@ -43,7 +43,7 @@ get_data_from_server(url).then((data_from_server) => {
             set_item("current_habit_type", current_habit_type, false);
             set_item("now_state", habit.now_state);
 
-            const url_for_now_habit_page = `http://127.0.0.1:9091/get_now_page_for_negative_habit/${active_habit}`
+            const url_for_now_habit_page = `${server_url}/get_now_page_for_negative_habit/${active_habit}`
             get_data_from_server(url_for_now_habit_page).then((data_from_server) => {
                 let response_status = data_from_server[0];
                 data_from_server = data_from_server[1];

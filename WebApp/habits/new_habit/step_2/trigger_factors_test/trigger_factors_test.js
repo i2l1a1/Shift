@@ -1,8 +1,8 @@
-import {send_data_to_server, send_page_name_to_server} from "../../../../tools/networking_tools.js";
+import {send_data_to_server, send_page_name_to_server, server_url} from "../../../../tools/networking_tools.js";
 import {
     action_timer,
     current_habit_is_negative,
-    get_item, get_status_and_date, off_accept_button, on_accept_button,
+    get_item, get_status_and_date,
     serve_accept_button,
     serve_input_field
 } from "../../../../tools/auxiliary_tools.js";
@@ -71,7 +71,7 @@ accept_button.addEventListener("click", () => {
         "trigger_factors_answer_5": textarea_5.value,
     }
 
-    const url = `http://127.0.0.1:9091/edit_habit/stage_2/add_trigger_factors/${get_item("active_habit", false)}`;
+    const url = `${server_url}/edit_habit/stage_2/add_trigger_factors/${get_item("active_habit", false)}`;
 
     send_data_to_server(url, data_for_send).then(r => {
 
@@ -81,7 +81,7 @@ accept_button.addEventListener("click", () => {
 action_timer(5,
     "../support_group/support_group.html",
     2,
-    `http://127.0.0.1:9091/edit_habit/stage_2/start_trigger_tracking/${get_item("active_habit", false)}`,
+    `${server_url}/edit_habit/stage_2/start_trigger_tracking/${get_item("active_habit", false)}`,
     "Далее", true, false, ["active", "active_time"]);
 
 accept_button.addEventListener("click", (event) => {

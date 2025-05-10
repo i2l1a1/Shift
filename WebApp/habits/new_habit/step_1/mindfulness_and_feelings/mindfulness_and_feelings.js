@@ -1,5 +1,5 @@
 import {
-    send_page_name_to_server
+    send_page_name_to_server, server_url
 } from "../../../../tools/networking_tools.js";
 
 import {
@@ -59,7 +59,7 @@ hint_start_button.textContent = "Чтобы начать отсчёт време
 action_timer(5,
     "../test_after_thinking/test_after_thinking.html",
     1,
-    `http://127.0.0.1:9091/edit_negative_habit/stage_1/add_number_of_days_for_mindfulness/${get_item("active_habit", false)}`,
+    `${server_url}/edit_negative_habit/stage_1/add_number_of_days_for_mindfulness/${get_item("active_habit", false)}`,
     "Далее",
     false,
     true,

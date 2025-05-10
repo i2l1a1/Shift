@@ -2,7 +2,7 @@ import {mobile_focus_for_fields} from "../../../../tools/mobile_adaptations.js";
 import {
     get_data_from_server,
     send_data_to_server,
-    send_page_name_to_server
+    send_page_name_to_server, server_url
 } from "../../../../tools/networking_tools.js";
 import {
     create_input_date_and_time_fields,
@@ -28,7 +28,7 @@ if (current_habit_is_negative()) {
 
 serve_input_field(input_field, "positive_habit_name");
 
-get_data_from_server(`http://127.0.0.1:9091/get_negative_habit/${get_item("active_habit", false)}`).then(data_from_server => {
+get_data_from_server(`${server_url}/get_negative_habit/${get_item("active_habit", false)}`).then(data_from_server => {
     data_from_server = data_from_server[1][0];
     if (!current_habit_is_negative()) {
         if (get_item("positive_habit_name")) {
@@ -62,7 +62,7 @@ accept_button.addEventListener("click", (event) => {
 
         let days_and_times = take_dates_and_times_from_page();
 
-        const url = `http://127.0.0.1:9091/edit_habit/stage_1/add_or_change_positive_habit/${get_item("active_habit", false)}`;
+        const url = `${server_url}/edit_habit/stage_1/add_or_change_positive_habit/${get_item("active_habit", false)}`;
         let data_for_send = {
             "positive_habit_name": input_field.value,
             "dates": days_and_times.days_of_week,

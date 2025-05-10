@@ -5,7 +5,7 @@ import {
     serve_input_field,
     serve_accept_button, current_habit_is_negative, remove_item
 } from "../../../../tools/auxiliary_tools.js";
-import {send_data_to_server, send_page_name_to_server} from "../../../../tools/networking_tools.js";
+import {send_data_to_server, send_page_name_to_server, server_url} from "../../../../tools/networking_tools.js";
 
 const accept_button = document.querySelector(".accept_button_div");
 const input_field = document.querySelector(".input_field");
@@ -27,7 +27,7 @@ if (current_habit_is_negative()) {
 accept_button.addEventListener("click", (event) => {
     if (accept_button.getAttribute("active") === "true") {
         event.preventDefault();
-        const url = "http://127.0.0.1:9091/new_habit";
+        const url = `${server_url}/new_habit`;
         let data_for_send = {
             "now_state": 0,
             "habit_name": input_field.value,

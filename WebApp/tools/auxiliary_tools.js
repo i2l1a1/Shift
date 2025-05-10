@@ -1,4 +1,4 @@
-import {get_data_from_server, send_data_to_server} from "./networking_tools.js";
+import {get_data_from_server, send_data_to_server, server_url} from "./networking_tools.js";
 import {create_input_date_and_time_fields_holder, take_dates_and_times_from_page} from "./graphical_tools.js";
 
 export function get_current_date() {
@@ -65,7 +65,7 @@ export function update_stage_number(stage_number) {
         "stage_number": stage_number
     }
 
-    const url = `http://127.0.0.1:9091/edit_negative_habit/change_stage/${get_item("active_habit", false)}`;
+    const url = `${server_url}/edit_negative_habit/change_stage/${get_item("active_habit", false)}`;
 
     send_data_to_server(url, data_for_send).then(r => {
 
@@ -73,14 +73,14 @@ export function update_stage_number(stage_number) {
 }
 
 export function get_status_and_date(stage_number) {
-    const url = `http://127.0.0.1:9091/get_negative_habit/${get_item("active_habit", false)}`;
+    const url = `${server_url}/get_negative_habit/${get_item("active_habit", false)}`;
 
     return get_data_from_server(url).then((data_from_server) => {
         let response_status = data_from_server[0];
         data_from_server = data_from_server[1];
         let unlock_date = data_from_server[0][`unlock_date_for_stage_${stage_number}`];
 
-        const url_for_check = `http://127.0.0.1:9091/stage_${stage_number}/get_unlock_status_stage_${stage_number}/${get_item("active_habit", false)}`;
+        const url_for_check = `${server_url}/stage_${stage_number}/get_unlock_status_stage_${stage_number}/${get_item("active_habit", false)}`;
 
         return get_data_from_server(url_for_check).then((data_from_server) => {
             let response_status = data_from_server[0];

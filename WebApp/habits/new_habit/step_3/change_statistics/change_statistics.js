@@ -1,6 +1,6 @@
 import {
     get_data_from_server,
-    send_page_name_to_server
+    send_page_name_to_server, server_url
 } from "../../../../tools/networking_tools.js";
 import {action_timer, get_item} from "../../../../tools/auxiliary_tools.js";
 
@@ -14,7 +14,7 @@ const success_bar = document.getElementById("success_bar");
 const failure_bar = document.getElementById("failure_bar");
 
 
-const url = `http://127.0.0.1:9091/get_negative_habit/${get_item("active_habit", false)}`;
+const url = `${server_url}/get_negative_habit/${get_item("active_habit", false)}`;
 
 get_data_from_server(url).then((data_from_server) => {
     let response_status = data_from_server[0];
@@ -35,7 +35,7 @@ get_data_from_server(url).then((data_from_server) => {
 action_timer(5,
     "../final_page/final_page.html",
     3,
-    `http://127.0.0.1:9091/edit_negative_habit/stage_3/start_effort_stage/${get_item("active_habit", false)}`,
+    `${server_url}/edit_negative_habit/stage_3/start_effort_stage/${get_item("active_habit", false)}`,
     "Далее",
     false,
     true,

@@ -1,4 +1,4 @@
-import {get_data_from_server} from "../../tools/networking_tools.js";
+import {get_data_from_server, server_url} from "../../tools/networking_tools.js";
 import {
     get_item,
     get_text_stage_by_number,
@@ -7,7 +7,7 @@ import {
 } from "../../tools/auxiliary_tools.js";
 import {create_element} from "../../tools/graphical_tools.js";
 
-const url = `http://127.0.0.1:9091/get_negative_habit/${get_item("active_habit", false)}`;
+const url = `${server_url}/get_negative_habit/${get_item("active_habit", false)}`;
 
 const accept_button = document.querySelector(".accept_button_div");
 

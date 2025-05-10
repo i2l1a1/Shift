@@ -370,7 +370,7 @@ async def edit_negative_habit_stage_3_start_effort_stage_crud(habit_id, number_o
         if not db_habit.unlock_date_for_stage_3:
             current_date = datetime.now()
             # unlock_date = current_date + timedelta(days=new_data.number_of_days)
-            unlock_date = current_date + timedelta(minutes=1)
+            unlock_date = current_date + timedelta(minutes=15)
 
             db_habit.unlock_date_for_stage_3 = unlock_date.strftime("%Y-%m-%d %H:%M:00")
 

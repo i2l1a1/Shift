@@ -2,7 +2,7 @@ import {mobile_focus_for_fields} from "../../../../tools/mobile_adaptations.js";
 import {
     get_data_from_server,
     send_data_to_server,
-    send_page_name_to_server
+    send_page_name_to_server, server_url
 } from "../../../../tools/networking_tools.js";
 import {
     create_input_subgoals,
@@ -32,7 +32,7 @@ send_page_name_to_server("new_habit/step_2/subgoals/subgoals.html").then(r => {
 
 });
 
-const url = `http://127.0.0.1:9091/get_negative_habit/${get_item("active_habit", false)}`;
+const url = `${server_url}/get_negative_habit/${get_item("active_habit", false)}`;
 
 serve_input_field(input_field, "positive_habit_name");
 get_data_from_server(url).then((data_from_server) => {
@@ -105,7 +105,7 @@ accept_button.addEventListener("click", (event) => {
         accept_button.getAttribute("subgoals") === "true") {
         event.preventDefault();
         const habit_and_subgoals = take_habit_and_subgoals_from_page();
-        const url = `http://127.0.0.1:9091/edit_habit/stage_2/add_subgoals/${get_item("active_habit", false)}`;
+        const url = `${server_url}/edit_habit/stage_2/add_subgoals/${get_item("active_habit", false)}`;
 
         let data_for_send = {
             "positive_habit": habit_and_subgoals.positive_habit,

@@ -89,7 +89,7 @@ async def send_message_for_user_with_buttons(user_id: int, message: MessageForUs
 
 async def send_habit_confirmation(fastapi_url: str, habit_id: str, user_id: int, pressed_button: str):
     async with aiohttp.ClientSession(connector=aiohttp.TCPConnector(ssl=False)) as session:
-        url = f"{fastapi_url}/edit_negative_habit/add_another_result/{habit_id}"
+        url = f"{fastapi_url}/edit_habit/add_another_result/{habit_id}"
         payload = {
             "pressed_button": pressed_button,
             "tg_user_id": str(user_id)
@@ -103,7 +103,7 @@ async def process_callback_yes(callback_query: CallbackQuery):
     await bot.answer_callback_query(callback_query.id)
     await callback_query.message.edit_text("Ура!", reply_markup=None)
 
-    fastapi_url = "http://127.0.0.1:9091"
+    fastapi_url = env("SERVER_URL")
     await send_habit_confirmation(fastapi_url, habit_id, callback_query.from_user.id, "yes")
 
     print(f"Нажата кнопка 'да' [id={callback_query.from_user.id}, habit_id={habit_id}]")
@@ -115,7 +115,7 @@ async def process_callback_no(callback_query: CallbackQuery):
     await bot.answer_callback_query(callback_query.id)
     await callback_query.message.edit_text("Ох(", reply_markup=None)
 
-    fastapi_url = "http://127.0.0.1:9091"
+    fastapi_url = env("SERVER_URL")
     await send_habit_confirmation(fastapi_url, habit_id, callback_query.from_user.id, "no")
 
     print(f"Нажата кнопка 'нет' [id={callback_query.from_user.id}, habit_id={habit_id}]")

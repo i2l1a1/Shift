@@ -1,11 +1,11 @@
 import {
     send_data_to_server,
-    send_page_name_to_server
+    send_page_name_to_server, server_url
 } from "../../../../tools/networking_tools.js";
 import {
     action_timer,
     get_item,
-    get_status_and_date, off_accept_button, on_accept_button,
+    get_status_and_date,
     serve_accept_button,
     serve_input_field
 } from "../../../../tools/auxiliary_tools.js";
@@ -36,7 +36,7 @@ const accept_button = document.querySelector(".accept_button_div");
 action_timer(5,
     "../final_page/final_page.html",
     4,
-    `http://127.0.0.1:9091/edit_negative_habit/stage_4/start_breakdown_tracking/${get_item("active_habit", false)}`,
+    `${server_url}/edit_negative_habit/stage_4/start_breakdown_tracking/${get_item("active_habit", false)}`,
     "Далее", true, false, ["active", "active_time"]);
 
 accept_button.addEventListener("click", (event) => {
@@ -52,7 +52,7 @@ accept_button.addEventListener("click", (event) => {
                         "who": who_textarea.value,
                     }
 
-                    const url = `http://127.0.0.1:9091/edit_habit/stage_4/add_breakdown_factors/${get_item("active_habit", false)}`;
+                    const url = `${server_url}/edit_habit/stage_4/add_breakdown_factors/${get_item("active_habit", false)}`;
 
                     send_data_to_server(url, data_for_send).then(r => {
                         window.location.href = "../final_page/final_page.html";

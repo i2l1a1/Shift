@@ -107,6 +107,11 @@ async def edit_negative_habit_stage_4_start_breakdown_tracking(habit_id: int, nu
     return await edit_negative_habit_stage_4_start_breakdown_tracking_crud(habit_id, number_of_days, scheduler)
 
 
+@habits_router.post("/edit_habit/add_another_result/{habit_id}")
+async def edit_habit_add_another_result(habit_id: int, new_data: NewAnotherResult):
+    return await edit_habit_add_another_result_crud(habit_id, new_data, scheduler)
+
+
 @habits_router.get("/stage_4/get_unlock_status_stage_4/{habit_id}")
 async def get_unlock_status_stage_4(habit_id: int):
     return await get_unlock_status_stage_4_crud(habit_id)

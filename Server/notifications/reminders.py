@@ -12,7 +12,7 @@ from data_base.data_base_models import HabitModel
 async def _send_message(user_id, notification_text, reminder_id, with_buttons=False):
     env = Env()
     env.read_env(".env")
-    fastapi_url = "http://127.0.0.1:9092"
+    fastapi_url = env("SERVER_URL")
 
     async with aiohttp.ClientSession(connector=aiohttp.TCPConnector(ssl=False)) as session:
         url = f"{fastapi_url}/send_message_for_user_with_buttons/{user_id}"

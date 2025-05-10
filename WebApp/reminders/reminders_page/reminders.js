@@ -1,5 +1,5 @@
 import {black_bg_color, create_element, create_image} from "../../tools/graphical_tools.js";
-import {get_data_from_server, send_data_to_server} from "../../tools/networking_tools.js";
+import {get_data_from_server, send_data_to_server, server_url} from "../../tools/networking_tools.js";
 import {convert_dates_and_times_for_user} from "../../tools/auxiliary_tools.js";
 
 let tg = window.Telegram.WebApp;
@@ -11,7 +11,7 @@ let regular_reminders_holder = document.querySelector(".regular_reminders_holder
 let one_time_reminders_header = document.querySelector('.one_time_reminders_header');
 let regular_reminders_header = document.querySelector('.regular_reminders_header');
 
-get_data_from_server("http://127.0.0.1:9091/get_one_time_reminders").then((data_from_server) => {
+get_data_from_server(`${server_url}/get_one_time_reminders`).then((data_from_server) => {
     let response_status = data_from_server[0];
     data_from_server = data_from_server[1];
     for (const reminder of data_from_server) {
@@ -37,7 +37,7 @@ get_data_from_server("http://127.0.0.1:9091/get_one_time_reminders").then((data_
             const reminder_div = one_time_reminder_checkbox.parentElement.parentElement;
             const reminder_div_inner = reminder_div.querySelector(".one_time_reminder_div_inner");
             let reminder_id = reminder_div_inner.getAttribute("data-id");
-            send_data_to_server(`http://127.0.0.1:9091/delete_one_time_reminder/${reminder_id}`).then(response => {
+            send_data_to_server(`${server_url}/delete_one_time_reminder/${reminder_id}`).then(response => {
                 if (response["is_ok"] === true) {
                     reminder_div.remove();
                     if (!one_time_reminders_holder.children.length) {
@@ -50,7 +50,7 @@ get_data_from_server("http://127.0.0.1:9091/get_one_time_reminders").then((data_
     }
 });
 
-get_data_from_server("http://127.0.0.1:9091/get_regular_reminders").then((data_from_server) => {
+get_data_from_server(`${server_url}/get_regular_reminders`).then((data_from_server) => {
     let response_status = data_from_server[0];
     data_from_server = data_from_server[1];
     for (const reminder of data_from_server) {
@@ -75,7 +75,7 @@ get_data_from_server("http://127.0.0.1:9091/get_regular_reminders").then((data_f
             const reminder_div = regular_reminder_delete_button.parentElement.parentElement;
             const reminder_div_inner = reminder_div.querySelector(".regular_reminder_div_inner");
             let reminder_id = reminder_div_inner.getAttribute("data-id");
-            send_data_to_server(`http://127.0.0.1:9091/delete_regular_reminder/${reminder_id}`).then(response => {
+            send_data_to_server(`${server_url}/delete_regular_reminder/${reminder_id}`).then(response => {
                 if (response["is_ok"] === true) {
                     reminder_div.remove();
                     if (!regular_reminders_holder.children.length) {

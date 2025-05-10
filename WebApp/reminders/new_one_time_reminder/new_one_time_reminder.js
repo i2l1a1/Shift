@@ -1,4 +1,4 @@
-import {send_data_to_server} from "../../tools/networking_tools.js";
+import {send_data_to_server, server_url} from "../../tools/networking_tools.js";
 import {
     check_date,
     get_current_date,
@@ -83,7 +83,7 @@ accept_button.addEventListener("click", (event) => {
 
         event.preventDefault();
 
-        const url = "http://127.0.0.1:9091/new_one_time_reminder";
+        const url = `${server_url}/new_one_time_reminder`;
         let data_for_send = {
             "text": reminder_input_field.value,
             "date": date_input_field.value,
