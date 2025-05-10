@@ -1,5 +1,10 @@
 import {get_data_from_server} from "../../tools/networking_tools.js";
-import {get_item, get_text_stage_by_number, convert_dates_and_times_for_user} from "../../tools/auxiliary_tools.js";
+import {
+    get_item,
+    get_text_stage_by_number,
+    convert_dates_and_times_for_user,
+    current_habit_is_negative
+} from "../../tools/auxiliary_tools.js";
 import {create_element} from "../../tools/graphical_tools.js";
 
 const url = `http://127.0.0.1:9091/get_negative_habit/${get_item("active_habit", false)}`;
@@ -23,6 +28,12 @@ const breakdown_places_text = document.getElementById("breakdown_places_text");
 const breakdown_actions_text = document.getElementById("breakdown_actions_text");
 const breakdown_when_text = document.getElementById("breakdown_when_text");
 const breakdown_who_text = document.getElementById("breakdown_who_text");
+const trigger_factors_1 = document.getElementById("trigger_factors_1");
+const trigger_factors_2 = document.getElementById("trigger_factors_2");
+const trigger_factors_3 = document.getElementById("trigger_factors_3");
+const trigger_factors_4 = document.getElementById("trigger_factors_4");
+const trigger_factors_5 = document.getElementById("trigger_factors_5");
+
 
 const trigger_section = document.getElementById("trigger_section");
 
@@ -34,6 +45,8 @@ get_data_from_server(url).then((data_from_server) => {
 
     if (data_from_server["negative_habit_name"]) {
         negative_habit_text.textContent = data_from_server["negative_habit_name"];
+        document.getElementById("negative_habit_header").removeAttribute("hidden");
+        document.getElementById("negative_habit_text").removeAttribute("hidden");
     }
 
     if (data_from_server["positive_habit_name"]) {
@@ -82,16 +95,30 @@ get_data_from_server(url).then((data_from_server) => {
         reminders_text.removeAttribute("hidden");
     }
 
-    if (data_from_server["trigger_factors_time_of_days"] &&
-        data_from_server["trigger_factors_situations"] &&
-        data_from_server["trigger_factors_triggers"] &&
-        data_from_server["trigger_factors_behaviour"] &&
-        data_from_server["trigger_factors_consequences"]) {
-        time_of_days_text.textContent = data_from_server["trigger_factors_time_of_days"];
-        situations_text.textContent = data_from_server["trigger_factors_situations"];
-        triggers_text.textContent = data_from_server["trigger_factors_triggers"];
-        behaviour_text.textContent = data_from_server["trigger_factors_behaviour"];
-        consequences_text.textContent = data_from_server["trigger_factors_consequences"];
+    if (data_from_server["trigger_factors_answer_1"] &&
+        data_from_server["trigger_factors_answer_2"] &&
+        data_from_server["trigger_factors_answer_3"] &&
+        data_from_server["trigger_factors_answer_4"] &&
+        data_from_server["trigger_factors_answer_5"]) {
+        time_of_days_text.textContent = data_from_server["trigger_factors_answer_1"];
+        situations_text.textContent = data_from_server["trigger_factors_answer_2"];
+        triggers_text.textContent = data_from_server["trigger_factors_answer_3"];
+        behaviour_text.textContent = data_from_server["trigger_factors_answer_4"];
+        consequences_text.textContent = data_from_server["trigger_factors_answer_5"];
+        if (current_habit_is_negative()) {
+            trigger_factors_1.textContent = "Время суток";
+            trigger_factors_2.textContent = "Ситуации";
+            trigger_factors_3.textContent = "Чувства";
+            trigger_factors_4.textContent = "Вознаграждение";
+            trigger_factors_5.textContent = "Последствия";
+        } else {
+            trigger_factors_1.textContent = "Ситуации";
+            trigger_factors_2.textContent = "Чувства";
+            trigger_factors_3.textContent = "Мысли";
+            trigger_factors_4.textContent = "Поведение";
+            trigger_factors_5.textContent = "Последствия";
+        }
+
         document.getElementById("triggers_header").removeAttribute("hidden");
         document.getElementById("time_of_days_section").removeAttribute("hidden");
         document.getElementById("situations_section").removeAttribute("hidden");
