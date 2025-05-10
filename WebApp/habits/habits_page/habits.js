@@ -42,7 +42,6 @@ get_data_from_server(url).then((data_from_server) => {
             set_item("active_habit", active_habit, false);
             set_item("current_habit_type", current_habit_type, false);
             set_item("now_state", habit.now_state);
-            remove_item("now_negative_habit_name");
 
             const url_for_now_habit_page = `http://127.0.0.1:9091/get_now_page_for_negative_habit/${active_habit}`
             get_data_from_server(url_for_now_habit_page).then((data_from_server) => {
@@ -59,12 +58,10 @@ get_data_from_server(url).then((data_from_server) => {
 
 negative_habit_div.addEventListener("click", () => {
     remove_item("active_habit");
-    remove_item("now_negative_habit_name");
     set_item("current_habit_type", "negative", false);
 });
 
 positive_habit_div.addEventListener("click", () => {
     remove_item("active_habit");
-    remove_item("now_positive_habit_name");
     set_item("current_habit_type", "positive", false);
 });

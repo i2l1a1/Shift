@@ -34,12 +34,12 @@ send_page_name_to_server("new_habit/step_2/subgoals/subgoals.html").then(r => {
 
 const url = `http://127.0.0.1:9091/get_negative_habit/${get_item("active_habit", false)}`;
 
-serve_input_field(input_field, "now_positive_habit_name");
+serve_input_field(input_field, "positive_habit_name");
 get_data_from_server(url).then((data_from_server) => {
     let response_status = data_from_server[0];
     data_from_server = data_from_server[1];
-    if (get_item("now_positive_habit_name") !== "") {
-        habit_input_field.value = get_item("now_positive_habit_name");
+    if (get_item("positive_habit_name")) {
+        habit_input_field.value = get_item("positive_habit_name");
     } else {
         habit_input_field.value = data_from_server[0].positive_habit_name;
     }

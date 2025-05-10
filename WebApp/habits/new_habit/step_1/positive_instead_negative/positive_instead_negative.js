@@ -1,5 +1,9 @@
 import {mobile_focus_for_fields} from "../../../../tools/mobile_adaptations.js";
-import {send_data_to_server, send_page_name_to_server} from "../../../../tools/networking_tools.js";
+import {
+    get_data_from_server,
+    send_data_to_server,
+    send_page_name_to_server
+} from "../../../../tools/networking_tools.js";
 import {
     create_input_date_and_time_fields,
     take_dates_and_times_from_page
@@ -23,6 +27,18 @@ if (current_habit_is_negative()) {
 
 
 serve_input_field(input_field, "positive_habit_name");
+
+get_data_from_server(`http://127.0.0.1:9091/get_negative_habit/${get_item("active_habit", false)}`).then(data_from_server => {
+    data_from_server = data_from_server[1][0];
+    console.log(data_from_server);
+    if (!current_habit_is_negative()) {
+        if (get_item("positive_habit_name")) {
+            input_field.value = get_item("positive_habit_name");
+        } else {
+            input_field.value = data_from_server["positive_habit_name"];
+        }
+    }
+});
 
 send_page_name_to_server("new_habit/step_1/positive_instead_negative/positive_instead_negative.html").then(r => {
 

@@ -49,7 +49,7 @@ export function convert_dates_and_times_for_user(dates_from_server, times_from_s
 
 export function get_text_stage_by_number(stage_number) {
     const stages = {
-        0: "Определение этапа",
+        0: "Начало",
         1: "Этап 1 — раздумье",
         2: "Этап 2 — подготовка",
         3: "Этап 3 — усилия",
