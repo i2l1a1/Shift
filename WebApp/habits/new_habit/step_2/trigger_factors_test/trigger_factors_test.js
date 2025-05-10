@@ -2,7 +2,7 @@ import {send_data_to_server, send_page_name_to_server} from "../../../../tools/n
 import {
     action_timer,
     current_habit_is_negative,
-    get_item,
+    get_item, get_status_and_date, off_accept_button, on_accept_button,
     serve_accept_button,
     serve_input_field
 } from "../../../../tools/auxiliary_tools.js";
@@ -85,9 +85,14 @@ action_timer(5,
     "Далее", true, false, ["active", "active_time"]);
 
 accept_button.addEventListener("click", (event) => {
-    if (accept_button.getAttribute("active") === "true" &&
-        accept_button.getAttribute("active_time") === "true") {
-        event.preventDefault();
-        window.location.href = "../support_group/support_group.html";
+    if (accept_button.getAttribute("active") === "true") {
+        get_status_and_date(2).then((status_and_date) => {
+            if (status_and_date.date !== null) {
+                if (status_and_date.status === 1 || accept_button.getAttribute("active_time") === "true") {
+                    event.preventDefault();
+                    window.location.href = "../support_group/support_group.html";
+                }
+            }
+        });
     }
 });

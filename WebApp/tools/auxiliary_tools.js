@@ -72,7 +72,7 @@ export function update_stage_number(stage_number) {
     });
 }
 
-function get_status_and_date(stage_number) {
+export function get_status_and_date(stage_number) {
     const url = `http://127.0.0.1:9091/get_negative_habit/${get_item("active_habit", false)}`;
 
     return get_data_from_server(url).then((data_from_server) => {
@@ -102,7 +102,6 @@ export function action_timer(number_of_days, url_for_button, stage_number, url_f
         if (status_and_date.date !== null) {
             if (status_and_date.status === 1) {
                 accept_button.querySelector(".accept_button").textContent = text_for_button_after_action;
-                // accept_button.href = url_for_button;
                 on_accept_button("active_time", all_attribute);
             } else {
                 accept_button.querySelector(".accept_button").textContent = `Откроется ${status_and_date.date}`;

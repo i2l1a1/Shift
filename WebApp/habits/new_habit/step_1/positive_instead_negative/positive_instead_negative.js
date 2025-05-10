@@ -30,7 +30,6 @@ serve_input_field(input_field, "positive_habit_name");
 
 get_data_from_server(`http://127.0.0.1:9091/get_negative_habit/${get_item("active_habit", false)}`).then(data_from_server => {
     data_from_server = data_from_server[1][0];
-    console.log(data_from_server);
     if (!current_habit_is_negative()) {
         if (get_item("positive_habit_name")) {
             input_field.value = get_item("positive_habit_name");
@@ -38,6 +37,7 @@ get_data_from_server(`http://127.0.0.1:9091/get_negative_habit/${get_item("activ
             input_field.value = data_from_server["positive_habit_name"];
         }
     }
+    serve_accept_button([input_field], ["active", "time"]);
 });
 
 send_page_name_to_server("new_habit/step_1/positive_instead_negative/positive_instead_negative.html").then(r => {
@@ -75,5 +75,4 @@ accept_button.addEventListener("click", (event) => {
     }
 });
 
-serve_accept_button([input_field], ["active", "time"]);
 mobile_focus_for_fields()

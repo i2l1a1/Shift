@@ -2,7 +2,13 @@ import {
     send_data_to_server,
     send_page_name_to_server
 } from "../../../../tools/networking_tools.js";
-import {action_timer, get_item, serve_accept_button, serve_input_field} from "../../../../tools/auxiliary_tools.js";
+import {
+    action_timer,
+    get_item,
+    get_status_and_date, off_accept_button, on_accept_button,
+    serve_accept_button,
+    serve_input_field
+} from "../../../../tools/auxiliary_tools.js";
 
 const places_textarea = document.getElementById("places_textarea");
 const actions_textarea = document.getElementById("actions_textarea");
@@ -34,20 +40,25 @@ action_timer(5,
     "Далее", true, false, ["active", "active_time"]);
 
 accept_button.addEventListener("click", (event) => {
-    if (accept_button.getAttribute("active") === "true" &&
-        accept_button.getAttribute("active_time") === "true") {
-        event.preventDefault();
-        let data_for_send = {
-            "places": places_textarea.value,
-            "actions": actions_textarea.value,
-            "when": when_textarea.value,
-            "who": who_textarea.value,
-        }
+    if (accept_button.getAttribute("active") === "true") {
+        get_status_and_date(4).then((status_and_date) => {
+            if (status_and_date.date !== null) {
+                if (status_and_date.status === 1 || accept_button.getAttribute("active_time") === "true") {
+                    event.preventDefault();
+                    let data_for_send = {
+                        "places": places_textarea.value,
+                        "actions": actions_textarea.value,
+                        "when": when_textarea.value,
+                        "who": who_textarea.value,
+                    }
 
-        const url = `http://127.0.0.1:9091/edit_habit/stage_4/add_breakdown_factors/${get_item("active_habit", false)}`;
+                    const url = `http://127.0.0.1:9091/edit_habit/stage_4/add_breakdown_factors/${get_item("active_habit", false)}`;
 
-        send_data_to_server(url, data_for_send).then(r => {
-            window.location.href = "../final_page/final_page.html";
+                    send_data_to_server(url, data_for_send).then(r => {
+                        window.location.href = "../final_page/final_page.html";
+                    });
+                }
+            }
         });
     }
 });
