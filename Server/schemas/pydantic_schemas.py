@@ -48,11 +48,11 @@ class NewSubgoals(BaseModel):
 
 
 class NewTriggerFactorsTestAnswers(BaseModel):
-    time_of_days: str
-    situations: str
-    triggers: str
-    behaviour: str
-    consequences: str
+    trigger_factors_answer_1: str
+    trigger_factors_answer_2: str
+    trigger_factors_answer_3: str
+    trigger_factors_answer_4: str
+    trigger_factors_answer_5: str
 
 
 class NewStartingDate(BaseModel):

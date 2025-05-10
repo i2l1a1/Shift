@@ -16,7 +16,6 @@ get_data_from_server(url).then((data_from_server) => {
     data_from_server = data_from_server[1];
 
     for (const habit of data_from_server) {
-        console.log(habit);
         habits_header.hidden = false;
         let habit_div = create_element("div", "habit_div");
         let habit_inner = create_element("div", "habit_div_inner");

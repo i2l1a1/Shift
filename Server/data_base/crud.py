@@ -195,9 +195,9 @@ async def edit_negative_habit_stage_1_add_number_of_days_for_mindfulness_crud(ha
         return db_habit.unlock_date_for_stage_1
 
 
-async def edit_negative_habit_stage_2_start_trigger_tracking_crud(habit_id: int,
-                                                                  new_data: NewNumberOfDays,
-                                                                  scheduler):
+async def edit_habit_stage_2_start_trigger_tracking_crud(habit_id: int,
+                                                         new_data: NewNumberOfDays,
+                                                         scheduler):
     async with SessionLocal() as db:
         db_habit = await db.get(HabitModel, habit_id)
 
@@ -332,11 +332,11 @@ async def add_subgoals_crud(habit_id: int, new_subgoals: NewSubgoals):
 async def add_trigger_factors_crud(habit_id: int, trigger_factors: NewTriggerFactorsTestAnswers):
     async with SessionLocal() as db:
         db_habit = await db.get(HabitModel, habit_id)
-        db_habit.trigger_factors_time_of_days = trigger_factors.time_of_days
-        db_habit.trigger_factors_situations = trigger_factors.situations
-        db_habit.trigger_factors_triggers = trigger_factors.triggers
-        db_habit.trigger_factors_behaviour = trigger_factors.behaviour
-        db_habit.trigger_factors_consequences = trigger_factors.consequences
+        db_habit.trigger_factors_answer_1 = trigger_factors.trigger_factors_answer_1
+        db_habit.trigger_factors_answer_2 = trigger_factors.trigger_factors_answer_2
+        db_habit.trigger_factors_answer_3 = trigger_factors.trigger_factors_answer_3
+        db_habit.trigger_factors_answer_4 = trigger_factors.trigger_factors_answer_4
+        db_habit.trigger_factors_answer_5 = trigger_factors.trigger_factors_answer_5
 
         await db.commit()
         await db.refresh(db_habit)

@@ -113,11 +113,7 @@ accept_button.addEventListener("click", (event) => {
         }
 
         send_data_to_server(url, data_for_send).then(r => {
-            if (current_habit_is_negative()) {
-                window.location.href = "../trigger_factors/trigger_factors.html";
-            } else {
-                window.location.href = "../support_group/support_group.html";
-            }
+            window.location.href = "../trigger_factors/trigger_factors.html";
         });
     }
 });
