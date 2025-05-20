@@ -34,6 +34,7 @@ async def get_regular_reminders_crud(user_id):
 
 
 async def create_new_one_time_reminder_crud(new_one_time_reminder: NewOneTimeReminder, scheduler, action_function):
+    print("in create_new_one_time_reminder_crud")
     async with SessionLocal() as db:
         db_reminder = OneTimeReminder(
             text=new_one_time_reminder.text,

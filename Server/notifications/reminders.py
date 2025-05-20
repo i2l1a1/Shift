@@ -10,12 +10,14 @@ from data_base.data_base_models import HabitModel
 
 
 async def _send_message(user_id, notification_text, reminder_id, with_buttons=False):
+    print("in _send_message")
     env = Env()
     env.read_env(".env")
     fastapi_url = env("SERVER_URL")
 
     async with aiohttp.ClientSession(connector=aiohttp.TCPConnector(ssl=False)) as session:
         url = f"{fastapi_url}/send_message_for_user_with_buttons/{user_id}"
+        print("in _send_message async: ", url)
         payload = {
             "text": notification_text,
             "habit_id": reminder_id,
@@ -28,6 +30,7 @@ async def _generate_message_on_time(user_id, notification_text,
                                     reminder_id, with_buttons=False,
                                     action_function=None, for_habit=False):
     if for_habit:
+        print("_generate_message_on_time for_habit")
         async with SessionLocal() as db:
             db_habit = await db.get(HabitModel, reminder_id)
 
@@ -39,6 +42,7 @@ async def _generate_message_on_time(user_id, notification_text,
             if start_date <= now <= unlock_date:
                 await _send_message(user_id, notification_text, reminder_id, with_buttons=with_buttons)
     else:
+        print("in _generate_message_on_time for_reminders")
         await _send_message(user_id, notification_text, reminder_id)
 
     if action_function:
@@ -47,6 +51,7 @@ async def _generate_message_on_time(user_id, notification_text,
 
 async def plan_one_time_reminder(scheduler, notification_text, notification_date, notification_time, user_id,
                                  action_function, reminder_id):
+    print("in plan_one_time_reminder")
     target_time_datetime = datetime.strptime(f"{notification_date} {notification_time}", "%Y-%m-%d %H:%M")
 
     job = scheduler.add_job(

@@ -32,7 +32,7 @@ async def start_bot():
 
 
 async def start_server():
-    uvicorn_config = uvicorn.Config("main:app", port=9092, log_level="info", reload=True)
+    uvicorn_config = uvicorn.Config("main:app", port=9092, host="0.0.0.0", log_level="info", reload=True)
     server = uvicorn.Server(uvicorn_config)
     await server.serve()
 
@@ -66,6 +66,7 @@ class MessageForUser(BaseModel):
 
 @app.post("/send_message_for_user_with_buttons/{user_id}")
 async def send_message_for_user_with_buttons(user_id: int, message: MessageForUser):
+    print("in send_message_for_user_with_buttons")
     if message.with_buttons:
         yes_button = InlineKeyboardButton(
             text="✅",
@@ -81,6 +82,7 @@ async def send_message_for_user_with_buttons(user_id: int, message: MessageForUs
                                f"message for user [id={user_id}, reminder_id_in_db={message.habit_id}]: {message.text}",
                                reply_markup=keyboard)
     else:
+        print("in send_message_for_user_with_buttons without buttons", user_id, message)
         await bot.send_message(user_id,
                                f"message for user [id={user_id}, reminder_id_in_db={message.habit_id}]: {message.text}")
 
