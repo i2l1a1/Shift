@@ -37,7 +37,7 @@ async def lifespan(app: FastAPI):
 
         for item in all_events_from_db.negative_habits:
             job_ids = await plan_regular_reminder(scheduler,
-                                                  f"Выполнили ли Вы сегодня привычку «{item.positive_habit_name}»?",
+                                                  item.positive_habit_name,
                                                   item.dates, item.times,
                                                   item.tg_user_id,
                                                   item.id, for_habit=True, with_buttons=True)
