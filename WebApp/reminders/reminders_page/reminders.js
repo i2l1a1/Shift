@@ -6,16 +6,24 @@ let tg = window.Telegram.WebApp;
 
 tg.setHeaderColor(black_bg_color);
 
+let one_time_reminders_wrapper = document.querySelector(".one_time_reminders_holder_with_header");
 let one_time_reminders_holder = document.querySelector(".one_time_reminders_holder");
 let regular_reminders_holder = document.querySelector(".regular_reminders_holder");
 let one_time_reminders_header = document.querySelector(".one_time_reminders_header");
 let regular_reminders_header = document.querySelector(".regular_reminders_header");
 
+one_time_reminders_wrapper.hidden = true;
+
 get_data_from_server(`${server_url}/get_one_time_reminders/${tg_user_id}`).then((data_from_server) => {
     let response_status = data_from_server[0];
     data_from_server = data_from_server[1];
-    for (const reminder of data_from_server) {
+
+    if (data_from_server.length > 0) {
+        one_time_reminders_wrapper.hidden = false;
         one_time_reminders_header.hidden = false;
+    }
+
+    for (const reminder of data_from_server) {
         let one_time_reminder_div = create_element("div", "one_time_reminder_div");
         let one_time_reminder_div_inner = create_element("div", "one_time_reminder_div_inner");
         one_time_reminder_div_inner.setAttribute("data-id", reminder.id);
@@ -41,11 +49,10 @@ get_data_from_server(`${server_url}/get_one_time_reminders/${tg_user_id}`).then(
                 if (response["is_ok"] === true) {
                     reminder_div.remove();
                     if (!one_time_reminders_holder.children.length) {
-                        one_time_reminders_header.hidden = true;
+                        one_time_reminders_wrapper.hidden = true;
                     }
                 }
             });
-
         });
     }
 });
