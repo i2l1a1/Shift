@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="../../general_design/menu_pages.css">
     <link rel="stylesheet" href="../../general_design/colors.css">
     <link rel="stylesheet" href="../../general_design/navigation_bar.css">
+    <link rel="stylesheet" href="../../general_design/general_styles.css">
     <link rel="stylesheet" href="reminders.css">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1">
     <title>Reminders</title>
@@ -24,7 +25,7 @@
     </div>
 </div>
 
-<div class="container">
+<div class="container container_without_restrictions">
     <div class="header">Создать напоминание</div>
     <div class="reminders-divs-holder">
         <a href="../new_one_time_reminder/new_one_time_reminder.html" class="new-reminder-link">
@@ -48,13 +49,16 @@
             </div>
         </a>
     </div>
-    <div hidden class="header reminders_header one_time_reminders_header">Разовые</div>
-    <div class="one_time_reminders_holder">
 
-    </div>
-    <div hidden class="header reminders_header regular_reminders_header">Регулярные</div>
-    <div class="regular_reminders_holder">
-
+    <div class="global_main_menu_holder">
+        <div class="one_time_reminders_holder_with_header">
+            <div hidden class="header reminders_header one_time_reminders_header">Разовые</div>
+            <div class="one_time_reminders_holder"></div>
+        </div>
+        <div class="regular_reminders_holder_with_header">
+            <div hidden class="header reminders_header regular_reminders_header">Регулярные</div>
+            <div class="regular_reminders_holder"></div>
+        </div>
     </div>
 </div>
 

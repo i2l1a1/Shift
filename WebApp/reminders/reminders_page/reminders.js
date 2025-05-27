@@ -8,9 +8,8 @@ tg.setHeaderColor(black_bg_color);
 
 let one_time_reminders_holder = document.querySelector(".one_time_reminders_holder");
 let regular_reminders_holder = document.querySelector(".regular_reminders_holder");
-let one_time_reminders_header = document.querySelector('.one_time_reminders_header');
-let regular_reminders_header = document.querySelector('.regular_reminders_header');
-
+let one_time_reminders_header = document.querySelector(".one_time_reminders_header");
+let regular_reminders_header = document.querySelector(".regular_reminders_header");
 
 get_data_from_server(`${server_url}/get_one_time_reminders/${tg_user_id}`).then((data_from_server) => {
     let response_status = data_from_server[0];

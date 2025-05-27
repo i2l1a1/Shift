@@ -63,6 +63,13 @@
     font-weight: 500;
 }
 
+.global_main_menu_holder {
+    margin-top: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
 .one_time_reminders_holder, .regular_reminders_holder, .habits_in_process_holder {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(288px, 1fr));

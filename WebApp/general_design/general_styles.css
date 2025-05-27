@@ -120,3 +120,68 @@
     flex-direction: column;
     gap: 8px;
 }
+
+@media (min-width: 532px) {
+    .container {
+        margin: 0 auto 109px;
+    }
+
+    .container_without_restrictions {
+        margin: 0 16px 109px;
+    }
+}
+
+@media (min-width: 600px) {
+    .container_without_restrictions {
+        margin-left: 32px;
+        margin-right: 32px;
+    }
+}
+
+@media (min-width: 672px) {
+    .header {
+        margin-top: 32px;
+        margin-bottom: 20px;
+    }
+
+    .container {
+        padding-top: 82px;
+    }
+
+    .global_main_menu_holder {
+        display: flex;
+        flex-direction: row; !important;
+        gap: 32px;
+        margin-top: 32px;
+    }
+
+    .global_main_menu_holder .one_time_reminders_holder_with_header,
+    .global_main_menu_holder .regular_reminders_holder_with_header,
+    .habits_holder_with_header{
+        flex: 1;
+        min-width: 0;
+    }
+
+    .one_time_reminders_holder,
+    .regular_reminders_holder,
+    .habits_in_process_holder {
+        grid-row-gap: 20px;
+    }
+}
+
+@media (min-width: 1280px) {
+    .container_without_restrictions {
+        margin-left: 60px;
+        margin-right: 60px;
+    }
+
+    .global_main_menu_holder {
+        gap: 60px;
+    }
+
+    .one_time_reminders_holder,
+    .regular_reminders_holder,
+    .habits_in_process_holder {
+        grid-column-gap: 60px;
+    }
+}
