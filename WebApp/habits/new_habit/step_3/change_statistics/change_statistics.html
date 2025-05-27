@@ -26,16 +26,7 @@
 </body>
 <div class="container">
 
-    <div class="bar_chart_container">
-        <div class="bar" id="success_bar">
-            <div class="bar_value" id="success_value">0</div>
-            <div class="bar_label">Успехи</div>
-        </div>
-        <div class="bar" id="failure_bar">
-            <div class="bar_value" id="failure_value">0</div>
-            <div class="bar_label">Неудачи</div>
-        </div>
-    </div>
+    <div class="result_chart"></div>
 
     <div class="accept_button_wrapper">
         <div class="accept_button_div" id="accept_button">
@@ -45,5 +36,7 @@
 
 </div>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script type="module" src="change_statistics.js"></script>
+<script type="module" src="result_chart.js"></script>
 </html>
