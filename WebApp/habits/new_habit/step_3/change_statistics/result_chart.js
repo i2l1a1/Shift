@@ -40,7 +40,11 @@ export function show_result_chart(success_counter, failure_counter) {
             }
         },
         yaxis: {
-            min: 0
+            min: 0,
+            decimalsInFloat: 0,
+            labels: {
+                formatter: v => v % 1 === 0 ? v : ''
+            }
         },
         tooltip: {
             y: {

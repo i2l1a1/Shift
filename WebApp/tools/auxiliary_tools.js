@@ -55,6 +55,7 @@ export function get_text_stage_by_number(stage_number) {
         3: "Этап 3 — усилия",
         4: "Этап 4 — постоянство",
         5: "Этап 5 — сохранение",
+        6: "Все этапы пройдены",
     };
     return stages[stage_number];
 }
