@@ -3,7 +3,7 @@ import {
     get_item,
     get_text_stage_by_number,
     convert_dates_and_times_for_user,
-    current_habit_is_negative, get_status_and_date
+    current_habit_is_negative,
 } from "../../tools/auxiliary_tools.js";
 import {create_element} from "../../tools/graphical_tools.js";
 
@@ -143,12 +143,4 @@ get_data_from_server(url).then((data_from_server) => {
         document.getElementById("breakdown_when_section").removeAttribute("hidden");
         document.getElementById("breakdown_who_section").removeAttribute("hidden");
     }
-});
-
-delete_button.addEventListener("click", () => {
-    const url = `${server_url}/delete_habit/${get_item("active_habit", false)}`;
-
-    send_data_to_server(url, NaN).then(r => {
-        window.location.href = "../../index.html";
-    });
 });
