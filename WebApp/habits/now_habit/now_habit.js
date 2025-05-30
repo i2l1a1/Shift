@@ -1,9 +1,9 @@
-import {get_data_from_server, server_url} from "../../tools/networking_tools.js";
+import {get_data_from_server, send_data_to_server, server_url} from "../../tools/networking_tools.js";
 import {
     get_item,
     get_text_stage_by_number,
     convert_dates_and_times_for_user,
-    current_habit_is_negative
+    current_habit_is_negative, get_status_and_date
 } from "../../tools/auxiliary_tools.js";
 import {create_element} from "../../tools/graphical_tools.js";
 
@@ -33,7 +33,7 @@ const trigger_factors_2 = document.getElementById("trigger_factors_2");
 const trigger_factors_3 = document.getElementById("trigger_factors_3");
 const trigger_factors_4 = document.getElementById("trigger_factors_4");
 const trigger_factors_5 = document.getElementById("trigger_factors_5");
-
+const delete_button = document.getElementById("delete_button");
 
 const trigger_section = document.getElementById("trigger_section");
 
@@ -143,4 +143,12 @@ get_data_from_server(url).then((data_from_server) => {
         document.getElementById("breakdown_when_section").removeAttribute("hidden");
         document.getElementById("breakdown_who_section").removeAttribute("hidden");
     }
+});
+
+delete_button.addEventListener("click", () => {
+    const url = `${server_url}/delete_habit/${get_item("active_habit", false)}`;
+
+    send_data_to_server(url, NaN).then(r => {
+        window.location.href = "../../index.html";
+    });
 });

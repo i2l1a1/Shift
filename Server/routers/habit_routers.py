@@ -10,7 +10,7 @@ from data_base.crud import create_new_habit_crud, edit_habit_stage_1_add_or_chan
     edit_negative_habit_stage_3_start_effort_stage_crud, get_unlock_status_stage_3_crud, \
     edit_negative_habit_stage_4_start_breakdown_tracking_crud, get_unlock_status_stage_4_crud, \
     add_breakdown_factors_crud, change_stage_crud, edit_negative_habit_stage_5_start_list_creating_crud, \
-    get_unlock_status_stage_5_crud
+    get_unlock_status_stage_5_crud, delete_habit_crud
 from schemas.pydantic_schemas import NewHabit, NewHabitStage1, NewAnotherResult, \
     NewNumberOfDays, NowPageUrl, NewSubgoals, NewTriggerFactorsTestAnswers, NewStartingDate, NewBreakdownTestAnswers, \
     NewStageNumber
@@ -135,3 +135,8 @@ async def start_list_creating_crud(habit_id: int, number_of_days: NewNumberOfDay
 @habits_router.post("/edit_negative_habit/change_stage/{habit_id}")
 async def change_stage(habit_id: int, stage_number: NewStageNumber):
     return await change_stage_crud(habit_id, stage_number)
+
+
+@habits_router.post("/delete_habit/{habit_id}")
+async def delete_habit(habit_id: int):
+    return await delete_habit_crud(habit_id, scheduler, True)

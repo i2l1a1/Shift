@@ -432,3 +432,21 @@ async def change_stage_crud(habit_id, stage_number: NewStageNumber):
 
         await db.commit()
         await db.refresh(db_habit)
+
+
+async def delete_habit_crud(habit_id, scheduler, delete_from_scheduler=True):
+    async with SessionLocal() as db:
+        result = await db.execute(select(HabitModel).filter(HabitModel.id == habit_id))
+        habit = result.scalars().first()
+
+        if habit is None:
+            return {"is_ok": False}
+
+        if delete_from_scheduler and habit.job_ids_for_reminders:
+            for current_job_id in habit.job_ids_for_reminders:
+                scheduler.remove_job(str(current_job_id))
+
+        await db.delete(habit)
+        await db.commit()
+
+        return {"is_ok": True}

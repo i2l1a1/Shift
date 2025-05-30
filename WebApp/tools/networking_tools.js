@@ -1,6 +1,7 @@
 import {get_item} from "./auxiliary_tools.js";
 
-export const server_url = "https://shift-project.ru:9091";
+// export const server_url = "https://shift-project.ru:9091";
+export const server_url = "http://127.0.0.1:9091";
 
 // export const tg_user_id = window.Telegram.WebApp.initDataUnsafe.user.id.toString();
 export const tg_user_id = "487020656";

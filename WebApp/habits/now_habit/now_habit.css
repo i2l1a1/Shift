@@ -3,3 +3,7 @@
     flex-direction: column;
     gap: 8px;
 }
+
+.delete_active_svg {
+    margin-right: 10px;
+}
