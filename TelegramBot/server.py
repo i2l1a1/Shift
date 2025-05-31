@@ -4,6 +4,7 @@ from pydantic import BaseModel
 import aiohttp
 
 from bot import bot
+from lexicon import Texts
 
 app = FastAPI()
 
@@ -16,23 +17,21 @@ class MessageForUser(BaseModel):
 
 @app.post("/send_message_for_user_with_buttons/{user_id}")
 async def send_message_for_user_with_buttons(user_id: int, message: MessageForUser):
-    print("in send_message_for_user_with_buttons")
     if message.with_buttons:
         yes_button = InlineKeyboardButton(
-            text="✅",
+            text=Texts.yes_button_for_habits,
             callback_data=f"yes_{message.habit_id}"
         )
         no_button = InlineKeyboardButton(
-            text="❌",
+            text=Texts.no_button_for_habits,
             callback_data=f"no_{message.habit_id}"
         )
         keyboard = InlineKeyboardMarkup(inline_keyboard=[[no_button, yes_button]])
 
         await bot.send_message(user_id,
-                               f"Выполнили ли вы сегодня привычку «{message.text}»?",
+                               Texts.habit_question.format(message.text),
                                reply_markup=keyboard)
     else:
-        print("in send_message_for_user_with_buttons without buttons", user_id, message)
         await bot.send_message(user_id, message.text)
 
     return {"status": "success"}
