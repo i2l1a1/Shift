@@ -1,6 +1,6 @@
 import {black_bg_color, create_element, create_image} from "../../tools/graphical_tools.js";
 import {get_data_from_server, send_data_to_server, server_url, tg_user_id} from "../../tools/networking_tools.js";
-import {convert_dates_and_times_for_user} from "../../tools/auxiliary_tools.js";
+import {convert_dates_and_times_for_user, transform_date_for_user} from "../../tools/auxiliary_tools.js";
 
 let tg = window.Telegram.WebApp;
 
@@ -30,7 +30,7 @@ get_data_from_server(`${server_url}/get_one_time_reminders/${tg_user_id}`).then(
         let one_time_reminder_checkbox = create_image("img", "../../icons/checkbox_basic_state.svg");
         let one_time_reminder_text = create_element("div", "one_time_reminder_text", reminder.text)
         let one_time_reminder_date_and_time = create_element("div", "one_time_reminder_date_and_time");
-        let one_time_reminder_date = create_element("div", "one_time_reminder_date", reminder.date);
+        let one_time_reminder_date = create_element("div", "one_time_reminder_date", transform_date_for_user(reminder.date));
         let one_time_reminder_time = create_element("div", "one_time_reminder_time", reminder.time);
 
         one_time_reminders_holder.appendChild(one_time_reminder_div);

@@ -105,7 +105,7 @@ export function action_timer(number_of_days, url_for_button, stage_number, url_f
                 accept_button.querySelector(".accept_button").textContent = text_for_button_after_action;
                 on_accept_button("active_time", all_attribute);
             } else {
-                accept_button.querySelector(".accept_button").textContent = `Откроется ${status_and_date.date}`;
+                accept_button.querySelector(".accept_button").textContent = `Откроется ${transform_datetime_for_user(status_and_date.date)}`;
                 if (!reject_off) {
                     off_accept_button("active_time", all_attribute);
                 }
@@ -121,7 +121,7 @@ export function action_timer(number_of_days, url_for_button, stage_number, url_f
                         window.location.href = url_for_button;
                     }
                 } else {
-                    accept_button.querySelector(".accept_button").textContent = `Откроется ${status_and_date.date}`;
+                    accept_button.querySelector(".accept_button").textContent = `Откроется ${transform_datetime_for_user(status_and_date.date)}`;
                 }
             } else {
                 let data_for_send = {
@@ -129,7 +129,7 @@ export function action_timer(number_of_days, url_for_button, stage_number, url_f
                 }
 
                 send_data_to_server(url_for_changing, data_for_send).then(response => {
-                    accept_button.querySelector(".accept_button").textContent = `Откроется ${response}`;
+                    accept_button.querySelector(".accept_button").textContent = `Откроется ${transform_datetime_for_user(response)}`;
                 });
             }
         });
@@ -312,3 +312,17 @@ export function is_valid_time(time_from_user) {
 export function current_habit_is_negative() {
     return get_item("current_habit_type", false) === "negative";
 }
+
+export function transform_date_for_user(date_from_server) {
+    const [year, month, day] = date_from_server.split("-");
+    return `${day}.${month}.${year}`;
+}
+
+export function transform_datetime_for_user(datetime_from_server) {
+    const [date, time] = datetime_from_server.split(" ");
+    const [year, month, day] = date.split("-");
+    const [hour, minute] = time.split(":");
+    return `${day}.${month}.${year} в ${hour}:${minute}`;
+}
+
+
