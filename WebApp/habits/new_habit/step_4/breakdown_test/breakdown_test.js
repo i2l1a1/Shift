@@ -9,6 +9,7 @@ import {
     serve_accept_button,
     serve_input_field
 } from "../../../../tools/auxiliary_tools.js";
+import {mobile_focus_for_fields} from "../../../../tools/mobile_adaptations.js";
 
 const places_textarea = document.getElementById("places_textarea");
 const actions_textarea = document.getElementById("actions_textarea");
@@ -62,3 +63,5 @@ accept_button.addEventListener("click", (event) => {
         });
     }
 });
+
+mobile_focus_for_fields()

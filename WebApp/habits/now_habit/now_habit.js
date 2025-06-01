@@ -3,7 +3,7 @@ import {
     get_item,
     get_text_stage_by_number,
     convert_dates_and_times_for_user,
-    current_habit_is_negative,
+    current_habit_is_negative, transform_date_for_user,
 } from "../../tools/auxiliary_tools.js";
 import {create_element} from "../../tools/graphical_tools.js";
 
@@ -84,7 +84,7 @@ get_data_from_server(url).then((data_from_server) => {
     }
 
     if (data_from_server["starting_date"]) {
-        starting_date_text.textContent = data_from_server["starting_date"];
+        starting_date_text.textContent = transform_date_for_user(data_from_server["starting_date"]);
         document.getElementById("starting_date_header").removeAttribute("hidden");
         starting_date_text.removeAttribute("hidden");
     }
@@ -108,8 +108,8 @@ get_data_from_server(url).then((data_from_server) => {
         if (current_habit_is_negative()) {
             trigger_factors_1.textContent = "Время суток";
             trigger_factors_2.textContent = "Ситуации";
-            trigger_factors_3.textContent = "Чувства";
-            trigger_factors_4.textContent = "Вознаграждение";
+            trigger_factors_3.textContent = "Факторы";
+            trigger_factors_4.textContent = "Поведение";
             trigger_factors_5.textContent = "Последствия";
         } else {
             trigger_factors_1.textContent = "Ситуации";
