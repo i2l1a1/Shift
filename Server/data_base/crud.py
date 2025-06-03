@@ -156,6 +156,10 @@ async def edit_habit_stage_1_add_or_change_positive_habit_crud(habit_id: int, ne
         await db.commit()
         await db.refresh(db_habit)
 
+        if db_habit.job_ids_for_reminders:
+            for current_job_id in db_habit.job_ids_for_reminders:
+                scheduler.remove_job(str(current_job_id))
+
         job_ids_after_planning = await plan_regular_reminder(
             scheduler,
             db_habit.positive_habit_name,
