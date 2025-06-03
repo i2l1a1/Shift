@@ -29,6 +29,7 @@ get_data_from_server(url).then((data_from_server) => {
 
     if (success_counter > 0 || failure_counter > 0) {
         show_result_chart(success_counter, failure_counter);
+        accept_button_div.hidden = false;
     } else {
         const hint = create_element("div", "no_statistics_text");
         if (today >= start) {
