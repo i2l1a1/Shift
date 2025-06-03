@@ -49,7 +49,7 @@ accept_button.addEventListener("click", (event) => {
         }
 
         send_data_to_server(url, data_for_send).then(r => {
-            window.location.href = "../change_statistics/change_statistics.html";
+            window.location.href = "../date_confirmation/date_confirmation.html";
         });
     }
 });

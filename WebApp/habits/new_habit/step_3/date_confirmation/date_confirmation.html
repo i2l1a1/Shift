@@ -8,35 +8,33 @@
     <link rel="stylesheet" href="../../../../general_design/accept_button.css">
     <link rel="stylesheet" href="../../../../general_design/menu_pages.css">
     <link rel="stylesheet" href="../../../../general_design/general_styles.css">
-    <link rel="stylesheet" href="change_statistics.css">
+    <link rel="stylesheet" href="../../../../general_design/question_styles.css">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-
-
 <div class="page_header">
-    <div class="header_label header_label_without_back_button">Этап 3 — усилия</div>
+    <a class="back_button" href="../starting_day/starting_day.html">
+        <img class="back_button_svg" src="../../../../icons/back_arrow.svg" alt="">
+    </a>
+    <div class="header_label">Подтверждение</div>
     <a class="back_button" href="../../../../index.html">
         <img class="menu_button_svg" src="../../../../icons/menu_button.svg" alt="">
     </a>
 </div>
 
-</body>
 <div class="container">
-
-    <div class="result_chart"></div>
-
-    <div class="accept_button_wrapper">
-        <div class="accept_button_div" id="accept_button" hidden>
-            <a class="accept_button">Начать!</a>
-        </div>
+    <div class="header">Вы уверены?</div>
+    <div class="text" id="text_for_user">
     </div>
-
 </div>
+
+<div class="accept_button_wrapper">
+    <div class="accept_button_div" id="accept_button">
+        <a class="accept_button" href="../change_statistics/change_statistics.html">Подтвердить</a>
+    </div>
+</div>
+</body>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-<script type="module" src="change_statistics.js"></script>
-<script type="module" src="result_chart.js"></script>
+<script type="module" src="date_confirmation.js"></script>
 </html>
