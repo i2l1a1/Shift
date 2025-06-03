@@ -14,14 +14,17 @@ async def lifespan(app: FastAPI):
 
     async with SessionLocal() as db:
         for item in all_events_from_db.one_timer_reminders:
-            job_id = await plan_one_time_reminder(
-                scheduler, item.text, item.date, item.time, item.tg_user_id,
-                delete_one_time_reminder, item.id
-            )
+            job_id = await plan_one_time_reminder(scheduler, item.text, item.date, item.time, item.tg_user_id, item.id)
 
-            await db.execute(
-                update(OneTimeReminder).where(OneTimeReminder.id == item.id).values(job_id=job_id)
-            )
+            if job_id is None:
+                await db.execute(
+                    update(OneTimeReminder).where(OneTimeReminder.id == item.id).values(job_id=None, is_expired=True)
+                )
+            else:
+                await db.execute(
+                    update(OneTimeReminder).where(OneTimeReminder.id == item.id).values(job_id=job_id)
+                )
+
             await db.commit()
 
         for item in all_events_from_db.regular_reminders:

@@ -33,8 +33,7 @@ async def get_regular_reminders_crud(user_id):
     return reminders
 
 
-async def create_new_one_time_reminder_crud(new_one_time_reminder: NewOneTimeReminder, scheduler, action_function):
-    print("in create_new_one_time_reminder_crud")
+async def create_new_one_time_reminder_crud(new_one_time_reminder: NewOneTimeReminder, scheduler):
     async with SessionLocal() as db:
         db_reminder = OneTimeReminder(
             text=new_one_time_reminder.text,
@@ -52,9 +51,13 @@ async def create_new_one_time_reminder_crud(new_one_time_reminder: NewOneTimeRem
                                               new_one_time_reminder.date,
                                               new_one_time_reminder.time,
                                               new_one_time_reminder.tg_user_id,
-                                              action_function, db_reminder.id)
+                                              db_reminder.id)
 
         db_reminder.job_id = job_id
+
+        if job_id is None:
+            db_reminder.is_expired = True
+
         await db.commit()
         return {"is_ok": True}
 
@@ -118,7 +121,9 @@ async def delete_one_time_reminder_crud(reminder_id: int, scheduler, delete_from
             return {"is_ok": False}
 
         if delete_from_scheduler and reminder.job_id:
-            scheduler.remove_job(str(reminder.job_id))
+            job = scheduler.get_job(str(reminder.job_id))
+            if job:
+                scheduler.remove_job(str(reminder.job_id))
 
         await db.delete(reminder)
         await db.commit()
@@ -179,7 +184,6 @@ async def edit_habit_stage_1_add_or_change_positive_habit_crud(habit_id: int, ne
 
 async def edit_habit_add_another_result_crud(habit_id: int, new_data: NewAnotherResult,
                                              scheduler):
-    print(f"[habit_id={habit_id}, tg_user_id={new_data.tg_user_id}] Pressed button: {new_data.pressed_button}")
     async with SessionLocal() as db:
         db_habit = await db.get(HabitModel, habit_id)
         if new_data.pressed_button == "yes":

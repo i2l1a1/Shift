@@ -15,9 +15,7 @@ async def create_new_regular_reminder(new_regular_reminder: NewRegularReminder):
 
 @reminders_router.post("/new_one_time_reminder")
 async def create_new_one_time_reminder(new_one_time_reminder: NewOneTimeReminder):
-    print("create_new_one_time_reminder")
-    print("NewOneTimeReminder", NewOneTimeReminder)
-    return await create_new_one_time_reminder_crud(new_one_time_reminder, scheduler, delete_one_time_reminder)
+    return await create_new_one_time_reminder_crud(new_one_time_reminder, scheduler)
 
 
 @reminders_router.get("/get_one_time_reminders/{user_id}")

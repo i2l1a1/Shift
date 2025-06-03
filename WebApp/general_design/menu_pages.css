@@ -85,6 +85,10 @@
     box-sizing: border-box;
 }
 
+.one_time_reminder_expired_div {
+    background-color: var(--expired-one-time-reminder-bg);
+}
+
 .one_time_reminder_div_inner, .regular_reminder_div_inner, .habit_div_inner {
     display: flex;
     column-gap: 12px;
@@ -110,6 +114,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.one_time_reminder_time_expired, .one_time_reminder_date_expired {
+    font-weight: bold;
 }
 
 .regular_reminder_text_and_dates_times_holder, .habit_text_and_stage_holder {

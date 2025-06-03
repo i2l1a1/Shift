@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, JSON
+from sqlalchemy import Column, Integer, String, Boolean, JSON
 from data_base.data_base_init import Base
 
 
@@ -10,6 +10,7 @@ class OneTimeReminder(Base):
     date = Column(String)
     time = Column(String)
     tg_user_id = Column(String)
+    is_expired = Column(Boolean, default=False)
     job_id = Column(String)
 
 

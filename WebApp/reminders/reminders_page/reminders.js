@@ -33,6 +33,12 @@ get_data_from_server(`${server_url}/get_one_time_reminders/${tg_user_id}`).then(
         let one_time_reminder_date = create_element("div", "one_time_reminder_date", transform_date_for_user(reminder.date));
         let one_time_reminder_time = create_element("div", "one_time_reminder_time", reminder.time);
 
+        if (reminder["is_expired"] === true) {
+            one_time_reminder_div.classList.add("one_time_reminder_expired_div");
+            one_time_reminder_date.classList.add("one_time_reminder_time_expired");
+            one_time_reminder_time.classList.add("one_time_reminder_date_expired");
+        }
+
         one_time_reminders_holder.appendChild(one_time_reminder_div);
         one_time_reminder_div.appendChild(one_time_reminder_div_inner);
         one_time_reminder_div_inner.appendChild(one_time_reminder_checkbox);
