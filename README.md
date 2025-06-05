@@ -48,4 +48,4 @@ Just click on the [link](https://t.me/your_shift_bot) to get started.
    to `.env.example`: `BOT_TOKEN` (from step 2) and `WEBAPP_URL`(from step 5).
 8. Rename `.env.example` to `.env`.
 9. Execute `apt install python3.10-venv`
-10. Execute `./install` (it is at the root of the project). After installation, the FastAPI server will run on port `9091`, and the Telegram Bot will use port 9092.
+10. Execute `./install` (it is at the root of the project). After installation, the FastAPI server will run on port `9091`, and the Telegram Bot will use port `9092`.
