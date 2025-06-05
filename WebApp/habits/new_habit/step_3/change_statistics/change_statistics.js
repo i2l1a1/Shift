@@ -22,7 +22,8 @@ get_data_from_server(url).then((data_from_server) => {
     const starting_date = data_from_server["starting_date"];
 
     const today = new Date();
-    const start = new Date(starting_date);
+    const [year, month, day] = starting_date.split("-").map(Number);
+    const start = new Date(year, month - 1, day);
 
     const success_counter = data_from_server["success_counter"];
     const failure_counter = data_from_server["failure_counter"];
@@ -41,6 +42,7 @@ get_data_from_server(url).then((data_from_server) => {
         container.appendChild(hint);
     }
 });
+
 
 action_timer(5,
     "../final_page/final_page.html",

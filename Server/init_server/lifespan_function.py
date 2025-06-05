@@ -3,7 +3,6 @@ from sqlalchemy import update
 from data_base.data_base_init import SessionLocal, load_all_data_from_db, init_db
 from data_base.data_base_models import OneTimeReminder, RegularReminders, HabitModel
 from notifications.reminders import plan_one_time_reminder, plan_regular_reminder
-from routers.reminder_routers import delete_one_time_reminder
 from routers.reminder_routers import scheduler
 
 

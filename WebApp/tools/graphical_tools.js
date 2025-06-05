@@ -46,7 +46,7 @@ export function create_input_date_and_time_fields_holder(elements_holder, icon_p
     const active_icon_path = icon_path.replace("delete_inactive.svg", "delete_active.svg");
 
     const new_time_input_field = create_element("input", "time_input_field");
-    new_time_input_field.placeholder = "Время...";
+    new_time_input_field.placeholder = "Время (мск)";
     const new_drop_down_list = create_drop_down_list();
 
     let need_to_add_date_time_holder = true;
