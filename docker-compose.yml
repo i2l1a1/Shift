@@ -1,0 +1,46 @@
+version: '3.8'
+
+networks:
+  shift-network:
+    driver: bridge
+
+services:
+  server:
+    build: 
+      context: ./Server
+      dockerfile: Dockerfile.back
+    ports:
+      - "9091:9091"
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
+    networks:
+      - shift-network
+
+  telegram-bot:
+    build:
+      context: ./TelegramBot
+      dockerfile: Dockerfile.bot
+    ports:
+      - "9092:9092"
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
+    depends_on:
+      - server
+    networks:
+      - shift-network
+
+  webapp:
+    build:
+      context: ./WebApp
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
+    depends_on:
+      - server
+    networks:
+      - shift-network 
